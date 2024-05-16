@@ -20,7 +20,7 @@ public class StudentVsHomework extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         while (true) {
-            Thread.sleep(10)
+            Thread.sleep(10);
         }
     }
 
