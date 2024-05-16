@@ -11,7 +11,7 @@ public class StudentVsHomework extends JPanel {
         
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         JFrame frame = new JFrame("Student vs. Homework");
         StudentVsHomework window = new StudentVsHomework();
         frame.add(window);
