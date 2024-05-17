@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class Grid {
 
-    private final int WIDTH = 50, HEIGHT = 50;
+    private static final int WIDTH = 100, HEIGHT = 100;
     private int x, y;
     private boolean isOccupied = false;
     private final Color LIGHT_GRAY = new Color(94, 94, 94);
@@ -31,6 +31,10 @@ public class Grid {
         yCoords[3] = this.y + HEIGHT;
         yCoords[4] = this.y;
         grid = new Polygon(xCoords, yCoords, nPoints);
+    }
+
+    public static int getWidth() {
+        return WIDTH;
     }
 
     public void paint(Graphics2D g2d) {
