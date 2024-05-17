@@ -28,7 +28,7 @@ public class Map {
                 }
                 x += Grid.getWidth();
             }
-            x = 120;
+            x = 100;
             y += Grid.getWidth();
         }
     }
