@@ -36,7 +36,7 @@ public class Map {
     public void paint(Graphics2D g2d) {
         g2d.drawImage(this.map, 0, 0, mapWidth, mapHeight, null);
         for (int i = 0; i < grids.length; i++) {
-            for (int j = 0; j < grids[i].length; i++) {
+            for (int j = 0; j < grids[i].length; j++) {
                 grids[i][j].paint(g2d);
             }
         }
