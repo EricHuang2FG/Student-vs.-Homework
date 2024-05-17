@@ -7,7 +7,7 @@ public class StudentVsHomework extends JPanel {
     private static final int SCREEN_WIDTH = 1020;
     private static final int SCREEN_HEIGHT = 640;
     private Map map = new Map();
-    private String gameState = "game screen"; // Temporary
+    private static String gameState = "game screen"; // Temporary
 
     public StudentVsHomework() {
         
