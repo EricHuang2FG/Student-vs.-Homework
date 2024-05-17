@@ -1,6 +1,6 @@
 import java.awt.image.*;
 import java.awt.*;
-import java.imageio.*;
+import javax.imageio.*;
 import java.io.*;
 
 public class Map {
