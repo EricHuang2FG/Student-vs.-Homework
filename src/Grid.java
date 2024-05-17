@@ -5,8 +5,8 @@ public class Grid {
     private static final int WIDTH = 100, HEIGHT = 100;
     private int x, y;
     private boolean isOccupied = false;
-    private final Color LIGHT_GRAY = new Color(94, 94, 94);
-    private final Color DARK_GRAY = new Color(55, 55, 55);
+    private final Color LIGHT_GRAY = new Color(105, 105, 105);
+    private final Color DARK_GRAY = new Color(65, 65, 65);
     private int nPoints = 5;
     private int[] xCoords = new int[nPoints], yCoords = new int[nPoints];
     private Polygon grid;
