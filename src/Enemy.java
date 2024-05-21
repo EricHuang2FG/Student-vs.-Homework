@@ -24,6 +24,13 @@ public class Enemy {
             this.vx = -2;
             this.vy = 0;
             this.scale = 0.5;
+        } else if (type.equals("notebook")){
+            this.hitPoints = 600;
+            this.damage = 30;
+            this.y = 0; // temporary
+            this.vx = -2;
+            this.vy = 0;
+            this.scale = 0.5;
         } 
         try {
             //

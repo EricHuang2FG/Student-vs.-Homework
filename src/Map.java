@@ -9,7 +9,7 @@ public class Map {
     private int mapWidth = StudentVsHomework.getScreenWidth();
     private int mapHeight = StudentVsHomework.getScreenHeight();
     private Grid[][] grids = new Grid[5][9];
-    private testEnemy = new Enemy("paper");
+    private Enemy testEnemy = new Enemy("paper"); // temporary
     
     public Map() {
         try {
