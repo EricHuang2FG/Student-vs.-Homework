@@ -12,15 +12,16 @@ public class Enemy {
     protected int vx, vy = 0;
     protected double scale;
     protected int scaledWidth, scaledHeight;
-    protected bufferedImage image = null;
+    protected BufferedImage image = null;
 
     public Enemy(String type) {
-        String imagePath = "res\monsters\\" + type + ".png"; 
+        String imagePath = "res\\monsters\\" + type + ".png"; 
+        // String imagePath = "../res/monsters/" + type + ".png";
         if (type.equals("paper")) {
             this.hitpoints = 200;
             this.damage = 30;
-            this.y = 0 // temporary
-            this.vx = 0.3;
+            this.y = 0; // temporary
+            this.vx = -2;
             this.vy = 0;
             this.scale = 0.5;
         } 
