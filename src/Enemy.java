@@ -18,7 +18,7 @@ public class Enemy {
         String imagePath = "res\\monsters\\" + type + ".png"; 
         // String imagePath = "../res/monsters/" + type + ".png";
         if (type.equals("paper")) {
-            this.hitpoints = 200;
+            this.hitPoints = 200;
             this.damage = 30;
             this.y = 0; // temporary
             this.vx = -2;
