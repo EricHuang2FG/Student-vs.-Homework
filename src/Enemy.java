@@ -43,8 +43,8 @@ public class Enemy {
     }
 
     public void move() {
-        this.x -= this.vx;
-        this.y -= this.vy;
+        this.x += this.vx;
+        this.y += this.vy;
     }
 
     public void paint(Graphics2D g2d) {

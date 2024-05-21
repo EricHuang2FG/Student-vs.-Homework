@@ -34,7 +34,7 @@ public class StudentVsHomework extends JPanel {
                 
             }
             if (gameState.equals("game screen")) {
-                map.behaveCharacters();
+                window.map.behaveCharacters();
             }
             if (gameState.equals("level transition screen")) {
                 
