@@ -9,6 +9,7 @@ public class Map {
     private int mapWidth = StudentVsHomework.getScreenWidth();
     private int mapHeight = StudentVsHomework.getScreenHeight();
     private Grid[][] grids = new Grid[5][9];
+    private testEnemy = new Enemy("paper");
     
     public Map() {
         try {
@@ -40,6 +41,7 @@ public class Map {
                 grids[i][j].paint(g2d);
             }
         }
+        testEnemy.paint(g2d);
     }
     
 }
