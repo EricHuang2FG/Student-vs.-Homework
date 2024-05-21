@@ -43,7 +43,7 @@ public class Enemy {
     }
 
     public void paint(Graphics2D g2d) {
-        g2d.drawImage(this.image, this.x, this.y, this.scaledWidth, this.scaledHeight, null)
+        g2d.drawImage(this.image, this.x, this.y, this.scaledWidth, this.scaledHeight, null);
     }
     
 }
