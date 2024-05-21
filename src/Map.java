@@ -18,7 +18,7 @@ public class Map {
             System.out.println("Error loading image: \n" + e);
         }
         int x = 100;
-        int y = 140;
+        int y = 120;
         for (int i = 0; i < grids.length; i++) {
             for (int j = 0; j < grids[i].length; j++) {
                 if (i % 2 == 0) {
