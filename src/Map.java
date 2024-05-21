@@ -34,6 +34,10 @@ public class Map {
         }
     }
 
+    public void behaveCharacters() {
+        testEnemy.move();
+    }
+
     public void paint(Graphics2D g2d) {
         g2d.drawImage(this.map, 0, 0, mapWidth, mapHeight, null);
         for (int i = 0; i < grids.length; i++) {

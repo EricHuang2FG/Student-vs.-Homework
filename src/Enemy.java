@@ -23,14 +23,14 @@ public class Enemy {
             this.y = 0; // temporary
             this.vx = -2;
             this.vy = 0;
-            this.scale = 0.5;
+            this.scale = 0.3;
         } else if (type.equals("notebook")){
             this.hitPoints = 600;
             this.damage = 30;
             this.y = 0; // temporary
             this.vx = -2;
             this.vy = 0;
-            this.scale = 0.5;
+            this.scale = 0.3;
         } 
         try {
             //
@@ -40,6 +40,11 @@ public class Enemy {
         }
         this.scaledWidth = (int) (this.image.getWidth() * this.scale);
         this.scaledHeight = (int) (this.image.getHeight() * this.scale);
+    }
+
+    public void move() {
+        this.x -= this.vx;
+        this.y -= this.vy;
     }
 
     public void paint(Graphics2D g2d) {
