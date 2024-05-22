@@ -6,7 +6,8 @@ public class StudentVsHomework extends JPanel {
 
     private static final int SCREEN_WIDTH = 1020;
     private static final int SCREEN_HEIGHT = 640;
-    private Map map = new Map();
+    private int levelNumber = 1;
+    private Level level = new Level();
     private static String gameState = "game screen"; // Temporary
 
     public StudentVsHomework() {
@@ -31,15 +32,16 @@ public class StudentVsHomework extends JPanel {
 
         while (true) {
             if (gameState.equals("start screen")) {
-                
+
             }
             if (gameState.equals("game screen")) {
-                window.map.behaveCharacters();
+                window.level.behave();
             }
             if (gameState.equals("level transition screen")) {
                 
             }
-            Thread.sleep(10);
+            window.repaint();
+            Thread.sleep(20);
         }
     }
 
@@ -51,7 +53,7 @@ public class StudentVsHomework extends JPanel {
             
         }
         if (gameState.equals("game screen")) {
-            map.paint(g2d);
+            level.paint(g2d);
         }
         if (gameState.equals("level transition screen")) {
 

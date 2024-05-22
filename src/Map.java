@@ -8,9 +8,9 @@ public class Map {
     private BufferedImage map = null;
     private int mapWidth = StudentVsHomework.getScreenWidth();
     private int mapHeight = StudentVsHomework.getScreenHeight();
+    private static final int MAP_START_Y = 100, MAP_START_X = 100;
     private Grid[][] grids = new Grid[5][9];
-    private Enemy testEnemy = new Enemy("paper"); // temporary
-    
+
     public Map() {
         try {
             this.map = ImageIO.read(new File("res\\map.png"));
@@ -18,8 +18,8 @@ public class Map {
         } catch (IOException e) {
             System.out.println("Error loading image: \n" + e);
         }
-        int x = 100;
-        int y = 100;
+        int x = MAP_START_X;
+        int y = MAP_START_Y;
         for (int i = 0; i < grids.length; i++) {
             for (int j = 0; j < grids[i].length; j++) {
                 if (i % 2 == 0) {
@@ -29,13 +29,17 @@ public class Map {
                 }
                 x += Grid.getWidth();
             }
-            x = 100;
+            x = MAP_START_X;
             y += Grid.getWidth();
         }
     }
 
-    public void behaveCharacters() {
-        testEnemy.move();
+    public static int getMapStartX() {
+        return MAP_START_X;
+    }
+
+    public static int getMapStartY() {
+        return MAP_START_Y;
     }
 
     public void paint(Graphics2D g2d) {
@@ -45,7 +49,6 @@ public class Map {
                 grids[i][j].paint(g2d);
             }
         }
-        testEnemy.paint(g2d);
     }
     
 }
