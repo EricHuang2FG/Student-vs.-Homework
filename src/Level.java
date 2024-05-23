@@ -7,7 +7,11 @@ public class Level {
 
     private int levelNumber = 1;
     private boolean wave = false;
+    private int waveCount = 0;
     private int totalEnemies = 5 * (this.levelNumber * this.levelNumber) + 10 * this.levelNumber;
+    private int enemiesPerWave = (int) (totalEnemies / 3) - 9;
+    private int enemiesSpawnedBetweenWaves = 0;
+    private int enemiesSpawnedDuringWave = 0;
     private long startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private Map map = new Map();
     private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
@@ -16,6 +20,11 @@ public class Level {
 
     public void setLevelNumber(int levelNumber) {
         this.levelNumber = levelNumber;
+        this.waveCount = 0;
+        this.enemiesSpawnedBetweenWaves = 0;
+        this.enemiesSpawnedDuringWave = 0;
+        this.startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
+        this.enemies.clear();
         this.totalEnemies = 5 * (this.levelNumber * this.levelNumber) + 10 * this.levelNumber;
     }
 
@@ -38,11 +47,17 @@ public class Level {
     private void executeLevelLogic() {
         long currentTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
         long timeElapsed = currentTime - startTime;
-        if ((timeElapsed == this.betweenWavesSpawnCoolDown || timeElapsed == 2 * this.betweenWavesSpawnCoolDown || timeElapsed == 3 * this.betweenWavesSpawnCoolDown) && this.spawn) {
-            enemies.add(new Enemy(chooseEnemy()));
-            this.spawn = false;
-        } else if ((timeElapsed == this.betweenWavesSpawnCoolDown + 1 || timeElapsed == 2 * this.betweenWavesSpawnCoolDown + 1 || timeElapsed == 2 * this.betweenWavesSpawnCoolDown + 1) && !this.spawn)  {
-            this.spawn = true;
+        if (this.totalEnemies > 0) {
+            if (!this.wave) {
+                if (timeElapsed != 0 && timeElapsed % this.betweenWavesSpawnCoolDown == 0 && this.spawn) {
+                    enemies.add(new Enemy(chooseEnemy()));
+                    this.spawn = false;
+                    this.enemiesSpawnedBetweenWaves++;
+                    this.totalEnemies--;
+                } else if ((timeElapsed - 1) % this.betweenWavesSpawnCoolDown == 0 && !this.spawn) {
+                    this.spawn = true;
+                }
+            }
         }
     }
 
