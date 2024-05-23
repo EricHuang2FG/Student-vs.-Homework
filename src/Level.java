@@ -9,7 +9,7 @@ public class Level {
     private boolean wave = false;
     private int waveCount = 0;
     private int totalEnemies = 5 * (this.levelNumber * this.levelNumber) + 10 * this.levelNumber;
-    private int enemiesPerWave = (int) ((totalEnemies - 6) / 3);
+//    private int enemiesPerWave = (int) ((totalEnemies - 6) / 3);
     private int enemiesSpawnedBetweenWaves = 0;
     private int enemiesSpawnedDuringWave = 0;
     private long startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
@@ -44,6 +44,18 @@ public class Level {
         }
     }
 
+    private double waveFactor(){
+        if (waveCount == 1){
+            return 0.17;
+        }
+        else if (waveCount == 2){
+            return 0.33;
+        }
+        else{
+            return 0.5;
+        }
+    }
+
     private void executeLevelLogic() {
         long currentTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
         long timeElapsed = currentTime - startTime;
@@ -54,7 +66,6 @@ public class Level {
                         enemies.add(new Enemy(chooseEnemy()));
                         this.spawn = false;
                         this.enemiesSpawnedBetweenWaves++;
-                        this.totalEnemies--;
                     } else {
                         this.enemiesSpawnedBetweenWaves++; // adds a cooldown before the wave starts
                     }
@@ -77,14 +88,14 @@ public class Level {
                 } else if ((timeElapsed - 1) % 3 == 0 && !this.spawn) {
                     this.spawn = true;
                 }
-                if (this.enemiesSpawnedDuringWave == this.enemiesPerWave) {
+                if (this.enemiesSpawnedDuringWave >= (int) (this.totalEnemies * waveFactor())) {
                     this.enemiesSpawnedBetweenWaves = 0;
                     this.wave = false;
                     this.spawn = true;
                 }
             }
         }
-        if (this.waveCount == 3 && this.enemiesSpawnedDuringWave == this.enemiesPerWave && this.enemies.size() == 0) {
+        if (this.waveCount == 3 && this.enemiesSpawnedDuringWave == this.totalEnemies * waveFactor() && this.enemies.size() == 0) {
             // you win
         }
     }

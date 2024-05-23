@@ -40,6 +40,8 @@ public class Enemy {
             this.damage = 20;
             this.vx = -0.5;
             this.scale = 0.9;
+        } else if (type.equals("test")) {
+
         }
         try {
             //
