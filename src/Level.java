@@ -9,7 +9,6 @@ public class Level {
     private boolean wave = false;
     private int waveCount = 0;
     private int totalEnemies = 5 * (this.levelNumber * this.levelNumber) + 10 * this.levelNumber;
-//    private int enemiesPerWave = (int) ((totalEnemies - 6) / 3);
     private int enemiesSpawnedBetweenWaves = 0;
     private int enemiesSpawnedDuringWave = 0;
     private long startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
@@ -44,14 +43,12 @@ public class Level {
         }
     }
 
-    private double waveFactor(){
+    private double waveFactor() {
         if (waveCount == 1){
             return 0.17;
-        }
-        else if (waveCount == 2){
+        } else if (waveCount == 2) {
             return 0.33;
-        }
-        else{
+        } else {
             return 0.5;
         }
     }

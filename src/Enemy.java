@@ -9,7 +9,7 @@ public class Enemy {
     protected int hitPoints;
     protected int damage;
     protected int lastAttackTime = 0;
-    protected double x = StudentVsHomework.getScreenWidth(), y;
+    protected double x = StudentVsHomework.getScreenWidth() - 100, y;
     protected double vx, vy = 0; // pixels per second
     protected double scale;
     protected int scaledWidth, scaledHeight;
@@ -24,7 +24,7 @@ public class Enemy {
             this.hitPoints = 200;
             this.damage = 30;
             this.vx = -0.3;
-            this.scale = 0.18;
+            this.scale = 0.16;
         } else if (type.equals("notebook")){
             this.hitPoints = 600;
             this.damage = 30;
@@ -34,14 +34,22 @@ public class Enemy {
             this.hitPoints = 1200;
             this.damage = 30;
             this.vx = -0.3;
-            this.scale = 0.9;
+            this.scale = 1.0;
         } else if (type.equals("notepad")) {
             this.hitPoints = 50;
             this.damage = 20;
             this.vx = -0.5;
             this.scale = 0.9;
         } else if (type.equals("test")) {
-
+            this.hitPoints = 600;
+            this.damage = 100;
+            this.vx = -0.75;
+            this.scale = 0.9;
+        } else if (type.equals("exam")) {
+            this.hitPoints = 1200;
+            this.damage = 300;
+            this.vx = -0.75;
+            this.scale = 1.0;
         }
         try {
             //
