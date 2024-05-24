@@ -4,7 +4,7 @@ public class Grid {
 
     private static final int WIDTH = 100, HEIGHT = 100;
     private int x, y;
-    private boolean isOccupied = false;
+    private int[] coordinate;
     private final Color LIGHT_GRAY = new Color(105, 105, 105);
     private final Color DARK_GRAY = new Color(65, 65, 65);
     private int nPoints = 5;
@@ -12,9 +12,10 @@ public class Grid {
     private Polygon grid;
     private Color colour;
 
-    public Grid(int x, int y, boolean isLightGray) {
+    public Grid(int x, int y, boolean isLightGray, int[] coordinate) {
         this.x = x;
         this.y = y;
+        this.coordinate = coordinate;
         if (isLightGray) {
             this.colour = LIGHT_GRAY;
         } else {
@@ -35,6 +36,15 @@ public class Grid {
 
     public static int getWidth() {
         return WIDTH;
+    }
+
+    public boolean enemyIsOnGrid(Enemy enemy) {
+        return (this.x < enemy.getX() && this.x + Grid.WIDTH >= enemy.getX() + (enemy.getWidth() / 2)) || (this.x <= enemy.getX() + (enemy.getWidth() / 2) && this.x + Grid.WIDTH > enemy.x + enemy.getWidth());
+    }
+
+    public int[] getCoordinate() {
+        System.out.println(this.coordinate[0] + ", " + this.coordinate[1]);
+        return this.coordinate;
     }
 
     public void paint(Graphics2D g2d) {

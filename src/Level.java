@@ -60,7 +60,7 @@ public class Level {
             if (!this.wave) {
                 if (timeElapsed != 0 && timeElapsed % this.betweenWavesSpawnCoolDown == 0 && this.spawn) {
                     if (this.enemiesSpawnedBetweenWaves < 2) {
-                        enemies.add(new Enemy(chooseEnemy()));
+                        enemies.add(new Enemy(chooseEnemy(), this.map));
                         this.spawn = false;
                         this.enemiesSpawnedBetweenWaves++;
                     } else {
@@ -78,7 +78,7 @@ public class Level {
                 }
             } else {
                 if (timeElapsed % 3 == 0 && this.spawn) {
-                    enemies.add(new Enemy(chooseEnemy()));
+                    enemies.add(new Enemy(chooseEnemy(), this.map));
                     this.spawn = false;
                     this.enemiesSpawnedDuringWave++;
                     this.totalEnemies--;

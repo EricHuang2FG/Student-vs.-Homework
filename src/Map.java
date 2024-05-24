@@ -22,10 +22,11 @@ public class Map {
         int y = MAP_START_Y;
         for (int i = 0; i < grids.length; i++) {
             for (int j = 0; j < grids[i].length; j++) {
+                int[] coordinate = {j + 1, i + 1};
                 if (i % 2 == 0) {
-                    grids[i][j] = new Grid(x, y, j % 2 == 0);
+                    grids[i][j] = new Grid(x, y, j % 2 == 0, coordinate);
                 } else {
-                    grids[i][j] = new Grid(x, y, j % 2 == 1);
+                    grids[i][j] = new Grid(x, y, j % 2 == 1, coordinate);
                 }
                 x += Grid.getWidth();
             }
@@ -40,6 +41,9 @@ public class Map {
 
     public static int getMapStartY() {
         return MAP_START_Y;
+    }
+    public Grid[][] getGrids() {
+        return this.grids;
     }
 
     public void paint(Graphics2D g2d) {
