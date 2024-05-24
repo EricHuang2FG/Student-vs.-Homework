@@ -17,7 +17,12 @@ public abstract class Tower {
 
     public void behaveProjectiles(){
         for (int i = 0; i < projectiles.toArray().length; i ++){
-            projectiles.get(i).behave();
+            if (projectiles.get(i).outOfBounds()){
+                //KILL IT
+            }
+            else{
+                projectiles.get(i).behave();
+            }
         }
     }
 
