@@ -108,6 +108,10 @@ public class Enemy {
         }
     }
 
+    public void takeHit(int damage) {
+        this.hitPoints -= damage;
+    }
+
     public void move() {
         this.x += this.vx;
         this.y += this.vy;
