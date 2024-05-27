@@ -4,7 +4,7 @@ public class Grid {
 
     private static final int WIDTH = 100, HEIGHT = 100;
     private int x, y;
-    private int[] coordinate;
+    private final int[] coordinate;
     private final Color LIGHT_GRAY = new Color(105, 105, 105);
     private final Color DARK_GRAY = new Color(65, 65, 65);
     private int nPoints = 5;
@@ -39,7 +39,7 @@ public class Grid {
     }
 
     public boolean enemyIsOnGrid(Enemy enemy) {
-        return (this.x < enemy.getX() && this.x + Grid.WIDTH >= enemy.getX() + (enemy.getWidth() / 2)) || (this.x <= enemy.getX() + (enemy.getWidth() / 2) && this.x + Grid.WIDTH > enemy.x + enemy.getWidth());
+        return ((this.x < enemy.getX() && this.x + Grid.WIDTH >= enemy.getX() + (enemy.getWidth() / 2)) || (this.x <= enemy.getX() + (enemy.getWidth() / 2) && this.x + Grid.WIDTH > enemy.x + enemy.getWidth())) && (this.y <= enemy.getY() && this.y + HEIGHT >= enemy.getY() + enemy.getHeight());
     }
 
     public int[] getCoordinate() {

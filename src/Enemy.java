@@ -95,6 +95,7 @@ public class Enemy {
                 if (grids[i][j].enemyIsOnGrid(this)) {
                     found = true;
                     this.occupiedGrid = grids[i][j];
+                    System.out.println(grids[i][j].getCoordinate()[0] + ", " + grids[i][j].getCoordinate()[1]);
                     break;
                 }
             }
