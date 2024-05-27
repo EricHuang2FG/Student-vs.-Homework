@@ -96,9 +96,19 @@ public class Level {
                 }
             }
         }
-        if (this.waveCount == 3 && this.enemiesSpawnedDuringWave == this.totalEnemies * waveFactor() && this.enemies.size() == 0) {
-            // you win
+    }
+
+    public boolean levelIsWon() {
+        return (this.waveCount == 3 && this.enemiesSpawnedDuringWave == this.totalEnemies * waveFactor() && this.enemies.size() == 0);
+    }
+
+    public boolean levelIsLost() {
+        for (int i = 0; i < enemies.size(); i++) {
+            if (enemies.get(i).getX() + enemies.get(i).getWidth() <= Map.getMapStartX()) {
+                return true;
+            }
         }
+        return false;
     }
 
     private void moveEnemies() {

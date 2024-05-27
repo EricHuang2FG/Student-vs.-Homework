@@ -36,6 +36,11 @@ public class StudentVsHomework extends JPanel {
             }
             if (gameState.equals("game screen")) {
                 window.level.behave();
+                if (window.level.levelIsLost()) {
+
+                } else if (window.level.levelIsWon()) {
+
+                }
             }
             if (gameState.equals("level transition screen")) {
                 
