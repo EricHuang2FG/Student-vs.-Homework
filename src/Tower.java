@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public abstract class Tower {
 
     protected int hitPoints;
+    protected int lastFired = 1000000000;
     protected static ArrayList<Weapon> projectiles = new ArrayList<Weapon>();
 //    protected static ArrayList<Tower> towers = new ArrayList<Tower>();
 

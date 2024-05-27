@@ -1,17 +1,25 @@
 public class Pencil extends Tower {
-  private double attackDelay = 2;
+
+    private static int lastPlaced = 10000000;
+    private double attackDelay = 2;
 //    private static projectiles
 //    private double coolDown =
 //    private Weapon weapon;
-  private String imagePath = "res\\towers\\pencil.png";
-  public Pencil(){
-      hitPoints = 100;
-  }
+    private String imagePath = "res\\towers\\pencil.png";
+    public Pencil(){
+        hitPoints = 100;
+    }
 
-  public void attack(){
-      Weapon weapon = new Weapon("pencil");
-      projectiles.add(weapon);
-  }
+    public void attack(){
+        if (lastFired >= 50 * attackDelay){
+            Weapon weapon = new Weapon("pencil");
+            projectiles.add(weapon);
+            lastFired = 0;
+        }
+        else{
+            lastFired += 1;
+        }
+    }
 }
 
 
