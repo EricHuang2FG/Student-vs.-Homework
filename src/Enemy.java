@@ -55,7 +55,6 @@ public class Enemy {
             this.scale = 1.0;
         }
         try {
-            //
             this.image = ImageIO.read(new File(imagePath));
         } catch (IOException e) {
             System.out.println("Error loading image: \n" + e);

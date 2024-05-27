@@ -6,17 +6,15 @@ public class Pencil extends Tower {
 //    private double coolDown =
 //    private Weapon weapon;
     private String imagePath = "res\\towers\\pencil.png";
-    public Pencil(){
-        hitPoints = 100;
-    }
+    // private String imagePath = "../res/towers/pencil.png";
+    private int hitPoints = 100;
 
     public void attack(){
         if (lastFired >= 50 * attackDelay){
             Weapon weapon = new Weapon("pencil");
             projectiles.add(weapon);
             lastFired = 0;
-        }
-        else{
+        } else {
             lastFired += 1;
         }
     }
