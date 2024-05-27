@@ -106,11 +106,6 @@ public class Enemy {
         if (!found) {
             this.occupiedGrid = null;
         }
-        if (this.occupiedGrid == null) {
-            System.out.println("null");
-        } else {
-            this.occupiedGrid.getCoordinate();
-        } // FOR TESTING
     }
 
     public void move() {

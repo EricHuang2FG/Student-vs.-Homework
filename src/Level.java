@@ -30,16 +30,20 @@ public class Level {
     private String chooseEnemy() {
         Random random = new Random();
         int num = random.nextInt(1, 101);
-        if (num >= 1 && num <= 20) {
+        if (num >= 1 && num <= 30) {
             return "paper";
-        } else if (num >= 21 && num <= 30) {
+        } else if (num >= 31 && num <= 40) {
             return "notebook";
-        } else if (num >= 31 && num <= 35) {
+        } else if (num >= 41 && num <= 45) {
             return "textbook";
-        } else if (num >= 36 && num <= 75) {
+        } else if (num >= 46 && num <= 90) {
             return "notepad";
+        } else if (num >= 91 && num <= 96) {
+            return "test";
+        } else if (num >= 97 && num <= 100) {
+            return "exam";
         } else {
-            return "notepad"; // TEMPORARY
+            return "notepad";
         }
     }
 
