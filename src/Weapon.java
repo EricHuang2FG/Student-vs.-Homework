@@ -22,6 +22,7 @@ public class Weapon {
         }
         else if (type.equals("shredder")){
             damage = 1000000000;
+            range = Grid.getWidth() * 1;
 //            canPenetrate = ;
         }
     }
@@ -34,6 +35,15 @@ public class Weapon {
             return true;
         }
         else{return false;}
+    }
+
+    public boolean isColliding(int x){
+        if (this.x >= x){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public void paint(Graphics2D g2d){
