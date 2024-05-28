@@ -3,16 +3,18 @@ import java.awt.*;
 import javax.imageio.*;
 import java.io.*;
 import java.util.Random;
+import java.util.ArrayList;
 
 public class Enemy {
 
     protected int hitPoints;
     protected int damage;
-    protected int lastAttackTime = 0;
     protected double x = StudentVsHomework.getScreenWidth(), y;
     protected double vx, vy = 0; // pixels per second
     protected double scale;
     protected int scaledWidth, scaledHeight;
+    protected long lastAttackTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
+    protected boolean attack = false;
     protected Grid occupiedGrid = null;
     protected BufferedImage image = null;
     protected Map map;
@@ -87,6 +89,14 @@ public class Enemy {
         return this.scaledHeight;
     }
 
+    public int getHitPoints() {
+        return this.hitPoints;
+    }
+
+    public void takeHit(int damage) {
+        this.hitPoints -= damage;
+    }
+
     private void setOccupiedGrid() {
         boolean found = false;
         for (int i = 0; i < grids.length; i++) {
@@ -107,8 +117,31 @@ public class Enemy {
         }
     }
 
-    public void takeHit(int damage) {
-        this.hitPoints -= damage;
+    private Tower chooseTarget() {
+        ArrayList<Tower> towers = Level.getTowers();
+        for (int i = 0; i < towers.size(); i++) {
+            int[] enemyCoordinate = this.occupiedGrid.getCoordinate();
+            int[] towerCoordinate = towers.get(i).getCoordinate();
+            if (enemyCoordinate[0] == towerCoordinate[0] && enemyCoordinate[1] == towerCoordinate[1]) {
+                return towers.get(i);
+            }
+        }
+        return null;
+    }
+
+    private void attack() {
+        Tower target = chooseTarget();
+        long currentTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
+        long difference = currentTime - this.lastAttackTime;
+        if (target != null) {
+            if (difference >= 1) {
+                this.attack = true;
+                target.takeHit(this.damage);
+                this.lastAttackTime = currentTime;
+            }
+        } else {
+            this.attack = false;
+        }
     }
 
     private void move() {
@@ -119,10 +152,15 @@ public class Enemy {
     public void behave() {
         move();
         setOccupiedGrid();
+        attack();
     }
 
     public void paint(Graphics2D g2d) {
-        g2d.drawImage(this.image, (int) this.x, (int) this.y, this.scaledWidth, this.scaledHeight, null);
+        if (this.attack) {
+            // figure out how to rotate images!
+        } else {
+            g2d.drawImage(this.image, (int) this.x, (int) this.y, this.scaledWidth, this.scaledHeight, null);
+        }
     }
     
 }

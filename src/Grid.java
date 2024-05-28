@@ -4,7 +4,7 @@ public class Grid {
 
     private static final int WIDTH = 100, HEIGHT = 100;
     private int x, y;
-    private final int[] coordinate;
+    private final int[] COORDINATE;
     private final Color LIGHT_GRAY = new Color(105, 105, 105);
     private final Color DARK_GRAY = new Color(65, 65, 65);
     private int nPoints = 5;
@@ -15,7 +15,7 @@ public class Grid {
     public Grid(int x, int y, boolean isLightGray, int[] coordinate) {
         this.x = x;
         this.y = y;
-        this.coordinate = coordinate;
+        this.COORDINATE = coordinate;
         if (isLightGray) {
             this.colour = LIGHT_GRAY;
         } else {
@@ -43,8 +43,7 @@ public class Grid {
     }
 
     public int[] getCoordinate() {
-        System.out.println(this.coordinate[0] + ", " + this.coordinate[1]);
-        return this.coordinate;
+        return this.COORDINATE;
     }
 
     public void paint(Graphics2D g2d) {
