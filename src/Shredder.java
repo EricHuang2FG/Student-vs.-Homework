@@ -4,7 +4,11 @@ public class Shredder extends Tower {
     private double attackDelay = 10;
     private String imagePath = "res\\towers\\paper_shredder.png";
     // private String imagePath = "../res/towers/paper_shredder.png";
-    private int hitPoints = 200;
+
+    public Shredder(int[] coordinate) {
+        super(coordinate);
+        super.hitPoints = 200;
+    }
 
     public void attack(){
         if (lastFired >= 50 * attackDelay){

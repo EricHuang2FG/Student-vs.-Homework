@@ -93,6 +93,10 @@ public class Enemy {
         return this.hitPoints;
     }
 
+    public int[] getCoordinate() {
+        return this.occupiedGrid.getCoordinate();
+    }
+
     public void takeHit(int damage) {
         this.hitPoints -= damage;
     }

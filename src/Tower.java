@@ -13,11 +13,12 @@ public abstract class Tower {
     protected int x, y; //store its position as a grid
     protected int[] coordinate;
 
+    public Tower(int[] coordinate) {
+        this.coordinate = coordinate;
+    }
+
     public int[] getCoordinate() {
         return coordinate;
-    }
-    public void takeDamage(int amount){
-        hitPoints -= amount;
     }
 
     public void behaveProjectiles(){
@@ -41,23 +42,19 @@ public abstract class Tower {
 //        }
     }
 
-    public boolean isColliding(int x) {
-        if (this.x >= x) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
+    public abstract void attack();
 
     public void takeHit(int damage){
         hitPoints -= damage;
     }
-    public static ArrayList<Weapon> getProjectiles(){
+
+    public static ArrayList<Weapon> getProjectiles() {
         return projectiles;
     }
 
-    public void paint(Graphics2D g2d){
-        for (int i = 0; i < projectiles.toArray().length; i ++){
+    public void paint(Graphics2D g2d) {
+        for (int i = 0; i < projectiles.toArray().length; i++) {
             projectiles.get(i).paint(g2d);
         }
     }

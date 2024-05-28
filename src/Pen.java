@@ -1,13 +1,18 @@
 import java.awt.*;
 
 public class Pen extends Tower {
+
     private double attackDelay = 2;
     private String imagePath = "res\\towers\\pen.png";
     // private String imagePath = "../res/towers/pen.png";
-    private int hitPoints = 100;
+
+    public Pen(int[] coordinate) {
+        super(coordinate);
+        super.hitPoints = 100;
+    }
 
     public void attack(){
-        if (lastFired >= 50*attackDelay){
+        if (lastFired >= 50 * attackDelay){
             Weapon weapon = new Weapon("pen");
             projectiles.add(weapon);
             lastFired = 0;

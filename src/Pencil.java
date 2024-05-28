@@ -9,7 +9,11 @@ public class Pencil extends Tower {
 //    private Weapon weapon;
     private String imagePath = "res\\towers\\pencil.png";
     // private String imagePath = "../res/towers/pencil.png";
-    private int hitPoints = 100;
+
+    public Pencil(int[] coordinate) {
+        super(coordinate);
+        super.hitPoints = 100;
+    }
 
     public void attack(){
         if (lastFired >= 50 * attackDelay){
