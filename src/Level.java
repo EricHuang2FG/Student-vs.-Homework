@@ -111,7 +111,7 @@ public class Level {
         return false;
     }
 
-    private void moveEnemies() {
+    private void behaveEnemies() {
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).behave();
         }
@@ -119,7 +119,7 @@ public class Level {
 
     public void behave() {
         executeLevelLogic();
-        moveEnemies();
+        behaveEnemies();
     }
 
     public void paint(Graphics2D g2d) {
