@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Pencil extends Tower {
 
     private static int lastPlaced = 10000000;
@@ -17,6 +19,9 @@ public class Pencil extends Tower {
         } else {
             lastFired += 1;
         }
+    }
+    public void paint(Graphics2D g2d){
+
     }
 }
 

@@ -12,6 +12,8 @@ public class Weapon {
     private BufferedImage image = null;
     private String imagepath;
 
+    private boolean willDelete = false;
+
     public Weapon(String type) {
         String imagePath = "res\\weapons\\" + type + ".png";
         // String imagePath = "../res/weapons/" + type + ".png";
@@ -37,6 +39,24 @@ public class Weapon {
 
     public void behave() {
         x += vx;
+    }
+
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
+    }
+
+    public int getDamage(){
+        return damage;
+    }
+
+    public boolean getDelete(){return willDelete;}
+
+    public void setDelete(){
+        willDelete = true;
     }
 
     public boolean outOfBounds() {

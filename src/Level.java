@@ -18,6 +18,38 @@ public class Level {
     private boolean spawn = true;
     private int betweenWavesSpawnCoolDown = 20;
 
+    public void checkCollisions(){
+//        projectiles == 1 == 2 == 3 == 4 == 5 == 6 == 7 == 8 == 9 == 10 == 11 == 12 == 13 == 14 == 15 == 16 == 17 == 18 == 19 == 20 == 21 == 22 =
+//        for
+        ArrayList<Weapon> projs = Tower.getProjectiles();
+        for (int i = 0;i<projs.size();i++){
+            Weapon proj = projs.get(i);
+            for (int j = 0; j < enemies.size(); j++){
+                Enemy en = enemies.get(j);
+                if (Geometry.isColliding(proj.getX(),proj.getY(),20,5,en.getX(),en.getY(),en.getWidth(),en.getHeight())){
+                    en.takeHit(proj.getDamage());
+                    proj.setDelete();
+                }
+            }
+        }
+    }
+
+    public void garbageCleanup(){
+//        for (int i = 0; i < enemies.size(); i++){
+//            Enemy en = enemies.get(i);
+//
+//        }
+        int i = 0;
+        while (i < enemies.size()){
+            if (enemies.get(i).getHitPoints() <= 0){
+                enemies.remove(i);
+            }
+            else{
+                i += 1;
+            }
+        }
+    }
+
     public static ArrayList<Tower> getTowers() {
         return towers;
     }

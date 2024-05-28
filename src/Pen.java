@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Pen extends Tower {
     private double attackDelay = 2;
     private String imagePath = "res\\towers\\pen.png";
@@ -13,5 +15,9 @@ public class Pen extends Tower {
         else{
             lastFired += 1;
         }
+    }
+
+    public void paint(Graphics2D g2d){
+
     }
 }
