@@ -113,7 +113,7 @@ public class Level {
 
     private void moveEnemies() {
         for (int i = 0; i < enemies.size(); i++) {
-            enemies.get(i).move();
+            enemies.get(i).behave();
         }
     }
 

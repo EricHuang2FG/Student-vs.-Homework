@@ -111,9 +111,13 @@ public class Enemy {
         this.hitPoints -= damage;
     }
 
-    public void move() {
+    private void move() {
         this.x += this.vx;
         this.y += this.vy;
+    }
+
+    public void behave() {
+        move();
         setOccupiedGrid();
     }
 
