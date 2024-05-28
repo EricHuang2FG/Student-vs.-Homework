@@ -13,9 +13,14 @@ public class Level {
     private int enemiesSpawnedDuringWave = 0;
     private long startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private Map map = new Map();
-    private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+    private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+    private static ArrayList<Tower> towers = new ArrayList<Tower>();
     private boolean spawn = true;
     private int betweenWavesSpawnCoolDown = 20;
+
+    public static ArrayList<Tower> getTowers() {
+        return towers;
+    }
 
     public void setLevelNumber(int levelNumber) {
         this.levelNumber = levelNumber;

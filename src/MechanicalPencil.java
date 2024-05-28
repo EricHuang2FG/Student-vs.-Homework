@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class MechanicalPencil extends Tower {
 
     private double attackDelay = 1;
@@ -13,5 +15,8 @@ public class MechanicalPencil extends Tower {
         } else {
             lastFired += 1;
         }
+    }
+    public void paint(Graphics2D g2d){
+
     }
 }

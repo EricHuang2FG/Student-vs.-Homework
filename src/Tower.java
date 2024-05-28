@@ -11,6 +11,7 @@ public abstract class Tower {
     //        private static projectiles
     protected int cost;
     protected int x, y; //store its position as a grid
+    protected int[] coordinate;
 
     public void takeDamage(int amount){
         hitPoints -= amount;
@@ -37,9 +38,17 @@ public abstract class Tower {
 //        }
     }
 
+    public boolean isColliding(int x) {
+        if (this.x >= x) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void paint(Graphics2D g2d){
         for (int i = 0; i < projectiles.toArray().length; i ++){
-            projectiles.get(i).behave();
+            projectiles.get(i).paint(g2d);
         }
     }
 }

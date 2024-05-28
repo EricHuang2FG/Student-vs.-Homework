@@ -46,14 +46,6 @@ public class Weapon {
         else{return false;}
     }
 
-    public boolean isColliding(int x) {
-        if (this.x >= x) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public void paint(Graphics2D g2d){
 
     }

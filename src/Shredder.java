@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Shredder extends Tower {
     private double attackDelay = 10;
     private String imagePath = "res\\towers\\paper_shredder.png";
@@ -12,5 +14,8 @@ public class Shredder extends Tower {
         } else {
             lastFired += 1;
         }
+    }
+    public void paint(Graphics2D g2d){
+
     }
 }
