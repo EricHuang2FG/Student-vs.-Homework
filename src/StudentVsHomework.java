@@ -11,7 +11,7 @@ public class StudentVsHomework extends JPanel {
     private static String gameState = "game screen"; // Temporary
 
     public StudentVsHomework() {
-        
+
     }
 
     public static int getScreenWidth() {
@@ -21,7 +21,7 @@ public class StudentVsHomework extends JPanel {
     public static int getScreenHeight() {
         return SCREEN_HEIGHT;
     }
-    
+
     public static void main(String[] args) throws InterruptedException {
         JFrame frame = new JFrame("Student vs. Homework");
         StudentVsHomework window = new StudentVsHomework();
@@ -43,7 +43,7 @@ public class StudentVsHomework extends JPanel {
                 }
             }
             if (gameState.equals("level transition screen")) {
-                
+
             }
             window.repaint();
             Thread.sleep(20);
@@ -55,7 +55,7 @@ public class StudentVsHomework extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         // g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         if (gameState.equals("start screen")) {
-            
+
         }
         if (gameState.equals("game screen")) {
             level.paint(g2d);
@@ -64,5 +64,5 @@ public class StudentVsHomework extends JPanel {
 
         }
     }
-    
+
 }

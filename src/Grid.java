@@ -5,6 +5,7 @@ public class Grid {
     private static final int WIDTH = 100, HEIGHT = 100;
     private int x, y;
     private final int[] COORDINATE;
+
     private final Color LIGHT_GRAY = new Color(105, 105, 105);
     private final Color DARK_GRAY = new Color(65, 65, 65);
     private int nPoints = 5;
@@ -54,5 +55,5 @@ public class Grid {
         g2d.drawPolygon(this.grid);
         g2d.setStroke(new BasicStroke(1));
     }
-    
+
 }

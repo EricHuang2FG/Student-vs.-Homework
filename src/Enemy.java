@@ -66,11 +66,6 @@ public class Enemy {
         this.y = (int) (Map.getMapStartY() + (((row - 1) * Grid.getWidth()) + (Grid.getWidth() / 2) - (this.scaledHeight / 2)));
         this.map = map;
         this.grids = map.getGrids();
-        for (int i = 0; i < grids.length; i++) {
-            for (int j = 0; j < grids[i].length; j++) {
-                System.out.println((j + 1) + ", " + (i + 1));
-            }
-        }
     }
 
     public int getX() {
@@ -108,7 +103,6 @@ public class Enemy {
                 if (grids[i][j].enemyIsOnGrid(this)) {
                     found = true;
                     this.occupiedGrid = grids[i][j];
-                    System.out.println(grids[i][j].getCoordinate()[0] + ", " + grids[i][j].getCoordinate()[1]);
                     break;
                 }
             }
@@ -117,7 +111,10 @@ public class Enemy {
             }
         }
         if (!found) {
-            this.occupiedGrid = null;
+            int[] t = {100,100};
+            Grid tmp = new Grid(10000, 10000, false, t); // there was an error with the null so I added this to bandage it
+//            this.occupiedGrid = null;
+            this.occupiedGrid = tmp;
         }
     }
 
@@ -166,5 +163,5 @@ public class Enemy {
             g2d.drawImage(this.image, (int) this.x, (int) this.y, this.scaledWidth, this.scaledHeight, null);
         }
     }
-    
+
 }

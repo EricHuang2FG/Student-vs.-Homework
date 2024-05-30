@@ -15,20 +15,47 @@ public class Level {
     private Map map = new Map();
     private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private static ArrayList<Tower> towers = new ArrayList<Tower>();
+
+
+
+    public Level(){
+        int[] what = {1,1};
+        Pencil p = new Pencil(what);
+        towers.add(p);
+
+        int[] what2 = {1,2};
+        Pencil p2 = new Pencil(what2);
+        towers.add(p2);
+
+        int[] what3 = {1,3};
+        Pencil p3 = new Pencil(what3);
+        towers.add(p3);
+
+        int[] what4 = {4,4};
+        Pen p4 = new Pen(what4);
+        towers.add(p4);
+
+        int[] what5 = {1,5};
+        MechanicalPencil p5 = new MechanicalPencil(what5);
+        towers.add(p5);
+    }
+
     private boolean spawn = true;
     private int betweenWavesSpawnCoolDown = 20;
 
     public void checkCollisions() {
-//        projectiles == 1 == 2 == 3 == 4 == 5 == 6 == 7 == 8 == 9 == 10 == 11 == 12 == 13 == 14 == 15 == 16 == 17 == 18 == 19 == 20 == 21 == 22 =
-//        for
         ArrayList<Weapon> projs = Tower.getProjectiles();
         for (int i = 0; i < projs.size(); i++) {
             Weapon proj = projs.get(i);
             for (int j = 0; j < enemies.size(); j++) {
                 Enemy en = enemies.get(j);
-                if (Geometry.isColliding(proj.getX(), proj.getY(), 20, 5, en.getX(), en.getY(), en.getWidth(), en.getHeight())) {
+                if (Geometry.isColliding(proj.getX(), proj.getY(), 20, 50, en.getX(), en.getY(), en.getWidth(), en.getHeight())) {
+                    System.out.println("COLLISION DETECTED");
                     en.takeHit(proj.getDamage());
-                    proj.setDelete();
+                    System.out.println(en.getHitPoints());
+                    if (!proj.getPenetrate()) {
+                        proj.setDelete();
+                    }
                 }
             }
         }
@@ -43,14 +70,14 @@ public class Level {
                 int[] enemyCoordinate = en.getCoordinate();
                 if (enemyCoordinate != null) {
                     if (towerCoordinate[1] == enemyCoordinate[1] && (enemyCoordinate[0] - towerCoordinate[0] <= tow.getRange() && enemyCoordinate[0] >= towerCoordinate[0])) {
-                        // DO STUFF
+                        tow.attack();
                     }
                 }
             }
         }
     }
 
-    public void garbageCleanup() {
+    public void garbageCleanup() { // this is run every tick to check which monsters died and to increase the tower cooldown counter
 //        for (int i = 0; i < enemies.size(); i++){
 //            Enemy en = enemies.get(i);
 //
@@ -63,6 +90,17 @@ public class Level {
                 i += 1;
             }
         }
+
+        for (int j = 0;j<towers.size();j++){
+            Tower tow = towers.get(j);
+            tow.incFiredCounter();
+        }
+
+//        ArrayList<Weapon> projs = Tower.getProjectiles();
+//        i = 0;
+//        while (i<projs.size()){
+//            if projs.
+//        }
     }
 
     public static ArrayList<Tower> getTowers() {
@@ -172,12 +210,24 @@ public class Level {
     public void behave() {
         executeLevelLogic();
         behaveEnemies();
+        checkCollisions();
+        garbageCleanup();
+        Tower.deletionCheck();
+        towerAttack();
+        Tower.moveProjectiles();
     }
 
     public void paint(Graphics2D g2d) {
         map.paint(g2d);
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).paint(g2d);
+        }
+        for (int i = 0; i < towers.size(); i++) {
+            towers.get(i).paint(g2d);
+        }
+        ArrayList<Weapon> projs = Tower.getProjectiles();
+        for (int i = 0; i<projs.size();i++){
+            projs.get(i).paint(g2d);
         }
     }
 
