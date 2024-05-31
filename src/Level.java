@@ -219,11 +219,11 @@ public class Level {
 
     public void paint(Graphics2D g2d) {
         map.paint(g2d);
-        for (int i = 0; i < enemies.size(); i++) {
-            enemies.get(i).paint(g2d);
-        }
         for (int i = 0; i < towers.size(); i++) {
             towers.get(i).paint(g2d);
+        }
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).paint(g2d);
         }
         ArrayList<Weapon> projs = Tower.getProjectiles();
         for (int i = 0; i<projs.size();i++){
