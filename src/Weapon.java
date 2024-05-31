@@ -4,6 +4,7 @@ import javax.imageio.*;
 import java.io.*;
 
 public class Weapon {
+
     private int damage;
     private boolean canPenetrate = false;
     private int x = 50, y = 100;
@@ -11,15 +12,9 @@ public class Weapon {
     private int range = 10;
     private BufferedImage image = null;
     private String imagePath;
-
     private int starting;
     private boolean willDelete = false;
-
     private int scaledWidth, scaledHeight;
-
-    public boolean getPenetrate() {
-        return canPenetrate;
-    }
 
     public Weapon(String type, int x, int y, Tower tower) {
         if (type.equals("pencil")) {
@@ -39,7 +34,7 @@ public class Weapon {
         } else if (type.equals("pen")) {
             this.x = x + 65;
             this.y = y + 2;
-            damage = 5;
+            damage = 1;
             range = Grid.getWidth() * tower.getRange(); // pixel range
             starting = this.x;
             canPenetrate = true;
@@ -60,8 +55,8 @@ public class Weapon {
         }
     }
 
-    public void behave() {
-        x += vx;
+    public boolean getPenetrate() {
+        return canPenetrate;
     }
 
     public int getX() {
@@ -82,6 +77,10 @@ public class Weapon {
 
     public void setDelete(){
         willDelete = true;
+    }
+
+    public void behave() {
+        x += vx;
     }
 
     public boolean outOfBounds() {
