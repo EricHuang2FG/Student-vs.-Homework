@@ -17,6 +17,7 @@ public class Pen extends Tower {
         super.scale = 0.9;
         try {
             super.image = ImageIO.read(new File(imagePath));
+            super.image2 = ImageIO.read(new File("res\\towers\\pen_unready.png"));
         } catch (IOException e) {
             System.out.println("Error loading image: \n" + e);
         }
@@ -30,11 +31,15 @@ public class Pen extends Tower {
             projectiles.add(weapon);
             lastFired = 0;
         } else {
-            lastFired += 1;
+//            lastFired += 1;
         }
     }
 
     public void paint(Graphics2D g2d) {
-        g2d.drawImage(this.image, x, y, this.scaledWidth, this.scaledHeight, null);
+        if (lastFired >= 50 * attackDelay - 10){ //ready to attack
+            g2d.drawImage(this.image, x, y, this.scaledWidth, this.scaledHeight, null);
+        } else { //not ready to attack
+            g2d.drawImage(this.image2, x, y, this.scaledWidth, this.scaledHeight, null);
+        }
     }
 }

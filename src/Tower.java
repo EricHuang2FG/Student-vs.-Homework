@@ -21,6 +21,8 @@ public abstract class Tower {
 
     protected BufferedImage image = null;
 
+    protected BufferedImage image2 = null;
+
     protected int scaledWidth, scaledHeight;
     protected double scale;
 

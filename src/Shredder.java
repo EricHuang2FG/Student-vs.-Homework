@@ -4,17 +4,18 @@ import java.io.File;
 import java.io.IOException;
 
 public class Shredder extends Tower {
-    private double attackDelay = 10;
+    private double attackDelay = 30;
     private String imagePath = "res\\towers\\paper_shredder.png";
     // private String imagePath = "../res/towers/paper_shredder.png";
 
     public Shredder(int[] coordinate) {
         super(coordinate);
         super.hitPoints = 200;
-        super.range = 1;
+        super.range = 2;
         super.scale = 0.9;
         try {
             super.image = ImageIO.read(new File(imagePath));
+            super.image2 = ImageIO.read(new File("res\\towers\\paper_shredder_unready.png"));
         } catch (IOException e) {
             System.out.println("Error loading image: \n" + e);
         }
@@ -28,10 +29,14 @@ public class Shredder extends Tower {
             projectiles.add(weapon);
             lastFired = 0;
         } else {
-            lastFired += 1;
+//            lastFired += 1;
         }
     }
     public void paint(Graphics2D g2d) {
-        g2d.drawImage(this.image, x, y, this.scaledWidth, this.scaledHeight, null);
+        if (lastFired >= 50 * attackDelay - 10){ //ready to attack
+            g2d.drawImage(this.image, x, y, this.scaledWidth, this.scaledHeight, null);
+        } else { //not ready to attack
+            g2d.drawImage(this.image2, x, y, this.scaledWidth, this.scaledHeight, null);
+        }
     }
 }

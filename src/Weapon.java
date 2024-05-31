@@ -29,6 +29,7 @@ public class Weapon {
             this.y = y + 2;
             damage = 30;
             range = Grid.getWidth() * tower.getRange();
+            this.vx = 10;
             starting = this.x;
             imagePath = "res\\projectiles\\pencil_projectile.png"; // pixel range
         } else if (type.equals("pen")) {
@@ -36,6 +37,7 @@ public class Weapon {
             this.y = y + 2;
             damage = 1;
             range = Grid.getWidth() * tower.getRange(); // pixel range
+            this.vx = 5;
             starting = this.x;
             canPenetrate = true;
             imagePath = "res\\projectiles\\ink.png";
@@ -45,6 +47,7 @@ public class Weapon {
             damage = 1000000000;
             range = Grid.getWidth() * tower.getRange();
             starting = this.x;
+            imagePath = "res\\projectiles\\pencil_projectile.png";
         }
         scaledWidth = 50;
         scaledHeight = 50;

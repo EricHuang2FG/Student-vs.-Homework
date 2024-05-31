@@ -19,25 +19,57 @@ public class Level {
 
 
     public Level(){
-        int[] what = {8,1};
-        Pencil p = new Pencil(what);
+//        int[] what = {5,1};
+//        Shredder p = new Shredder(what);
+//        towers.add(p);
+//
+//        int[] what2 = {5,2};
+//        Shredder p2 = new Shredder(what2);
+//        towers.add(p2);
+//
+//        int[] what3 = {5,3};
+//        Shredder p3 = new Shredder(what3);
+//        towers.add(p3);
+//
+//        int[] what4 = {5,4};
+//        Shredder p4 = new Shredder(what4);
+//        towers.add(p4);
+//
+//        int[] what5 = {5,5};
+//        Shredder p5 = new Shredder(what5);
+//        towers.add(p5);
+//
+//        int[] what6 = {6 , 1};
+//        Eraser p6 = new Eraser(what6);
+//        towers.add(p6);
+
+        int[] what = {5,1};
+        MechanicalPencil p = new MechanicalPencil(what);
         towers.add(p);
 
-        int[] what2 = {8,2};
-        Pen p2 = new Pen(what2);
+        int[] what2 = {5,2};
+        Shredder p2 = new Shredder(what2);
         towers.add(p2);
 
-        int[] what3 = {8,3};
-        Pen p3 = new Pen(what3);
+        int[] what3 = {5,3};
+        Shredder p3 = new Shredder(what3);
         towers.add(p3);
 
-        int[] what4 = {8,4};
-        Pen p4 = new Pen(what4);
+        int[] what4 = {5,4};
+        Shredder p4 = new Shredder(what4);
         towers.add(p4);
 
-        int[] what5 = {8,5};
-        MechanicalPencil p5 = new MechanicalPencil(what5);
+        int[] what5 = {5,5};
+        Shredder p5 = new Shredder(what5);
         towers.add(p5);
+
+        int[] what6 = {6 , 1};
+        Eraser p6 = new Eraser(what6);
+        towers.add(p6);
+
+        int[] what7 = {4 , 1};
+        Pencil p7 = new Pencil(what7);
+        towers.add(p7);
     }
 
     private boolean spawn = true;
@@ -68,6 +100,7 @@ public class Level {
                 Enemy en = enemies.get(j);
                 int[] towerCoordinate = tow.getCoordinate();
                 int[] enemyCoordinate = en.getCoordinate();
+//                tow.incFiredCounter();
                 if (enemyCoordinate != null) {
                     if (towerCoordinate[1] == enemyCoordinate[1] && (enemyCoordinate[0] - towerCoordinate[0] <= tow.getRange() && enemyCoordinate[0] >= towerCoordinate[0])) {
                         tow.attack();
