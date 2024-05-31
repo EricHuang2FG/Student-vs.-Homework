@@ -19,23 +19,23 @@ public class Level {
 
 
     public Level(){
-        int[] what = {1,1};
+        int[] what = {8,1};
         Pencil p = new Pencil(what);
         towers.add(p);
 
-        int[] what2 = {1,2};
-        Pencil p2 = new Pencil(what2);
+        int[] what2 = {8,2};
+        Pen p2 = new Pen(what2);
         towers.add(p2);
 
-        int[] what3 = {1,3};
-        Pencil p3 = new Pencil(what3);
+        int[] what3 = {8,3};
+        Pen p3 = new Pen(what3);
         towers.add(p3);
 
-        int[] what4 = {4,4};
+        int[] what4 = {8,4};
         Pen p4 = new Pen(what4);
         towers.add(p4);
 
-        int[] what5 = {1,5};
+        int[] what5 = {8,5};
         MechanicalPencil p5 = new MechanicalPencil(what5);
         towers.add(p5);
     }

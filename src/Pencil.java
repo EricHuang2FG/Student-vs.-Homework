@@ -25,7 +25,7 @@ public class Pencil extends Tower {
         super.scaledHeight = (int) (image.getHeight() * scale);
     }
 
-    public void attack(){
+    public void attack() {
         if (lastFired >= 50 * attackDelay){
             Weapon weapon = new Weapon("pencil", x, y, this);
             projectiles.add(weapon);
@@ -34,7 +34,8 @@ public class Pencil extends Tower {
             lastFired += 1;
         }
     }
-    public void paint(Graphics2D g2d){
+
+    public void paint(Graphics2D g2d) {
         g2d.drawImage(this.image, x, y, this.scaledWidth, this.scaledHeight, null);
     }
 }

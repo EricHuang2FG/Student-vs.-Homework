@@ -13,20 +13,16 @@ public class Weapon {
     private String imagePath;
 
     private int starting;
-
-//    private String imagePath = "res\\towers\\pencil.png";
-
     private boolean willDelete = false;
 
-    private int scaledWidth,scaledHeight;
+    private int scaledWidth, scaledHeight;
 
-    public boolean getPenetrate(){
+    public boolean getPenetrate() {
         return canPenetrate;
     }
-    public Weapon(String type, int x, int y, Tower tower) {
-        // String imagePath = "../res/weapons/" + type + ".png";
 
-        if (type.equals("pencil")){
+    public Weapon(String type, int x, int y, Tower tower) {
+        if (type.equals("pencil")) {
             this.x = x + 65;
             this.y = y + 2;
             damage = 30;
@@ -43,7 +39,7 @@ public class Weapon {
         } else if (type.equals("pen")) {
             this.x = x + 65;
             this.y = y + 2;
-            damage = 20;
+            damage = 5;
             range = Grid.getWidth() * tower.getRange(); // pixel range
             starting = this.x;
             canPenetrate = true;
@@ -55,11 +51,8 @@ public class Weapon {
             range = Grid.getWidth() * tower.getRange();
             starting = this.x;
         }
-
-//        imagePath = "res\\projectiles\\penil_projectile.png";
         scaledWidth = 50;
         scaledHeight = 50;
-
         try {
             this.image = ImageIO.read(new File(imagePath));
         } catch (IOException e) {
