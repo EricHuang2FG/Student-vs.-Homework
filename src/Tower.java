@@ -10,19 +10,12 @@ public abstract class Tower {
     protected int hitPoints;
     protected int lastFired = 1000000000;
     protected static ArrayList<Weapon> projectiles = new ArrayList<Weapon>();
-//    protected static ArrayList<Tower> towers = new ArrayList<Tower>();
-
-    //        private static projectiles
     protected int cost;
-    protected int x, y; //store its position as a grid
-
+    protected int x, y; // store its position as a pixel coordinate
     protected int range = 10;
     protected int[] coordinate;
-
     protected BufferedImage image = null;
-
     protected BufferedImage image2 = null;
-
     protected int scaledWidth, scaledHeight;
     protected double scale;
 
@@ -67,29 +60,27 @@ public abstract class Tower {
 ////        }
 //    }
 
-    public static void moveProjectiles(){
-        for (int i = 0; i<projectiles.size();i++){
+    public static void moveProjectiles() {
+        for (int i = 0; i < projectiles.size(); i++){
             projectiles.get(i).behave();
         }
     }
 
-    public static void deletionCheck(){
+    public static void deletionCheck() {
         int i = 0;
-        while (i<projectiles.size()){
+        while (i < projectiles.size()) {
             Weapon p = projectiles.get(i);
-            if (p.getDelete() || p.outOfBounds()){
+            if (p.getDelete() || p.outOfBounds()) {
                 projectiles.remove(i);
-            }
-            else{
+            } else {
                 i += 1;
             }
         }
     }
 
-
     public abstract void attack();
 
-    public void takeHit(int damage){
+    public void takeHit(int damage) {
         hitPoints -= damage;
     }
 
@@ -97,12 +88,16 @@ public abstract class Tower {
         return projectiles;
     }
 
-    public int getRange(){
-        return range;
+    public int getRange() {
+        return this.range;
     }
 
-    public void incFiredCounter(){
-        lastFired += 1;
+    public int getHitPoints() {
+        return this.hitPoints;
+    }
+
+    public void incFiredCounter() {
+        this.lastFired += 1;
     }
 
     public void paint(Graphics2D g2d) {

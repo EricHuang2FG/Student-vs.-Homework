@@ -12,15 +12,35 @@ public class Level {
     private int enemiesSpawnedBetweenWaves = 0;
     private int enemiesSpawnedDuringWave = 0;
     private long startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
+    private boolean spawn = true;
+    private int betweenWavesSpawnCoolDown = 20;
     private Map map = new Map();
     private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private static ArrayList<Tower> towers = new ArrayList<Tower>();
 
+    public Level() {
+        int[] what = {8, 1};
+        MechanicalPencil p = new MechanicalPencil(what);
+        towers.add(p);
 
+        int[] what2 = {8, 2};
+        MechanicalPencil p2 = new MechanicalPencil(what2);
+        towers.add(p2);
 
-    public Level(){
+        int[] what3 = {8, 3};
+        MechanicalPencil p3 = new MechanicalPencil(what3);
+        towers.add(p3);
+
+        int[] what4 = {8, 4};
+        MechanicalPencil p4 = new MechanicalPencil(what4);
+        towers.add(p4);
+
+        int[] what5 = {8, 5};
+        MechanicalPencil p5 = new MechanicalPencil(what5);
+        towers.add(p5);
+
 //        int[] what = {5,1};
-//        Shredder p = new Shredder(what);
+//        MechanicalPencil p = new MechanicalPencil(what);
 //        towers.add(p);
 //
 //        int[] what2 = {5,2};
@@ -42,38 +62,11 @@ public class Level {
 //        int[] what6 = {6 , 1};
 //        Eraser p6 = new Eraser(what6);
 //        towers.add(p6);
-
-        int[] what = {5,1};
-        MechanicalPencil p = new MechanicalPencil(what);
-        towers.add(p);
-
-        int[] what2 = {5,2};
-        Shredder p2 = new Shredder(what2);
-        towers.add(p2);
-
-        int[] what3 = {5,3};
-        Shredder p3 = new Shredder(what3);
-        towers.add(p3);
-
-        int[] what4 = {5,4};
-        Shredder p4 = new Shredder(what4);
-        towers.add(p4);
-
-        int[] what5 = {5,5};
-        Shredder p5 = new Shredder(what5);
-        towers.add(p5);
-
-        int[] what6 = {6 , 1};
-        Eraser p6 = new Eraser(what6);
-        towers.add(p6);
-
-        int[] what7 = {4 , 1};
-        Pencil p7 = new Pencil(what7);
-        towers.add(p7);
+//
+//        int[] what7 = {4 , 1};
+//        Pencil p7 = new Pencil(what7);
+//        towers.add(p7);
     }
-
-    private boolean spawn = true;
-    private int betweenWavesSpawnCoolDown = 20;
 
     public void checkCollisions() {
         ArrayList<Weapon> projs = Tower.getProjectiles();
@@ -83,8 +76,8 @@ public class Level {
                 Enemy en = enemies.get(j);
                 if (Geometry.isColliding(proj.getX(), proj.getY(), 20, 50, en.getX(), en.getY(), en.getWidth(), en.getHeight())) {
                     System.out.println("COLLISION DETECTED");
-                    en.takeHit(proj.getDamage());
                     System.out.println(en.getHitPoints());
+                    en.takeHit(proj.getDamage());
                     if (!proj.getPenetrate()) {
                         proj.setDelete();
                     }
@@ -120,13 +113,22 @@ public class Level {
             if (enemies.get(i).getHitPoints() <= 0) {
                 enemies.remove(i);
             } else {
-                i += 1;
+                i++;
             }
         }
 
-        for (int j = 0;j<towers.size();j++){
+        for (int j = 0; j < towers.size(); j++) {
             Tower tow = towers.get(j);
             tow.incFiredCounter();
+        }
+
+        i = 0;
+        while (i < towers.size()) {
+            if (towers.get(i).getHitPoints() <= 0) {
+                towers.remove(i);
+            } else {
+                i++;
+            }
         }
 
 //        ArrayList<Weapon> projs = Tower.getProjectiles();

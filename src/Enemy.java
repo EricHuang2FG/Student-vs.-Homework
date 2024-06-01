@@ -1,4 +1,3 @@
-import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 import java.awt.*;
 import javax.imageio.*;
@@ -17,19 +16,19 @@ public class Enemy {
     protected int scaledWidth, scaledHeight;
     protected long lastAttackTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     protected boolean attack = false;
-    protected double lastImageChangeTime = (double) (System.nanoTime() / (Math.pow(10, 9)));
-    protected int imageChangeIndex = 1;
-    protected double imageChangeCoolDown = 0.5;
-    protected AffineTransform untransformedImage = null;
-    protected boolean isFirstImage = true;
+    protected double lastImageChangeTime = (System.nanoTime() / (Math.pow(10, 9)));
+    protected int imageChangeIndex = 0;
+    protected double imageChangeCoolDown = 0.3;
     protected Grid occupiedGrid = null;
-    protected BufferedImage image = null;
+    protected BufferedImage[] images = new BufferedImage[4];
     protected Map map;
     protected Grid[][] grids;
 
     public Enemy(String type, Map map) {
         Random random = new Random();
         String imagePath = "res\\monsters\\" + type + ".png";
+        String imagel1Path = "res\\monsters\\" + type + "_l1.png";
+        String imager1Path = "res\\monsters\\" + type + "_r1.png";
         // String imagePath = "../res/monsters/" + type + ".png";
         int row = random.nextInt(1, 6);
         if (type.equals("paper")) {
@@ -70,12 +69,15 @@ public class Enemy {
             this.scale = 1.0;
         }
         try {
-            this.image = ImageIO.read(new File(imagePath));
+            this.images[0] = ImageIO.read(new File(imagePath));
+            this.images[1] = ImageIO.read(new File(imagel1Path));
+            this.images[2] = ImageIO.read(new File(imagePath));
+            this.images[3] = ImageIO.read((new File(imager1Path)));
         } catch (IOException e) {
             System.out.println("Error loading image: \n" + e);
         }
-        this.scaledWidth = (int) (this.image.getWidth() * this.scale);
-        this.scaledHeight = (int) (this.image.getHeight() * this.scale);
+        this.scaledWidth = (int) (this.images[0].getWidth() * this.scale);
+        this.scaledHeight = (int) (this.images[0].getHeight() * this.scale);
         this.y = (int) (Map.getMapStartY() + (((row - 1) * Grid.getWidth()) + (Grid.getWidth() / 2) - (this.scaledHeight / 2)));
         this.map = map;
         this.grids = map.getGrids();
@@ -172,36 +174,20 @@ public class Enemy {
     }
 
     public void paint(Graphics2D g2d) {
-        if (isFirstImage) {
-            this.untransformedImage = g2d.getTransform();
-            this.isFirstImage = false;
-        }
-        if (this.attack) { // this DOESN'T WORK! We need an array of images to do sprite instead
-            double currentTime = (double) (System.nanoTime() / (Math.pow(10, 9)));
+        g2d.drawImage(this.images[this.imageChangeIndex], (int) this.x, (int) this.y, this.scaledWidth, this.scaledHeight, null);
+        if (this.attack) {
+            double currentTime = (System.nanoTime() / (Math.pow(10, 9)));
             if (currentTime - this.lastImageChangeTime >= this.imageChangeCoolDown) {
-                System.out.println("Switch");
-                if (this.imageChangeIndex == 1) {
-                    g2d.setTransform(this.untransformedImage);
-                    g2d.rotate(Math.toRadians(30));
+                if (this.imageChangeIndex <= 2) {
+                    System.out.println(this.imageChangeIndex);
                     this.imageChangeIndex++;
-                } else if (this.imageChangeIndex == 2) {
-                    g2d.setTransform(this.untransformedImage);
-                    this.imageChangeIndex++;
-                } else if (this.imageChangeIndex == 3) {
-                    g2d.setTransform(this.untransformedImage);
-                    g2d.rotate(Math.toRadians(-30));
-                    this.imageChangeIndex++;
-                } else if (this.imageChangeIndex == 4) {
-                    g2d.setTransform(this.untransformedImage);
-                    this.imageChangeIndex = 1;
+                } else {
+                    this.imageChangeIndex = 0;
                 }
                 this.lastImageChangeTime = currentTime;
             }
-            g2d.drawImage(this.image, (int) this.x, (int) this.y, this.scaledWidth, this.scaledHeight, null);
         } else {
-            g2d.setTransform(this.untransformedImage);
-            this.imageChangeIndex = 1;
-            g2d.drawImage(this.image, (int) this.x, (int) this.y, this.scaledWidth, this.scaledHeight, null);
+            this.imageChangeIndex = 0;
         }
     }
 
