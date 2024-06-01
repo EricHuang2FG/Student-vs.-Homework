@@ -1,8 +1,5 @@
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.image.*;
 import java.util.ArrayList;
 
 public abstract class Tower {

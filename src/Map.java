@@ -42,6 +42,7 @@ public class Map {
     public static int getMapStartY() {
         return MAP_START_Y;
     }
+
     public Grid[][] getGrids() {
         return this.grids;
     }

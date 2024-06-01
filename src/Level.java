@@ -13,10 +13,13 @@ public class Level {
     private int enemiesSpawnedDuringWave = 0;
     private long startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private boolean spawn = true;
-    private int betweenWavesSpawnCoolDown = 20;
+    private int betweenWavesSpawnCoolDown = 20; // TEMPORARY. Normally this is 20
+    private long lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
+    private long motivationSpawnCoolDown = 2; // TEMPORARY
     private Map map = new Map();
     private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private static ArrayList<Tower> towers = new ArrayList<Tower>();
+    private static ArrayList<Motivation> motivationCoins = new ArrayList<Motivation>();
 
     public Level() {
         int[] what = {8, 1};
@@ -86,7 +89,7 @@ public class Level {
         }
     }
 
-    public void towerAttack() {
+    public void behaveTowers() {
         for (int i = 0; i < towers.size(); i++) {
             Tower tow = towers.get(i);
             for (int j = 0; j < enemies.size(); j++) {
@@ -152,6 +155,14 @@ public class Level {
         this.totalEnemies = 5 * (this.levelNumber * this.levelNumber) + 10 * this.levelNumber;
     }
 
+    private void spawnMotivation() {
+        long currentTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
+        if (currentTime - this.lastMotivationSpawnTime >= this.motivationSpawnCoolDown) {
+            motivationCoins.add(new Motivation("air_drop"));
+            this.lastMotivationSpawnTime = currentTime;
+        }
+    }
+
     private String chooseEnemy() {
         Random random = new Random();
         int num = random.nextInt(1, 101);
@@ -182,7 +193,7 @@ public class Level {
         }
     }
 
-    private void executeLevelLogic() {
+    private void behaveEnemySpawnLogic() {
         long currentTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
         long timeElapsed = currentTime - startTime;
         if (this.totalEnemies > 0) {
@@ -243,13 +254,14 @@ public class Level {
     }
 
     public void behave() {
-        executeLevelLogic();
+        behaveEnemySpawnLogic();
         behaveEnemies();
         checkCollisions();
         garbageCleanup();
         Tower.deletionCheck();
-        towerAttack();
+        behaveTowers();
         Tower.moveProjectiles();
+        spawnMotivation();
     }
 
     public void paint(Graphics2D g2d) {
@@ -261,8 +273,11 @@ public class Level {
             enemies.get(i).paint(g2d);
         }
         ArrayList<Weapon> projs = Tower.getProjectiles();
-        for (int i = 0; i<projs.size();i++){
+        for (int i = 0; i < projs.size(); i++) {
             projs.get(i).paint(g2d);
+        }
+        for (int i = 0; i < motivationCoins.size(); i++) {
+            motivationCoins.get(i).paint(g2d);
         }
     }
 
