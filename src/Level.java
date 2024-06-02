@@ -2,6 +2,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.lang.*;
 import java.util.Random;
+import java.awt.event.*;
 
 public class Level {
 
@@ -13,13 +14,14 @@ public class Level {
     private int enemiesSpawnedDuringWave = 0;
     private long startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private boolean spawn = true;
-    private int betweenWavesSpawnCoolDown = 20; // TEMPORARY. Normally this is 20
+    private int betweenWavesSpawnCoolDown = 20;
     private long lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private long motivationSpawnCoolDown = 2; // TEMPORARY
+    private int motivationPoints = 0;
     private Map map = new Map();
     private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private static ArrayList<Tower> towers = new ArrayList<Tower>();
-    private static ArrayList<Motivation> motivationCoins = new ArrayList<Motivation>();
+    private static ArrayList<Motivation> levelBoundMotivations = new ArrayList<Motivation>();
 
     public Level() {
         int[] what = {8, 1};
@@ -71,6 +73,18 @@ public class Level {
 //        towers.add(p7);
     }
 
+    public void mousePressed(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            for (int i = 0; i < levelBoundMotivations.size(); i++) {
+                Motivation motivation = levelBoundMotivations.get(i);
+                if (motivation.isClickedByMouse(e.getX(), e.getY())) {
+                    this.motivationPoints += Motivation.getValue();
+                    motivation.setCollectedVelocities();
+                }
+            }
+        }
+    }
+
     public void checkCollisions() {
         ArrayList<Weapon> projs = Tower.getProjectiles();
         for (int i = 0; i < projs.size(); i++) {
@@ -119,12 +133,10 @@ public class Level {
                 i++;
             }
         }
-
         for (int j = 0; j < towers.size(); j++) {
             Tower tow = towers.get(j);
             tow.incFiredCounter();
         }
-
         i = 0;
         while (i < towers.size()) {
             if (towers.get(i).getHitPoints() <= 0) {
@@ -151,14 +163,16 @@ public class Level {
         this.enemiesSpawnedBetweenWaves = 0;
         this.enemiesSpawnedDuringWave = 0;
         this.startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
-        this.enemies.clear();
+        enemies.clear();
+        towers.clear();
+        levelBoundMotivations.clear();
         this.totalEnemies = 5 * (this.levelNumber * this.levelNumber) + 10 * this.levelNumber;
     }
 
     private void spawnMotivation() {
         long currentTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
         if (currentTime - this.lastMotivationSpawnTime >= this.motivationSpawnCoolDown) {
-            motivationCoins.add(new Motivation("air_drop"));
+            levelBoundMotivations.add(new Motivation("air_drop"));
             this.lastMotivationSpawnTime = currentTime;
         }
     }
@@ -253,6 +267,12 @@ public class Level {
         }
     }
 
+    private void behaveLevelBoundMotivations() {
+        for (int i = 0; i < levelBoundMotivations.size(); i++) {
+            levelBoundMotivations.get(i).behave();
+        }
+    }
+
     public void behave() {
         behaveEnemySpawnLogic();
         behaveEnemies();
@@ -262,6 +282,7 @@ public class Level {
         behaveTowers();
         Tower.moveProjectiles();
         spawnMotivation();
+        behaveLevelBoundMotivations();
     }
 
     public void paint(Graphics2D g2d) {
@@ -276,8 +297,8 @@ public class Level {
         for (int i = 0; i < projs.size(); i++) {
             projs.get(i).paint(g2d);
         }
-        for (int i = 0; i < motivationCoins.size(); i++) {
-            motivationCoins.get(i).paint(g2d);
+        for (int i = 0; i < levelBoundMotivations.size(); i++) {
+            levelBoundMotivations.get(i).paint(g2d);
         }
     }
 
