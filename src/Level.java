@@ -3,6 +3,10 @@ import java.util.ArrayList;
 import java.lang.*;
 import java.util.Random;
 import java.awt.event.*;
+import java.awt.image.*;
+import javax.imageio.ImageIO;
+import java.io.*;
+import java.io.IOException;
 
 public class Level {
 
@@ -16,12 +20,17 @@ public class Level {
     private boolean spawn = true;
     private int betweenWavesSpawnCoolDown = 20;
     private long lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
-    private long motivationSpawnCoolDown = 2; // TEMPORARY
-    private int motivationPoints = 0;
+    private long motivationSpawnCoolDown = 20;
+    private static int MOTIVATION_POINTS = 0;
+    private BufferedImage motivationCountBlockImage = null;
+    private int motivationCountBlockX = 0, motivationCountBlockY = 0;
+    private double motivationCountBlockScale = 0.2;
+    private int motivationCountBlockScaledWidth, motivationCountBlockScaledHeight;
+    private int motivationCountFontSize = 40;
     private Map map = new Map();
     private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private static ArrayList<Tower> towers = new ArrayList<Tower>();
-    private static ArrayList<Motivation> levelBoundMotivations = new ArrayList<Motivation>();
+    private static ArrayList<Motivation> motivations = new ArrayList<Motivation>();
 
     public Level() {
         int[] what = {8, 1};
@@ -43,6 +52,26 @@ public class Level {
         int[] what5 = {8, 5};
         MechanicalPencil p5 = new MechanicalPencil(what5);
         towers.add(p5);
+
+        int[] what6 = {7, 3};
+        WaterBottle p6 = new WaterBottle(what6);
+        towers.add(p6);
+
+        int[] what7 = {7, 2};
+        WaterBottle p7 = new WaterBottle(what7);
+        towers.add(p7);
+
+        int[] what8 = {7, 5};
+        WaterBottle p8 = new WaterBottle(what8);
+        towers.add(p8);
+
+        try {
+            this.motivationCountBlockImage = ImageIO.read(new File("res\\motivation_count_block.png"));
+        } catch (IOException e) {
+            System.out.println("Error loading image: \n" + e);
+        }
+        this.motivationCountBlockScaledWidth = (int) (this.motivationCountBlockImage.getWidth() * this.motivationCountBlockScale);
+        this.motivationCountBlockScaledHeight = (int) (this.motivationCountBlockImage.getHeight() * this.motivationCountBlockScale);
 
 //        int[] what = {5,1};
 //        MechanicalPencil p = new MechanicalPencil(what);
@@ -75,13 +104,25 @@ public class Level {
 
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
-            for (int i = 0; i < levelBoundMotivations.size(); i++) {
-                Motivation motivation = levelBoundMotivations.get(i);
+            for (int i = 0; i < motivations.size(); i++) {
+                Motivation motivation = motivations.get(i);
                 if (motivation.isClickedByMouse(e.getX(), e.getY())) {
-                    this.motivationPoints += Motivation.getValue();
+                    MOTIVATION_POINTS += Motivation.getValue();
                     motivation.setCollectedVelocities();
                 }
             }
+        }
+    }
+
+    public static void spawnMotivation(String type, WaterBottle host) {
+        motivations.add(new Motivation(type, host));
+    }
+
+    private void behaveMotivationSpawnLogic() {
+        long currentTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
+        if (currentTime - this.lastMotivationSpawnTime >= this.motivationSpawnCoolDown) {
+            spawnMotivation("air_drop", null);
+            this.lastMotivationSpawnTime = currentTime;
         }
     }
 
@@ -106,6 +147,7 @@ public class Level {
     public void behaveTowers() {
         for (int i = 0; i < towers.size(); i++) {
             Tower tow = towers.get(i);
+            tow.behave();
             for (int j = 0; j < enemies.size(); j++) {
                 Enemy en = enemies.get(j);
                 int[] towerCoordinate = tow.getCoordinate();
@@ -145,6 +187,14 @@ public class Level {
                 i++;
             }
         }
+        i = 0;
+        while (i < motivations.size()) {
+            if (motivations.get(i).getCanDelete()) {
+                motivations.remove(i);
+            } else {
+                i++;
+            }
+        }
 
 //        ArrayList<Weapon> projs = Tower.getProjectiles();
 //        i = 0;
@@ -165,16 +215,8 @@ public class Level {
         this.startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
         enemies.clear();
         towers.clear();
-        levelBoundMotivations.clear();
+        motivations.clear();
         this.totalEnemies = 5 * (this.levelNumber * this.levelNumber) + 10 * this.levelNumber;
-    }
-
-    private void spawnMotivation() {
-        long currentTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
-        if (currentTime - this.lastMotivationSpawnTime >= this.motivationSpawnCoolDown) {
-            levelBoundMotivations.add(new Motivation("air_drop"));
-            this.lastMotivationSpawnTime = currentTime;
-        }
     }
 
     private String chooseEnemy() {
@@ -212,14 +254,12 @@ public class Level {
         long timeElapsed = currentTime - startTime;
         if (this.totalEnemies > 0) {
             if (!this.wave) {
-                if (timeElapsed != 0 && timeElapsed % this.betweenWavesSpawnCoolDown == 0 && this.spawn) {
+                if (timeElapsed > this.betweenWavesSpawnCoolDown && timeElapsed % this.betweenWavesSpawnCoolDown == 0 && this.spawn) {
                     if (this.enemiesSpawnedBetweenWaves < 2) {
                         enemies.add(new Enemy(chooseEnemy(), this.map));
                         this.spawn = false;
-                        this.enemiesSpawnedBetweenWaves++;
-                    } else {
-                        this.enemiesSpawnedBetweenWaves++; // adds a cooldown before the wave starts
                     }
+                    this.enemiesSpawnedBetweenWaves++; // adds a cooldown before the wave starts
                 } else if ((timeElapsed - 1) % this.betweenWavesSpawnCoolDown == 0 && !this.spawn) {
                     this.spawn = true;
                 }
@@ -267,9 +307,9 @@ public class Level {
         }
     }
 
-    private void behaveLevelBoundMotivations() {
-        for (int i = 0; i < levelBoundMotivations.size(); i++) {
-            levelBoundMotivations.get(i).behave();
+    private void behaveMotivations() {
+        for (int i = 0; i < motivations.size(); i++) {
+            motivations.get(i).behave();
         }
     }
 
@@ -281,8 +321,8 @@ public class Level {
         Tower.deletionCheck();
         behaveTowers();
         Tower.moveProjectiles();
-        spawnMotivation();
-        behaveLevelBoundMotivations();
+        behaveMotivationSpawnLogic();
+        behaveMotivations();
     }
 
     public void paint(Graphics2D g2d) {
@@ -297,9 +337,12 @@ public class Level {
         for (int i = 0; i < projs.size(); i++) {
             projs.get(i).paint(g2d);
         }
-        for (int i = 0; i < levelBoundMotivations.size(); i++) {
-            levelBoundMotivations.get(i).paint(g2d);
+        for (int i = 0; i < motivations.size(); i++) {
+            motivations.get(i).paint(g2d);
         }
+        g2d.drawImage(this.motivationCountBlockImage, this.motivationCountBlockX, this.motivationCountBlockY, this.motivationCountBlockScaledWidth, this.motivationCountBlockScaledHeight, null);
+        g2d.setFont(new Font("Century Schoolbook", Font.PLAIN, this.motivationCountFontSize));
+        g2d.drawString(MOTIVATION_POINTS + "", this.motivationCountBlockX + 85, this.motivationCountBlockY + (this.motivationCountBlockScaledHeight / 2) + (this.motivationCountFontSize / 4));
     }
 
 }

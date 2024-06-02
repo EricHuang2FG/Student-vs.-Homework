@@ -1,6 +1,6 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
+import java.io.*;
 import java.io.IOException;
 
 public class Pencil extends Tower {
@@ -42,8 +42,8 @@ public class Pencil extends Tower {
         } else { //not ready to attack
             g2d.drawImage(this.image2, x, y, this.scaledWidth, this.scaledHeight, null);
         }
-
     }
+
 }
 
 

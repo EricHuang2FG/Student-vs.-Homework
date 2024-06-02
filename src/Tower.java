@@ -77,6 +77,10 @@ public abstract class Tower {
 
     public abstract void attack();
 
+    public void behave() {
+        // empty method so that it can be used by the WaterBottle class while not used by others
+    }
+
     public void takeHit(int damage) {
         hitPoints -= damage;
     }
@@ -93,13 +97,26 @@ public abstract class Tower {
         return this.hitPoints;
     }
 
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
+
+    public int getScaledWidth() {
+        return this.scaledWidth;
+    }
+
     public void incFiredCounter() {
         this.lastFired += 1;
     }
 
-    public void paint(Graphics2D g2d) {
-        for (int i = 0; i < projectiles.toArray().length; i++) {
-            projectiles.get(i).paint(g2d);
-        }
-    }
+//    public void paint(Graphics2D g2d) {
+//        for (int i = 0; i < projectiles.toArray().length; i++) {
+//            projectiles.get(i).paint(g2d);
+//        }
+//    }
+    public abstract void paint(Graphics2D g2d);
 }

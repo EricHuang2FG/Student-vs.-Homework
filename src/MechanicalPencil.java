@@ -26,7 +26,7 @@ public class MechanicalPencil extends Tower {
     }
 
     public void attack(){
-        if (lastFired >= 50 * attackDelay){
+        if (lastFired >= 50 * attackDelay) {
             Weapon weapon = new Weapon("mechanical_pencil", x, y, this);
             projectiles.add(weapon);
             lastFired = 0;
@@ -35,7 +35,7 @@ public class MechanicalPencil extends Tower {
         }
     }
     public void paint(Graphics2D g2d){
-        if (lastFired >= 50 * attackDelay - 10){ //ready to attack
+        if (lastFired >= 50 * attackDelay - 10) { //ready to attack
             g2d.drawImage(this.image, x, y, this.scaledWidth, this.scaledHeight, null);
         } else { //not ready to attack
             g2d.drawImage(this.image2, x, y, this.scaledWidth, this.scaledHeight, null);
