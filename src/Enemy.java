@@ -37,7 +37,7 @@ public class Enemy {
             this.vx = -0.3;
             this.defaultVx = this.vx;
             this.scale = 0.16;
-        } else if (type.equals("notebook")){
+        } else if (type.equals("notebook")) {
             this.hitPoints = 600;
             this.damage = 30;
             this.vx = -0.3;
@@ -127,8 +127,7 @@ public class Enemy {
         }
         if (!found) {
             int[] t = {100,100};
-            Grid tmp = new Grid(10000, 10000, false, t); // there was an error with the null so I added this to bandage it
-//            this.occupiedGrid = null;
+            Grid tmp = new Grid(10000, 10000, false, t); // there was an error with null so this was used instead
             this.occupiedGrid = tmp;
         }
     }

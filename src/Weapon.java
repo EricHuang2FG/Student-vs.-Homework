@@ -78,7 +78,7 @@ public class Weapon {
         return willDelete;
     }
 
-    public void setDelete(){
+    public void setDelete() {
         willDelete = true;
     }
 
@@ -94,8 +94,7 @@ public class Weapon {
         }
     }
 
-    public void paint(Graphics2D g2d){
-//        System.out.println("THE PROJECTILE IS TRYING TO BE DRAWN");
+    public void paint(Graphics2D g2d) {
         g2d.drawImage(this.image, x, y, this.scaledWidth, this.scaledHeight, null);
     }
 }

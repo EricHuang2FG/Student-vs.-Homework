@@ -230,9 +230,11 @@ public class Level {
             return "textbook";
         } else if (num >= 46 && num <= 90) {
             return "notepad";
-        } else if (num >= 91 && num <= 96) {
+        } else if (num >= 91 && num <= 95) {
             return "test";
-        } else if (num >= 97 && num <= 100) {
+        } else if (num >= 96 && num <= 98) {
+            return "donald";
+        } else if (num >= 99 && num <= 100) {
             return "exam";
         } else {
             return "notepad";
@@ -256,7 +258,12 @@ public class Level {
             if (!this.wave) {
                 if (timeElapsed > this.betweenWavesSpawnCoolDown && timeElapsed % this.betweenWavesSpawnCoolDown == 0 && this.spawn) {
                     if (this.enemiesSpawnedBetweenWaves < 2) {
-                        enemies.add(new Enemy(chooseEnemy(), this.map));
+                        String enemyType = chooseEnemy();
+                        if (enemyType.equals("donald")) {
+                            // ADD DONALD SUBCLASS
+                        } else {
+                            enemies.add(new Enemy(enemyType, this.map));
+                        }
                         this.spawn = false;
                     }
                     this.enemiesSpawnedBetweenWaves++; // adds a cooldown before the wave starts
@@ -272,7 +279,12 @@ public class Level {
                 }
             } else {
                 if (timeElapsed % 3 == 0 && this.spawn) {
-                    enemies.add(new Enemy(chooseEnemy(), this.map));
+                    String enemyType = chooseEnemy();
+                    if (enemyType.equals("donald")) {
+                        // ADD DONALD SUBCLASS
+                    } else {
+                        enemies.add(new Enemy(enemyType, this.map));
+                    }
                     this.spawn = false;
                     this.enemiesSpawnedDuringWave++;
                     this.totalEnemies--;

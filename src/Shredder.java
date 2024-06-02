@@ -33,7 +33,7 @@ public class Shredder extends Tower {
         }
     }
     public void paint(Graphics2D g2d) {
-        if (lastFired >= 50 * attackDelay - 10){ //ready to attack
+        if (lastFired >= 50 * attackDelay - 10) { //ready to attack
             g2d.drawImage(this.image, x, y, this.scaledWidth, this.scaledHeight, null);
         } else { //not ready to attack
             g2d.drawImage(this.image2, x, y, this.scaledWidth, this.scaledHeight, null);
