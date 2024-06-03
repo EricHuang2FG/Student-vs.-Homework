@@ -33,23 +33,23 @@ public class Level {
     private static ArrayList<Motivation> motivations = new ArrayList<Motivation>();
 
     public Level() {
-        int[] what = {8, 1};
+        int[] what = {3, 1};
         MechanicalPencil p = new MechanicalPencil(what);
         towers.add(p);
 
-        int[] what2 = {8, 2};
+        int[] what2 = {3, 2};
         MechanicalPencil p2 = new MechanicalPencil(what2);
         towers.add(p2);
 
-        int[] what3 = {8, 3};
+        int[] what3 = {3, 3};
         MechanicalPencil p3 = new MechanicalPencil(what3);
         towers.add(p3);
 
-        int[] what4 = {8, 4};
+        int[] what4 = {3, 4};
         MechanicalPencil p4 = new MechanicalPencil(what4);
         towers.add(p4);
 
-        int[] what5 = {8, 5};
+        int[] what5 = {3, 5};
         MechanicalPencil p5 = new MechanicalPencil(what5);
         towers.add(p5);
 
@@ -64,6 +64,22 @@ public class Level {
         int[] what8 = {7, 5};
         WaterBottle p8 = new WaterBottle(what8);
         towers.add(p8);
+
+        int[] what9 = {8, 1};
+        Eraser p9 = new Eraser(what9);
+        towers.add(p9);
+
+        int[] what10 = {8, 2};
+        Eraser p10 = new Eraser(what10);
+        towers.add(p10);
+
+        int[] what11 = {8, 3};
+        Eraser p11 = new Eraser(what11);
+        towers.add(p11);
+
+        int[] what12 = {8, 4};
+        Eraser p12 = new Eraser(what12);
+        towers.add(p12);
 
         try {
             this.motivationCountBlockImage = ImageIO.read(new File("res\\motivation_count_block.png"));
@@ -100,6 +116,22 @@ public class Level {
 //        int[] what7 = {4 , 1};
 //        Pencil p7 = new Pencil(what7);
 //        towers.add(p7);
+    }
+
+    public static ArrayList<Tower> getTowers() {
+        return towers;
+    }
+
+    public void setLevelNumber(int levelNumber) {
+        this.levelNumber = levelNumber;
+        this.waveCount = 0;
+        this.enemiesSpawnedBetweenWaves = 0;
+        this.enemiesSpawnedDuringWave = 0;
+        this.startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
+        enemies.clear();
+        towers.clear();
+        motivations.clear();
+        this.totalEnemies = 5 * (this.levelNumber * this.levelNumber) + 10 * this.levelNumber;
     }
 
     public void mousePressed(MouseEvent e) {
@@ -152,7 +184,6 @@ public class Level {
                 Enemy en = enemies.get(j);
                 int[] towerCoordinate = tow.getCoordinate();
                 int[] enemyCoordinate = en.getCoordinate();
-//                tow.incFiredCounter();
                 if (enemyCoordinate != null) {
                     if (towerCoordinate[1] == enemyCoordinate[1] && (enemyCoordinate[0] - towerCoordinate[0] <= tow.getRange() && enemyCoordinate[0] >= towerCoordinate[0])) {
                         tow.attack();
@@ -163,10 +194,6 @@ public class Level {
     }
 
     public void garbageCleanup() { // this is run every tick to check which monsters died and to increase the tower cooldown counter
-//        for (int i = 0; i < enemies.size(); i++){
-//            Enemy en = enemies.get(i);
-//
-//        }
         int i = 0;
         while (i < enemies.size()) {
             if (enemies.get(i).getHitPoints() <= 0) {
@@ -195,28 +222,6 @@ public class Level {
                 i++;
             }
         }
-
-//        ArrayList<Weapon> projs = Tower.getProjectiles();
-//        i = 0;
-//        while (i<projs.size()){
-//            if projs.
-//        }
-    }
-
-    public static ArrayList<Tower> getTowers() {
-        return towers;
-    }
-
-    public void setLevelNumber(int levelNumber) {
-        this.levelNumber = levelNumber;
-        this.waveCount = 0;
-        this.enemiesSpawnedBetweenWaves = 0;
-        this.enemiesSpawnedDuringWave = 0;
-        this.startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
-        enemies.clear();
-        towers.clear();
-        motivations.clear();
-        this.totalEnemies = 5 * (this.levelNumber * this.levelNumber) + 10 * this.levelNumber;
     }
 
     private String chooseEnemy() {
