@@ -88,34 +88,6 @@ public class Level {
         }
         this.motivationCountBlockScaledWidth = (int) (this.motivationCountBlockImage.getWidth() * this.motivationCountBlockScale);
         this.motivationCountBlockScaledHeight = (int) (this.motivationCountBlockImage.getHeight() * this.motivationCountBlockScale);
-
-//        int[] what = {5,1};
-//        MechanicalPencil p = new MechanicalPencil(what);
-//        towers.add(p);
-//
-//        int[] what2 = {5,2};
-//        Shredder p2 = new Shredder(what2);
-//        towers.add(p2);
-//
-//        int[] what3 = {5,3};
-//        Shredder p3 = new Shredder(what3);
-//        towers.add(p3);
-//
-//        int[] what4 = {5,4};
-//        Shredder p4 = new Shredder(what4);
-//        towers.add(p4);
-//
-//        int[] what5 = {5,5};
-//        Shredder p5 = new Shredder(what5);
-//        towers.add(p5);
-//
-//        int[] what6 = {6 , 1};
-//        Eraser p6 = new Eraser(what6);
-//        towers.add(p6);
-//
-//        int[] what7 = {4 , 1};
-//        Pencil p7 = new Pencil(what7);
-//        towers.add(p7);
     }
 
     public static ArrayList<Tower> getTowers() {
@@ -225,21 +197,32 @@ public class Level {
     }
 
     private String chooseEnemy() {
+
+        int paperValue = 90;
+        int notebookValue = 30;
+        int textbookValue = 15;
+        int notepadValue = 60;
+        int testValue = 30;
+        int donaldValue = 20;
+        int examValue = 7;
+
         Random random = new Random();
-        int num = random.nextInt(1, 101);
-        if (num >= 1 && num <= 30) {
+//        int num = random.nextInt(1, 101);
+        int num = random.nextInt(1, paperValue + notebookValue + textbookValue + notepadValue + testValue + donaldValue+examValue);
+        System.out.println(num);
+        if (num >= 1 && num <= paperValue) {
             return "paper";
-        } else if (num >= 31 && num <= 40) {
+        } else if (num >= paperValue + 1 && num <= paperValue + notebookValue) {
             return "notebook";
-        } else if (num >= 41 && num <= 45) {
+        } else if (num >= paperValue + notebookValue + 1 && num <= paperValue + notebookValue+textbookValue) {
             return "textbook";
-        } else if (num >= 46 && num <= 90) {
+        } else if (num >= paperValue + notebookValue + textbookValue + 1 && num <= paperValue + notebookValue + textbookValue + notepadValue) {
             return "notepad";
-        } else if (num >= 91 && num <= 95) {
+        } else if (num >= paperValue + notebookValue + textbookValue + notepadValue + 1 && num <= paperValue + notebookValue + textbookValue + notepadValue + testValue) {
             return "test";
-        } else if (num >= 96 && num <= 98) {
+        } else if (num >= paperValue + notebookValue + textbookValue + notepadValue + testValue + 1 && num <= paperValue + notebookValue + textbookValue + notepadValue + testValue + donaldValue) {
             return "donald";
-        } else if (num >= 99 && num <= 100) {
+        } else if (num >= paperValue + notebookValue + textbookValue + notepadValue + testValue + donaldValue + 1 && num <= paperValue + notebookValue + textbookValue + notepadValue + testValue + donaldValue + examValue) {
             return "exam";
         } else {
             return "notepad";
