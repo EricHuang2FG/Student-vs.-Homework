@@ -31,7 +31,7 @@ public class Weapon {
             range = Grid.getWidth() * tower.getRange();
             this.vx = 10;
             starting = this.x;
-            imagePath = "res\\projectiles\\pencil_projectile.png"; // pixel range
+            imagePath = "res\\projectiles\\mechanical_pencil_projectile.png"; // pixel range
         } else if (type.equals("pen")) {
             this.x = x + 65;
             this.y = y + 2;
@@ -54,7 +54,7 @@ public class Weapon {
         try {
             this.image = ImageIO.read(new File(imagePath));
         } catch (IOException e) {
-            System.out.println("Error loading PROJECTILE image: \n" + e);
+            System.out.println("Error loading image: \n" + e);
         }
     }
 
