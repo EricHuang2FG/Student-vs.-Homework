@@ -256,6 +256,14 @@ public class Level {
         }
     }
 
+    public static void spawnEnemy(String type, Map map) {
+        if (type.equals("donald")) {
+            enemies.add(new Donald(type, map));
+        } else {
+            enemies.add(new Enemy(type, map));
+        }
+    }
+
     private void behaveEnemySpawnLogic() {
         long currentTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
         long timeElapsed = currentTime - startTime;
@@ -263,12 +271,7 @@ public class Level {
             if (!this.wave) {
                 if (timeElapsed > this.betweenWavesSpawnCoolDown && timeElapsed % this.betweenWavesSpawnCoolDown == 0 && this.spawn) {
                     if (this.enemiesSpawnedBetweenWaves < 2) {
-                        String enemyType = chooseEnemy();
-                        if (enemyType.equals("donald")) {
-                            // ADD DONALD SUBCLASS
-                        } else {
-                            enemies.add(new Enemy(enemyType, this.map));
-                        }
+                        spawnEnemy(chooseEnemy(), this.map);
                         this.spawn = false;
                     }
                     this.enemiesSpawnedBetweenWaves++; // adds a cooldown before the wave starts
@@ -284,12 +287,7 @@ public class Level {
                 }
             } else {
                 if (timeElapsed % 3 == 0 && this.spawn) {
-                    String enemyType = chooseEnemy();
-                    if (enemyType.equals("donald")) {
-                        // ADD DONALD SUBCLASS
-                    } else {
-                        enemies.add(new Enemy(enemyType, this.map));
-                    }
+                    spawnEnemy(chooseEnemy(), this.map);
                     this.spawn = false;
                     this.enemiesSpawnedDuringWave++;
                     this.totalEnemies--;

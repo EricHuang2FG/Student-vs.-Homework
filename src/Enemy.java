@@ -67,6 +67,9 @@ public class Enemy {
             this.vx = -0.75;
             this.defaultVx = this.vx;
             this.scale = 1.0;
+        } else if (type.equals("donald")) {
+            this.hitPoints = 10000000;
+            this.damage = 0;
         }
         try {
             this.images[0] = ImageIO.read(new File(imagePath));
