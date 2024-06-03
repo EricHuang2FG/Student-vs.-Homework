@@ -5,7 +5,6 @@ public class Grid {
     private static final int WIDTH = 100, HEIGHT = 100;
     private int x, y;
     private final int[] COORDINATE;
-
     private final Color LIGHT_GRAY = new Color(130, 130, 130);
     private final Color DARK_GRAY = new Color(100, 100, 100);
     private int nPoints = 5;

@@ -19,6 +19,7 @@ public class Enemy {
     protected double lastImageChangeTime = (System.nanoTime() / (Math.pow(10, 9)));
     protected int imageChangeIndex = 0;
     protected double imageChangeCoolDown = 0.3;
+    protected String type;
     protected Grid occupiedGrid = null;
     protected BufferedImage[] images = new BufferedImage[4];
     protected Map map;
@@ -70,12 +71,15 @@ public class Enemy {
         } else if (type.equals("donald")) {
             this.hitPoints = 10000000;
             this.damage = 0;
+            this.scale = 1.0;
         }
         try {
             this.images[0] = ImageIO.read(new File(imagePath));
-            this.images[1] = ImageIO.read(new File(imagel1Path));
-            this.images[2] = ImageIO.read(new File(imagePath));
-            this.images[3] = ImageIO.read((new File(imager1Path)));
+            if (!type.equals("donald")) {
+                this.images[1] = ImageIO.read(new File(imagel1Path));
+                this.images[2] = ImageIO.read(new File(imagePath));
+                this.images[3] = ImageIO.read((new File(imager1Path)));
+            }
         } catch (IOException e) {
             System.out.println("Error loading image: \n" + e);
         }
@@ -84,6 +88,7 @@ public class Enemy {
         this.y = (int) (Map.getMapStartY() + (((row - 1) * Grid.getWidth()) + (Grid.getWidth() / 2) - (this.scaledHeight / 2)));
         this.map = map;
         this.grids = map.getGrids();
+        this.type = type;
     }
 
     public int getX() {
@@ -108,6 +113,10 @@ public class Enemy {
 
     public int[] getCoordinate() {
         return this.occupiedGrid.getCoordinate();
+    }
+
+    public String getType() {
+        return this.type;
     }
 
     public void takeHit(int damage) {
@@ -164,7 +173,7 @@ public class Enemy {
         }
     }
 
-    private void move() {
+    protected void move() {
         this.x += this.vx;
         this.y += this.vy;
     }

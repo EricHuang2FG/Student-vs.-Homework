@@ -18,7 +18,7 @@ public class Level {
     private int enemiesSpawnedDuringWave = 0;
     private long startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private boolean spawn = true;
-    private int betweenWavesSpawnCoolDown = 20;
+    private int betweenWavesSpawnCoolDown = 2;
     private long lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private long motivationSpawnCoolDown = 20;
     private static int MOTIVATION_POINTS = 0;
@@ -154,6 +154,9 @@ public class Level {
             tow.behave();
             for (int j = 0; j < enemies.size(); j++) {
                 Enemy en = enemies.get(j);
+                if (en.getType().equals("donald")) {
+                    continue;
+                }
                 int[] towerCoordinate = tow.getCoordinate();
                 int[] enemyCoordinate = en.getCoordinate();
                 if (enemyCoordinate != null) {
@@ -203,7 +206,7 @@ public class Level {
         int textbookValue = 15;
         int notepadValue = 60;
         int testValue = 30;
-        int donaldValue = 20;
+        int donaldValue = 20; // 20
         int examValue = 7;
 
         Random random = new Random();
