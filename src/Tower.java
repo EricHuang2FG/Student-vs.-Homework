@@ -18,8 +18,8 @@ public abstract class Tower {
 
     public Tower(int[] coordinate) {
         this.coordinate = coordinate;
-        this.x = coordinate[0] * 100 - 100 + Map.getMapStartX();
-        this.y = coordinate[1] * 100 - 100 + Map.getMapStartY();
+        this.x = coordinate[0] * Grid.getWidth() - Grid.getWidth() + Map.getMapStartX();
+        this.y = coordinate[1] * Grid.getWidth() - Grid.getWidth() + Map.getMapStartY();
 
 //        scaledWidth = 100;
 //        scaledHeight = 100;
