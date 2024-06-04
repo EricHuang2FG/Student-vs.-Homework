@@ -52,6 +52,7 @@ public class StudentVsHomework extends JPanel {
         JFrame frame = new JFrame("Student vs. Homework");
         StudentVsHomework window = new StudentVsHomework();
         frame.add(window);
+        frame.setResizable(false);
         frame.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

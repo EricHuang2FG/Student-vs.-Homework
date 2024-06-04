@@ -13,7 +13,7 @@ public class Level {
     private int levelNumber = 1;
     private boolean wave = false;
     private int waveCount = 0;
-    private int totalEnemies = 5 * (this.levelNumber * this.levelNumber) + 10 * this.levelNumber;
+    private int totalEnemies = 5 * this.levelNumber + 10;
     private int enemiesSpawnedBetweenWaves = 0;
     private int enemiesSpawnedDuringWave = 0;
     private long startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
@@ -82,6 +82,30 @@ public class Level {
         Eraser p12 = new Eraser(what12);
         towers.add(p12);
 
+        int[] what13 = {8, 5};
+        Eraser p13 = new Eraser(what13);
+        towers.add(p13);
+
+        int[] what14 = {6, 3};
+        Shredder p14 = new Shredder(what14);
+        towers.add(p14);
+
+        int[] what15 = {6, 2};
+        Shredder p15 = new Shredder(what15);
+        towers.add(p15);
+
+        int[] what16 = {6, 1};
+        Shredder p16 = new Shredder(what16);
+        towers.add(p16);
+
+        int[] what17 = {6, 4};
+        Shredder p17 = new Shredder(what17);
+        towers.add(p17);
+
+        int[] what18 = {6, 5};
+        Shredder p18 = new Shredder(what18);
+        towers.add(p18);
+
         try {
             this.motivationCountBlockImage = ImageIO.read(new File("res\\motivation_count_block.png"));
         } catch (IOException e) {
@@ -104,7 +128,7 @@ public class Level {
         enemies.clear();
 //        towers.clear();
         motivations.clear();
-        this.totalEnemies = 5 * (this.levelNumber * this.levelNumber) + 10 * this.levelNumber;
+        this.totalEnemies = 5 * this.levelNumber + 10;
     }
 
     public void collectMotivation(MouseEvent e) {
@@ -205,15 +229,15 @@ public class Level {
 //        return "donald"; // for testing
         int paperValue = (int) 50;
         int notebookValue = (int) 10;
-        int textbookValue = (int) 0.5 * levelNumber;
+        int textbookValue = (int) (0.5 * this.levelNumber);
         int notepadValue = (int) 20;
-        int testValue = (int) 0.4 * levelNumber;
-        int donaldValue = 20; // 20
-        int examValue = (int) 0.1 * levelNumber;
+        int testValue = (int) (0.4 * this.levelNumber);
+        int donaldValue = (int) (0.5 * this.levelNumber); // 20
+        int examValue = (int) (0.1 * this.levelNumber);
 
         Random random = new Random();
         int num = random.nextInt(1, paperValue + notebookValue + textbookValue + notepadValue + testValue + donaldValue+examValue);
-        System.out.println(num);
+//        System.out.println(num);
         if (num >= 1 && num <= paperValue) {
             return "paper";
         } else if (num >= paperValue + 1 && num <= paperValue + notebookValue) {

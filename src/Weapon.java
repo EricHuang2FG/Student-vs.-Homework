@@ -44,7 +44,7 @@ public class Weapon {
         } else if (type.equals("shredder")) {
             this.x = x + 60;
             this.y = y + 15;
-            damage = 1000000000;
+            damage = Integer.MAX_VALUE;
             range = Grid.getWidth() * tower.getRange();
             starting = this.x;
             imagePath = "res\\projectiles\\pencil_projectile.png";

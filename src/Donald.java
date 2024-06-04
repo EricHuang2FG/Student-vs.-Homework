@@ -22,7 +22,6 @@ public class Donald extends Enemy {
         this.targetY = (Map.getMapStartY() + (Grid.getWidth() * (this.targetCoordinate[1] - 1))) + (Grid.getWidth() / 2.0) - super.scaledHeight;
         super.vx = 0.0;
         super.vy = this.verticalMovementVelocity;
-        System.out.println("Mr. Donald spawned ");
     }
 
     private void spawnEnemies() {

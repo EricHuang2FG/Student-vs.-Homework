@@ -34,13 +34,13 @@ public class Enemy {
         int row = random.nextInt(1, 6);
         if (type.equals("paper")) {
             this.hitPoints = 200;
-            this.damage = 20;
+            this.damage = 15;
             this.vx = -0.3;
             this.defaultVx = this.vx;
             this.scale = 0.16;
         } else if (type.equals("notebook")) {
             this.hitPoints = 600;
-            this.damage = 20;
+            this.damage = 15;
             this.vx = -0.3;
             this.defaultVx = this.vx;
             this.scale = 0.9;
@@ -52,7 +52,7 @@ public class Enemy {
             this.scale = 1.0;
         } else if (type.equals("notepad")) {
             this.hitPoints = 50;
-            this.damage = 15;
+            this.damage = 10;
             this.vx = -0.5;
             this.defaultVx = this.vx;
             this.scale = 0.9;
