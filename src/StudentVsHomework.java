@@ -19,7 +19,7 @@ public class StudentVsHomework extends JPanel {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                level.mousePressed(e);
+                level.collectMotivation(e);
             }
 
             @Override

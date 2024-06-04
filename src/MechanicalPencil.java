@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class MechanicalPencil extends Tower {
 
-    private double attackDelay = 2.0;
+    private double attackDelay = 1.5;
     private String imagePath = "res\\towers\\mechanic_pencil.png";
 //    private String type = "mechanic_pencil";
     // private String imagePath = "../res/towers/mechanical_pencil.png";

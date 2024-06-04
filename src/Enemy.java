@@ -71,7 +71,7 @@ public class Enemy {
         } else if (type.equals("donald")) {
             this.hitPoints = 10000000;
             this.damage = 0;
-            this.scale = 1.0;
+            this.scale = 1.4;
         }
         try {
             this.images[0] = ImageIO.read(new File(imagePath));
@@ -89,6 +89,32 @@ public class Enemy {
         this.map = map;
         this.grids = map.getGrids();
         this.type = type;
+    }
+
+    public Enemy(Map map, int[] coordinate) { // constructor for the Paper spawned by Mr. Donald
+        String imagePath = "res\\monsters\\paper.png";
+        String imagel1Path = "res\\monsters\\paper_l1.png";
+        String imager1Path = "res\\monsters\\paper_r1.png";
+        this.hitPoints = 200;
+        this.damage = 20;
+        this.vx = -0.3;
+        this.defaultVx = this.vx;
+        this.scale = 0.16;
+        try {
+            this.images[0] = ImageIO.read(new File(imagePath));
+            this.images[1] = ImageIO.read(new File(imagel1Path));
+            this.images[2] = ImageIO.read(new File(imagePath));
+            this.images[3] = ImageIO.read((new File(imager1Path)));
+        } catch (IOException e) {
+            System.out.println("Error loading image: \n" + e);
+        }
+        this.scaledWidth = (int) (this.images[0].getWidth() * this.scale);
+        this.scaledHeight = (int) (this.images[0].getHeight() * this.scale);
+        this.x = (int) (Map.getMapStartX() + ((coordinate[0] - 1) * Grid.getWidth()) + (Grid.getWidth() / 2) - (this.scaledWidth / 2));
+        this.y = (int) (Map.getMapStartY() + (((coordinate[1] - 1) * Grid.getWidth()) + (Grid.getWidth() / 2) - (this.scaledHeight / 2)));
+        this.map = map;
+        this.grids = map.getGrids();
+        this.type = "paper";
     }
 
     public int getX() {

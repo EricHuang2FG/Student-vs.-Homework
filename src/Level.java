@@ -18,7 +18,8 @@ public class Level {
     private int enemiesSpawnedDuringWave = 0;
     private long startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private boolean spawn = true;
-    private int betweenWavesSpawnCoolDown = 2;
+    private int betweenWavesSpawnCoolDown = 20;
+    private int duringWavesSpawnCoolDown = 3;
     private long lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private long motivationSpawnCoolDown = 20;
     private static int MOTIVATION_POINTS = 0;
@@ -101,12 +102,12 @@ public class Level {
         this.enemiesSpawnedDuringWave = 0;
         this.startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
         enemies.clear();
-        towers.clear();
+//        towers.clear();
         motivations.clear();
         this.totalEnemies = 5 * (this.levelNumber * this.levelNumber) + 10 * this.levelNumber;
     }
 
-    public void mousePressed(MouseEvent e) {
+    public void collectMotivation(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             for (int i = 0; i < motivations.size(); i++) {
                 Motivation motivation = motivations.get(i);
@@ -137,11 +138,12 @@ public class Level {
             for (int j = 0; j < enemies.size(); j++) {
                 Enemy en = enemies.get(j);
                 if (Geometry.isColliding(proj.getX(), proj.getY(), 20, 50, en.getX(), en.getY(), en.getWidth(), en.getHeight())) {
-                    System.out.println("COLLISION DETECTED");
-                    System.out.println(en.getHitPoints());
+//                    System.out.println("COLLISION DETECTED");
+//                    System.out.println(en.getHitPoints());
                     en.takeHit(proj.getDamage());
                     if (!proj.getPenetrate()) {
                         proj.setDelete();
+                        break;
                     }
                 }
             }
@@ -200,17 +202,16 @@ public class Level {
     }
 
     private String chooseEnemy() {
-
-        int paperValue = (int) 50 * levelNumber;
-        int notebookValue = (int) 10 * levelNumber;
-        int textbookValue = (int) 0.5 * levelNumber * levelNumber;
-        int notepadValue = (int) 20 * levelNumber;
-        int testValue = (int) 0.4 * levelNumber * levelNumber;
+//        return "donald"; // for testing
+        int paperValue = (int) 50;
+        int notebookValue = (int) 10;
+        int textbookValue = (int) 0.5 * levelNumber;
+        int notepadValue = (int) 20;
+        int testValue = (int) 0.4 * levelNumber;
         int donaldValue = 20; // 20
-        int examValue = (int) 0.1 * levelNumber * levelNumber;
+        int examValue = (int) 0.1 * levelNumber;
 
         Random random = new Random();
-//        int num = random.nextInt(1, 101);
         int num = random.nextInt(1, paperValue + notebookValue + textbookValue + notepadValue + testValue + donaldValue+examValue);
         System.out.println(num);
         if (num >= 1 && num <= paperValue) {
@@ -242,9 +243,11 @@ public class Level {
         }
     }
 
-    public static void spawnEnemy(String type, Map map) {
+    public static void spawnEnemy(String type, Map map, int[] coordinate) {
         if (type.equals("donald")) {
             enemies.add(new Donald(type, map));
+        } else if (type.equals("donald_enemy")) {
+            enemies.add(new Enemy(map, coordinate));
         } else {
             enemies.add(new Enemy(type, map));
         }
@@ -257,7 +260,7 @@ public class Level {
             if (!this.wave) {
                 if (timeElapsed > this.betweenWavesSpawnCoolDown && timeElapsed % this.betweenWavesSpawnCoolDown == 0 && this.spawn) {
                     if (this.enemiesSpawnedBetweenWaves < 2) {
-                        spawnEnemy(chooseEnemy(), this.map);
+                        spawnEnemy(chooseEnemy(), this.map, null);
                         this.spawn = false;
                     }
                     this.enemiesSpawnedBetweenWaves++; // adds a cooldown before the wave starts
@@ -272,12 +275,12 @@ public class Level {
                     System.out.println("Wave " + this.waveCount);
                 }
             } else {
-                if (timeElapsed % 3 == 0 && this.spawn) {
-                    spawnEnemy(chooseEnemy(), this.map);
+                if (timeElapsed % this.duringWavesSpawnCoolDown == 0 && this.spawn) {
+                    spawnEnemy(chooseEnemy(), this.map, null);
                     this.spawn = false;
                     this.enemiesSpawnedDuringWave++;
                     this.totalEnemies--;
-                } else if ((timeElapsed - 1) % 3 == 0 && !this.spawn) {
+                } else if ((timeElapsed - 1) % this.duringWavesSpawnCoolDown == 0 && !this.spawn) {
                     this.spawn = true;
                 }
                 if (this.enemiesSpawnedDuringWave >= (int) (this.totalEnemies * waveFactor())) {

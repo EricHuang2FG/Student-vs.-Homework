@@ -6,7 +6,7 @@ import java.io.IOException;
 public class Pencil extends Tower {
 
     private static int lastPlaced = 10000000;
-    private double attackDelay = 4.0;
+    private double attackDelay = 3.0;
 
     private String imagePath = "res\\towers\\pencil.png";
     // private String imagePath = "../res/towers/pencil.png";

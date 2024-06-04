@@ -11,7 +11,7 @@ public class Eraser extends Tower {
 
     public Eraser(int[] coordinate) {
         super(coordinate);
-        super.hitPoints = 1000;
+        super.hitPoints = 1500;
         super.scaledWidth = 100;
         super.scaledHeight = 100;
         String imagePath = "res\\towers\\" + type + ".png";
