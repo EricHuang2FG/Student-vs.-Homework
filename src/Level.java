@@ -198,13 +198,13 @@ public class Level {
 
     private String chooseEnemy() {
 
-        int paperValue = 90;
-        int notebookValue = 30;
-        int textbookValue = 15;
-        int notepadValue = 60;
-        int testValue = 30;
-        int donaldValue = 20;
-        int examValue = 7;
+        int paperValue = (int) 50 * levelNumber;
+        int notebookValue = (int) 10 * levelNumber;
+        int textbookValue = (int) 0.5 * levelNumber * levelNumber;
+        int notepadValue = (int) 20 * levelNumber;
+        int testValue = (int) 0.4 * levelNumber * levelNumber;
+        int donaldValue = 20; // 20
+        int examValue = (int) 0.1 * levelNumber * levelNumber;
 
         Random random = new Random();
 //        int num = random.nextInt(1, 101);
