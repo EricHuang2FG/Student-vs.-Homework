@@ -4,14 +4,14 @@ import java.io.File;
 import java.io.IOException;
 
 public class Shredder extends Tower {
-    private double attackDelay = 30;
+    private double attackDelay = 20.0;
     private String imagePath = "res\\towers\\paper_shredder.png";
     // private String imagePath = "../res/towers/paper_shredder.png";
 
     public Shredder(int[] coordinate) {
         super(coordinate);
         super.hitPoints = 200;
-        super.range = 2;
+        super.range = 3;
         super.scale = 0.9;
         try {
             super.image = ImageIO.read(new File(imagePath));

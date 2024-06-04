@@ -34,23 +34,23 @@ public class Level {
     private static ArrayList<Motivation> motivations = new ArrayList<Motivation>();
 
     public Level() {
-        int[] what = {3, 1};
+        int[] what = {2, 1};
         MechanicalPencil p = new MechanicalPencil(what);
         towers.add(p);
 
-        int[] what2 = {3, 2};
+        int[] what2 = {2, 2};
         MechanicalPencil p2 = new MechanicalPencil(what2);
         towers.add(p2);
 
-        int[] what3 = {3, 3};
+        int[] what3 = {2, 3};
         MechanicalPencil p3 = new MechanicalPencil(what3);
         towers.add(p3);
 
-        int[] what4 = {3, 4};
+        int[] what4 = {2, 4};
         MechanicalPencil p4 = new MechanicalPencil(what4);
         towers.add(p4);
 
-        int[] what5 = {3, 5};
+        int[] what5 = {2, 5};
         MechanicalPencil p5 = new MechanicalPencil(what5);
         towers.add(p5);
 

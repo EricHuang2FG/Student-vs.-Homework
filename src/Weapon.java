@@ -47,7 +47,7 @@ public class Weapon {
             damage = Integer.MAX_VALUE;
             range = Grid.getWidth() * tower.getRange();
             starting = this.x;
-            imagePath = "res\\projectiles\\pencil_projectile.png";
+            imagePath = "res\\projectiles\\shredder_projectile.png";
         }
         scaledWidth = 50;
         scaledHeight = 50;
