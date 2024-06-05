@@ -7,7 +7,6 @@ public abstract class Tower {
     protected int hitPoints;
     protected int lastFired = 1000000000;
     protected static ArrayList<Weapon> projectiles = new ArrayList<Weapon>();
-    protected int cost;
     protected int x, y; // store its position as a pixel coordinate
     protected int range = 10;
     protected int[] coordinate;
@@ -20,42 +19,7 @@ public abstract class Tower {
         this.coordinate = coordinate;
         this.x = coordinate[0] * Grid.getWidth() - Grid.getWidth() + Map.getMapStartX();
         this.y = coordinate[1] * Grid.getWidth() - Grid.getWidth() + Map.getMapStartY();
-
-//        scaledWidth = 100;
-//        scaledHeight = 100;
-//        String imagePath = "res\\towers\\"+type+".png";
-//        try {
-//            this.image = ImageIO.read(new File(imagePath));
-//        } catch (IOException e) {
-//            System.out.println("Error loading image: \n" + e);
-//        }
     }
-
-    public int[] getCoordinate() {
-        return coordinate;
-    }
-
-//    public static void behaveProjectiles(){
-//        int i = 0;
-//        while (i < projectiles.size()){
-//            if (projectiles.get(i).outOfBounds() || projectiles.get(i).getDelete()){
-//                projectiles.remove(i);
-//            }
-//            //The code below will make it so that the tower cooldown goes away twice the speed when monsters are near
-////            else{
-////                projectiles.get(i).behave();
-////                i += 1;
-////            }
-//        }
-////        for (int i = 0; i < projectiles.toArray().length; i ++){
-////            if (projectiles.get(i).outOfBounds()){
-////                //KILL IT
-////            }
-////            else{
-////                projectiles.get(i).behave();
-////            }
-////        }
-//    }
 
     public static void moveProjectiles() {
         for (int i = 0; i < projectiles.size(); i++){
@@ -109,14 +73,13 @@ public abstract class Tower {
         return this.scaledWidth;
     }
 
+    public int[] getCoordinate() {
+        return coordinate;
+    }
+
     public void incFiredCounter() {
         this.lastFired += 1;
     }
 
-//    public void paint(Graphics2D g2d) {
-//        for (int i = 0; i < projectiles.toArray().length; i++) {
-//            projectiles.get(i).paint(g2d);
-//        }
-//    }
     public abstract void paint(Graphics2D g2d);
 }

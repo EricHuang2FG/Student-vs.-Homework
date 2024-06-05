@@ -7,8 +7,8 @@ public class MechanicalPencil extends Tower {
 
     private double attackDelay = 1.5;
     private String imagePath = "res\\towers\\mechanic_pencil.png";
-//    private String type = "mechanic_pencil";
-    // private String imagePath = "../res/towers/mechanical_pencil.png";
+    private static String cost = "200";
+    private static int spawnCoolDown = 5;
 
     public MechanicalPencil(int[] coordinate) {
         super(coordinate);
@@ -25,6 +25,14 @@ public class MechanicalPencil extends Tower {
         super.scaledHeight = (int) (super.image.getHeight() * super.scale);
     }
 
+    public static String getCost() {
+        return cost;
+    }
+
+    public static int getSpawnCoolDown() {
+        return spawnCoolDown;
+    }
+
     public void attack() {
         if (lastFired >= 50 * attackDelay) {
             Weapon weapon = new Weapon("mechanical_pencil", x, y, this);
@@ -34,6 +42,7 @@ public class MechanicalPencil extends Tower {
 //            lastFired += 1;
         }
     }
+
     public void paint(Graphics2D g2d) {
         if (lastFired >= 50 * attackDelay - 10) { //ready to attack
             g2d.drawImage(this.image, x, y, this.scaledWidth, this.scaledHeight, null);

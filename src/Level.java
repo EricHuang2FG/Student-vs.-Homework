@@ -22,16 +22,26 @@ public class Level {
     private int duringWavesSpawnCoolDown = 3;
     private long lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private long motivationSpawnCoolDown = 20;
-    private static int MOTIVATION_POINTS = 0;
+    private static int motivationPoints = 0;
     private BufferedImage motivationCountBlockImage = null;
     private int motivationCountBlockX = 0, motivationCountBlockY = 0;
     private double motivationCountBlockScale = 0.2;
     private int motivationCountBlockScaledWidth, motivationCountBlockScaledHeight;
     private int motivationCountFontSize = 40;
+    private int cardBlockNPoints = 5;
+    private int[] cardBlockXCoords = new int[this.cardBlockNPoints], cardBlockYCoords = new int[this.cardBlockNPoints];
+    private int cardBlockX = 200, cardBlockY = 0;
+    private int cardBlockWidth = 700, cardBlockHeight = Map.getMapStartY() - 10;
+    private Polygon cardBlock;
+    private int firstCardX = cardBlockX + 10, firstCardY = cardBlockY + (cardBlockHeight / 2) - ((new Card("pencil", 10000, 10000)).getHeight() / 2);
+    private int cardSpacing = 10;
+    private final Color LIGHT_YELLOW = new Color(255, 250, 40);
     private Map map = new Map();
+    private String[] allCards = {"water_bottle", "pencil", "pen", "eraser", "mechanical_pencil", "paper_shredder"};
     private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private static ArrayList<Tower> towers = new ArrayList<Tower>();
     private static ArrayList<Motivation> motivations = new ArrayList<Motivation>();
+    private static ArrayList<Card> cards = new ArrayList<Card>();
 
     public Level() {
         int[] what = {2, 1};
@@ -113,6 +123,17 @@ public class Level {
         }
         this.motivationCountBlockScaledWidth = (int) (this.motivationCountBlockImage.getWidth() * this.motivationCountBlockScale);
         this.motivationCountBlockScaledHeight = (int) (this.motivationCountBlockImage.getHeight() * this.motivationCountBlockScale);
+        this.cardBlockXCoords[0] = this.cardBlockX;
+        this.cardBlockXCoords[1] = this.cardBlockX + this.cardBlockWidth;
+        this.cardBlockXCoords[2] = this.cardBlockX + this.cardBlockWidth;
+        this.cardBlockXCoords[3] = this.cardBlockX;
+        this.cardBlockXCoords[4] = this.cardBlockX;
+        this.cardBlockYCoords[0] = this.cardBlockY;
+        this.cardBlockYCoords[1] = this.cardBlockY;
+        this.cardBlockYCoords[2] = this.cardBlockY + this.cardBlockHeight;
+        this.cardBlockYCoords[3] = this.cardBlockY + this.cardBlockHeight;
+        this.cardBlockYCoords[4] = this.cardBlockY;
+        this.cardBlock = new Polygon(this.cardBlockXCoords, this.cardBlockYCoords, this.cardBlockNPoints);
     }
 
     public static ArrayList<Tower> getTowers() {
@@ -124,11 +145,23 @@ public class Level {
         this.waveCount = 0;
         this.enemiesSpawnedBetweenWaves = 0;
         this.enemiesSpawnedDuringWave = 0;
+        this.wave = false;
         this.startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
+        this.lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
+        motivationPoints = 0;
         enemies.clear();
-//        towers.clear();
         motivations.clear();
+        cards.clear();
         this.totalEnemies = 5 * this.levelNumber + 10;
+        int x = this.firstCardX;
+        for (int i = 0; i < this.levelNumber + 1; i++) {
+            if (i == this.allCards.length) {
+                break;
+            }
+            Card nextCard = new Card(this.allCards[i], x, this.firstCardY);
+            cards.add(nextCard);
+            x += nextCard.getWidth() + this.cardSpacing;
+        }
     }
 
     public void collectMotivation(MouseEvent e) {
@@ -136,7 +169,7 @@ public class Level {
             for (int i = 0; i < motivations.size(); i++) {
                 Motivation motivation = motivations.get(i);
                 if (motivation.isClickedByMouse(e.getX(), e.getY())) {
-                    MOTIVATION_POINTS += Motivation.getValue();
+                    motivationPoints += Motivation.getValue();
                     motivation.setCollectedVelocities();
                 }
             }
@@ -353,24 +386,57 @@ public class Level {
         behaveMotivations();
     }
 
-    public void paint(Graphics2D g2d) {
-        map.paint(g2d);
+    private void paintTowers(Graphics2D g2d) {
         for (int i = 0; i < towers.size(); i++) {
             towers.get(i).paint(g2d);
         }
+    }
+
+    private void paintEnemies(Graphics2D g2d) {
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).paint(g2d);
         }
+    }
+
+    private void paintProjectiles(Graphics2D g2d) {
         ArrayList<Weapon> projs = Tower.getProjectiles();
         for (int i = 0; i < projs.size(); i++) {
             projs.get(i).paint(g2d);
         }
+    }
+
+    private void paintMotivations(Graphics2D g2d) {
         for (int i = 0; i < motivations.size(); i++) {
             motivations.get(i).paint(g2d);
         }
+    }
+
+    private void paintMotivationCountBlock(Graphics2D g2d) {
         g2d.drawImage(this.motivationCountBlockImage, this.motivationCountBlockX, this.motivationCountBlockY, this.motivationCountBlockScaledWidth, this.motivationCountBlockScaledHeight, null);
         g2d.setFont(new Font("Century Schoolbook", Font.PLAIN, this.motivationCountFontSize));
-        g2d.drawString(MOTIVATION_POINTS + "", this.motivationCountBlockX + 85, this.motivationCountBlockY + (this.motivationCountBlockScaledHeight / 2) + (this.motivationCountFontSize / 4));
+        g2d.drawString(motivationPoints + "", this.motivationCountBlockX + 85, this.motivationCountBlockY + (this.motivationCountBlockScaledHeight / 2) + (this.motivationCountFontSize / 4));
+    }
+
+    private void paintCardBlock(Graphics2D g2d) {
+        g2d.setColor(this.LIGHT_YELLOW);
+        g2d.fillPolygon(this.cardBlock);
+        g2d.setStroke(new BasicStroke(2));
+        g2d.setColor(Color.BLACK);
+        g2d.drawPolygon(this.cardBlock);
+        g2d.setStroke(new BasicStroke(1));
+        for (int i = 0; i < cards.size(); i++) {
+            cards.get(i).paint(g2d);
+        }
+    }
+
+    public void paint(Graphics2D g2d) {
+        map.paint(g2d);
+        paintTowers(g2d);
+        paintEnemies(g2d);
+        paintProjectiles(g2d);
+        paintMotivations(g2d);
+        paintMotivationCountBlock(g2d);
+        paintCardBlock(g2d);
     }
 
 }

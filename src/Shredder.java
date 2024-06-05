@@ -6,7 +6,8 @@ import java.io.IOException;
 public class Shredder extends Tower {
     private double attackDelay = 20.0;
     private String imagePath = "res\\towers\\paper_shredder.png";
-    // private String imagePath = "../res/towers/paper_shredder.png";
+    private static String cost = "250";
+    private static int spawnCoolDown = 20;
 
     public Shredder(int[] coordinate) {
         super(coordinate);
@@ -21,6 +22,14 @@ public class Shredder extends Tower {
         }
         super.scaledWidth = (int) (super.image.getWidth() * super.scale);
         super.scaledHeight = (int) (super.image.getHeight() * super.scale);
+    }
+
+    public static String getCost() {
+        return cost;
+    }
+
+    public static int getSpawnCoolDown() {
+        return spawnCoolDown;
     }
 
     public void attack() {

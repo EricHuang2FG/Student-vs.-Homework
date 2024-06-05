@@ -7,8 +7,8 @@ public class Pen extends Tower {
 
     private double attackDelay = 3;
     private String imagePath = "res\\towers\\pen.png";
-//    private String type = "pen";
-    // private String imagePath = "../res/towers/pen.png";
+    private static String cost = "100";
+    private static int spawnCoolDown = 8;
 
     public Pen(int[] coordinate) {
         super(coordinate);
@@ -23,6 +23,14 @@ public class Pen extends Tower {
         }
         super.scaledWidth = (int) (super.image.getWidth() * super.scale);
         super.scaledHeight = (int) (super.image.getHeight() * super.scale);
+    }
+
+    public static String getCost() {
+        return cost;
+    }
+
+    public static int getSpawnCoolDown() {
+        return spawnCoolDown;
     }
 
     public void attack() {

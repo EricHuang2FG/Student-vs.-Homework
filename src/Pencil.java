@@ -7,9 +7,9 @@ public class Pencil extends Tower {
 
     private static int lastPlaced = 10000000;
     private double attackDelay = 3.0;
-
     private String imagePath = "res\\towers\\pencil.png";
-    // private String imagePath = "../res/towers/pencil.png";
+    private static String cost = "100";
+    private static int spawnCoolDown = 5;
 
     public Pencil(int[] coordinate) {
         super(coordinate);
@@ -24,6 +24,14 @@ public class Pencil extends Tower {
         }
         super.scaledWidth = (int) (image.getWidth() * scale);
         super.scaledHeight = (int) (image.getHeight() * scale);
+    }
+
+    public static String getCost() {
+        return cost;
+    }
+
+    public static int getSpawnCoolDown() {
+        return spawnCoolDown;
     }
 
     public void attack() {

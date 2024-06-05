@@ -8,7 +8,7 @@ public class StudentVsHomework extends JPanel {
     private static final int SCREEN_HEIGHT = 640;
     private int levelNumber = 1;
     private Level level = new Level();
-    private static String gameState = "game screen"; // Temporary
+    private static String gameState = "start screen";
 
     public StudentVsHomework() {
         addMouseListener(new MouseListener() {
@@ -59,14 +59,16 @@ public class StudentVsHomework extends JPanel {
 
         while (true) {
             if (gameState.equals("start screen")) {
-
+                // TEMPORARY
+                window.level.setLevelNumber(1);
+                gameState = "game screen";
             }
             if (gameState.equals("game screen")) {
                 window.level.behave();
                 if (window.level.levelIsLost()) {
-
+                    // INCOMPLETE (obviously)
                 } else if (window.level.levelIsWon()) {
-
+                    // Also incomplete (even more obvious)
                 }
             }
             if (gameState.equals("level transition screen")) {

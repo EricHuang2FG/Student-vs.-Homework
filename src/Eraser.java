@@ -8,6 +8,8 @@ public class Eraser extends Tower {
     private static int lastPlaced = 10000000;
     private String imagePath = "res\\towers\\eraser.png";
     private String type = "eraser";
+    private static String cost = "50";
+    private static int spawnCoolDown = 15;
 
     public Eraser(int[] coordinate) {
         super(coordinate);
@@ -20,6 +22,14 @@ public class Eraser extends Tower {
         } catch (IOException e) {
             System.out.println("Error loading image: \n" + e);
         }
+    }
+
+    public static String getCost() {
+        return cost;
+    }
+
+    public static int getSpawnCoolDown() {
+        return spawnCoolDown;
     }
 
     public void attack() {

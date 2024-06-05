@@ -7,6 +7,8 @@ public class WaterBottle extends Tower {
 
     private long lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private long motivationSpawnCoolDown = 15;
+    private static String cost = "50";
+    private static int spawnCoolDown = 5;
 
     public WaterBottle(int[] coordinate) {
         super(coordinate);
@@ -20,6 +22,14 @@ public class WaterBottle extends Tower {
         }
         super.scaledWidth = (int) (super.image.getWidth() * super.scale);
         super.scaledHeight = (int) (super.image.getHeight() * super.scale);
+    }
+
+    public static String getCost() {
+        return cost;
+    }
+
+    public static int getSpawnCoolDown() {
+        return spawnCoolDown;
     }
 
     public void attack() {
