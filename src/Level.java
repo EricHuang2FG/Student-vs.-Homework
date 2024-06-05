@@ -22,7 +22,7 @@ public class Level {
     private int duringWavesSpawnCoolDown = 3;
     private long lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private long motivationSpawnCoolDown = 20;
-    private static int motivationPoints = 0;
+    private static int motivationPoints = 50;
     private BufferedImage motivationCountBlockImage = null;
     private int motivationCountBlockX = 0, motivationCountBlockY = 0;
     private double motivationCountBlockScale = 0.2;
@@ -40,7 +40,7 @@ public class Level {
     private final Color LIGHT_YELLOW = new Color(255, 250, 40);
     private Map map = new Map();
     private Grid[][] grids = this.map.getGrids();
-    private String[] allCards = {"water_bottle", "pencil", "pen", "eraser", "mechanical_pencil", "paper_shredder"};
+    private String[] allCards = {"water_bottle", "pencil", "pen", "eraser", "mechanical_pencil", "paper_shredder", "robotic_pencil"};
     private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private static ArrayList<Tower> towers = new ArrayList<Tower>();
     private static ArrayList<Motivation> motivations = new ArrayList<Motivation>();
@@ -147,6 +147,10 @@ public class Level {
         return towers;
     }
 
+    public static int getMotivationPoints() {
+        return motivationPoints;
+    }
+
     public void setLevelNumber(int levelNumber) {
         this.levelNumber = levelNumber;
         this.waveCount = 0;
@@ -155,7 +159,7 @@ public class Level {
         this.wave = false;
         this.startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
         this.lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
-        motivationPoints = 0;
+        motivationPoints = 50;
         enemies.clear();
         motivations.clear();
         cards.clear();
@@ -206,6 +210,9 @@ public class Level {
         } else if (type.equals("water_bottle")) {
             WaterBottle tower = new WaterBottle(coordinate);
             towers.add(tower);
+        } else if (type.equals("robotic_pencil")) {
+            RoboticPencil tower = new RoboticPencil(coordinate);
+            towers.add(tower);
         }
     }
 
@@ -228,6 +235,7 @@ public class Level {
                     Grid currentGrid = this.grids[i][j];
                     if (currentGrid.isClicked(e.getX(), e.getY()) && !currentGrid.getIsOccupied()) {
                         spawnTower(clickedCard.getType(), currentGrid.getCoordinate());
+                        motivationPoints -= clickedCard.getCost();
                         this.toggleAwaitClickResponse = false;
                         this.clickedCard.startCoolDown();
                         this.clickedCard.setSpawnTower(false);
@@ -244,7 +252,7 @@ public class Level {
         } else {
             for (int i = 0; i < cards.size(); i++) {
                 Card currentCard = cards.get(i);
-                if (currentCard.isClicked(e.getX(), e.getY()) && !currentCard.getCountCoolDown()) {
+                if (currentCard.isClicked(e.getX(), e.getY()) && !currentCard.getCountCoolDown() && currentCard.canSpawn()) {
                     this.toggleAwaitClickResponse = true;
                     this.clickedCard = currentCard;
                     this.clickedCard.setSpawnTower(true);

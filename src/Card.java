@@ -50,6 +50,9 @@ public class Card {
         } else if (type.equals("water_bottle")) {
             this.cost = WaterBottle.getCost();
             this.spawnCoolDown = WaterBottle.getSpawnCoolDown();
+        } else if (type.equals("robotic_pencil")) {
+            this.cost = RoboticPencil.getCost();
+            this.spawnCoolDown = RoboticPencil.getSpawnCoolDown();
         }
         this.type = type;
     }
@@ -62,20 +65,28 @@ public class Card {
         return this.type;
     }
 
-    public void setSpawnTower(boolean value) {
-        this.spawnTower = value;
-    }
-
-    public boolean isClicked(int x, int y) {
-        return ((x > this.x && x < this.x + this.scaledWidth) && (y > this.y && y < this.y + this.scaledHeight));
-    }
-
     public int getWidth() {
         return this.scaledWidth;
     }
 
     public int getHeight() {
         return this.scaledHeight;
+    }
+
+    public int getCost() {
+        return Integer.parseInt(this.cost);
+    }
+
+    public void setSpawnTower(boolean value) {
+        this.spawnTower = value;
+    }
+
+    public boolean canSpawn() {
+        return (Level.getMotivationPoints() >= Integer.parseInt(this.cost));
+    }
+
+    public boolean isClicked(int x, int y) {
+        return ((x > this.x && x < this.x + this.scaledWidth) && (y > this.y && y < this.y + this.scaledHeight));
     }
 
     public void startCoolDown() {
@@ -101,7 +112,11 @@ public class Card {
             g2d.drawImage(this.image2, this.x, this.y, this.scaledWidth, this.scaledHeight, null);
         }
         g2d.setFont(new Font("Century Schoolbook", Font.PLAIN, this.FONT_SIZE));
+        if (!canSpawn()) {
+            g2d.setColor(Color.RED);
+        }
         g2d.drawString(this.cost, this.x + 30, this.y + this.scaledHeight - 7);
+        g2d.setColor(Color.BLACK);
         if (this.countCoolDown) {
             g2d.setColor(Color.GRAY);
             g2d.fillRect(this.x, this.y, this.scaledWidth, this.coolDownRectangleHeight);
