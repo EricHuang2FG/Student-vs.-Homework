@@ -10,6 +10,10 @@ public class Card {
     private int scaledWidth, scaledHeight;
     private String type;
     private boolean spawnTower = false;
+    private boolean countCoolDown = false;
+    private long coolDownStartTime;
+    private long coolDownTimer;
+    private int coolDownRectangleHeight;
     private BufferedImage image1 = null, image2 = null;
     private String cost;
     private int spawnCoolDown;
@@ -50,6 +54,10 @@ public class Card {
         this.type = type;
     }
 
+    public boolean getCountCoolDown() {
+        return this.countCoolDown;
+    }
+
     public String getType() {
         return this.type;
     }
@@ -70,6 +78,22 @@ public class Card {
         return this.scaledHeight;
     }
 
+    public void startCoolDown() {
+        this.countCoolDown = true;
+        this.coolDownStartTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
+    }
+
+    public void behave() {
+        if (this.countCoolDown) {
+            long currentTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
+            this.coolDownTimer = currentTime - this.coolDownStartTime;
+            this.coolDownRectangleHeight = (int) ((1.0 - ((this.coolDownTimer * 1.0) / (this.spawnCoolDown * 1.0))) * this.scaledHeight);
+            if (this.coolDownTimer > this.spawnCoolDown) {
+                this.countCoolDown = false;
+            }
+        }
+    }
+
     public void paint(Graphics2D g2d) {
         if (!this.spawnTower) {
             g2d.drawImage(this.image1, this.x, this.y, this.scaledWidth, this.scaledHeight, null);
@@ -78,6 +102,13 @@ public class Card {
         }
         g2d.setFont(new Font("Century Schoolbook", Font.PLAIN, this.FONT_SIZE));
         g2d.drawString(this.cost, this.x + 30, this.y + this.scaledHeight - 7);
+        if (this.countCoolDown) {
+            g2d.setColor(Color.GRAY);
+            g2d.fillRect(this.x, this.y, this.scaledWidth, this.coolDownRectangleHeight);
+            g2d.setColor(Color.BLACK);
+            g2d.setStroke(new BasicStroke(1));
+            g2d.drawRect(this.x, this.y, this.scaledWidth, this.coolDownRectangleHeight);
+        }
     }
 
 }
