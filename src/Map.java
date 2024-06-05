@@ -14,7 +14,6 @@ public class Map {
     public Map() {
         try {
             this.map = ImageIO.read(new File("res\\map.png"));
-            // this.map = ImageIO.read(new File("../res/map.png"));
         } catch (IOException e) {
             System.out.println("Error loading image: \n" + e);
         }

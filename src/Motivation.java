@@ -52,7 +52,7 @@ public class Motivation {
         return this.canDelete;
     }
 
-    public boolean isClickedByMouse(int x, int y) {
+    public boolean isClicked(int x, int y) {
         return ((x > this.x && x < this.x + this.scaledWidth) && (y > this.y && y < this.y + this.scaledHeight)) && !this.isCollected;
     }
 

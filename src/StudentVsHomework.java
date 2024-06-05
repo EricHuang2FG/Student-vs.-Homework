@@ -6,7 +6,7 @@ public class StudentVsHomework extends JPanel {
 
     private static final int SCREEN_WIDTH = 1020;
     private static final int SCREEN_HEIGHT = 640;
-    private int levelNumber = 1;
+    private int levelNumber = 100;
     private Level level = new Level();
     private static String gameState = "start screen";
 
@@ -20,6 +20,7 @@ public class StudentVsHomework extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 level.collectMotivation(e);
+                level.clickCard(e);
             }
 
             @Override
@@ -53,14 +54,14 @@ public class StudentVsHomework extends JPanel {
         StudentVsHomework window = new StudentVsHomework();
         frame.add(window);
         frame.setResizable(false);
-        frame.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+        frame.setSize(SCREEN_WIDTH + 15, SCREEN_HEIGHT + 35);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         while (true) {
             if (gameState.equals("start screen")) {
                 // TEMPORARY
-                window.level.setLevelNumber(1);
+                window.level.setLevelNumber(window.levelNumber);
                 gameState = "game screen";
             }
             if (gameState.equals("game screen")) {

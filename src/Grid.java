@@ -4,6 +4,7 @@ public class Grid {
 
     private static final int WIDTH = 100, HEIGHT = 100;
     private int x, y;
+    private boolean isOccupied = false;
     private final int[] COORDINATE;
     private final Color LIGHT_GRAY = new Color(130, 130, 130);
     private final Color DARK_GRAY = new Color(100, 100, 100);
@@ -36,6 +37,18 @@ public class Grid {
 
     public static int getWidth() {
         return WIDTH;
+    }
+
+    public boolean getIsOccupied() {
+        return this.isOccupied;
+    }
+
+    public void setIsOccupied(boolean value) {
+        this.isOccupied = value;
+    }
+
+    public boolean isClicked(int x, int y) {
+        return ((x > this.x && x < this.x + this.WIDTH) && (y > this.y && y < this.y + this.HEIGHT));
     }
 
     public boolean enemyIsOnGrid(Enemy enemy) {

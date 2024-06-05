@@ -8,6 +8,8 @@ public class Card {
     private int x, y;
     private double scale = 0.2;
     private int scaledWidth, scaledHeight;
+    private String type;
+    private boolean spawnTower = false;
     private BufferedImage image1 = null, image2 = null;
     private String cost;
     private int spawnCoolDown;
@@ -45,6 +47,19 @@ public class Card {
             this.cost = WaterBottle.getCost();
             this.spawnCoolDown = WaterBottle.getSpawnCoolDown();
         }
+        this.type = type;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setSpawnTower(boolean value) {
+        this.spawnTower = value;
+    }
+
+    public boolean isClicked(int x, int y) {
+        return ((x > this.x && x < this.x + this.scaledWidth) && (y > this.y && y < this.y + this.scaledHeight));
     }
 
     public int getWidth() {
@@ -56,7 +71,11 @@ public class Card {
     }
 
     public void paint(Graphics2D g2d) {
-        g2d.drawImage(this.image1, this.x, this.y, this.scaledWidth, this.scaledHeight, null);
+        if (!this.spawnTower) {
+            g2d.drawImage(this.image1, this.x, this.y, this.scaledWidth, this.scaledHeight, null);
+        } else {
+            g2d.drawImage(this.image2, this.x, this.y, this.scaledWidth, this.scaledHeight, null);
+        }
         g2d.setFont(new Font("Century Schoolbook", Font.PLAIN, this.FONT_SIZE));
         g2d.drawString(this.cost, this.x + 30, this.y + this.scaledHeight - 7);
     }

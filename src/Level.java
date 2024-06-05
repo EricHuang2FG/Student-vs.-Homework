@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class Level {
 
-    private int levelNumber = 1;
+    private int levelNumber;
     private boolean wave = false;
     private int waveCount = 0;
     private int totalEnemies = 5 * this.levelNumber + 10;
@@ -35,8 +35,11 @@ public class Level {
     private Polygon cardBlock;
     private int firstCardX = cardBlockX + 10, firstCardY = cardBlockY + (cardBlockHeight / 2) - ((new Card("pencil", 10000, 10000)).getHeight() / 2);
     private int cardSpacing = 10;
+    private boolean toggleAwaitClickResponse = false;
+    private Card clickedCard = null;
     private final Color LIGHT_YELLOW = new Color(255, 250, 40);
     private Map map = new Map();
+    private Grid[][] grids = this.map.getGrids();
     private String[] allCards = {"water_bottle", "pencil", "pen", "eraser", "mechanical_pencil", "paper_shredder"};
     private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private static ArrayList<Tower> towers = new ArrayList<Tower>();
@@ -116,6 +119,10 @@ public class Level {
         Shredder p18 = new Shredder(what18);
         towers.add(p18);
 
+        int[] what19 = {1, 1};
+        RoboticPencil p19 = new RoboticPencil(what19);
+        towers.add(p19);
+
         try {
             this.motivationCountBlockImage = ImageIO.read(new File("res\\motivation_count_block.png"));
         } catch (IOException e) {
@@ -168,7 +175,7 @@ public class Level {
         if (e.getButton() == MouseEvent.BUTTON1) {
             for (int i = 0; i < motivations.size(); i++) {
                 Motivation motivation = motivations.get(i);
-                if (motivation.isClickedByMouse(e.getX(), e.getY())) {
+                if (motivation.isClicked(e.getX(), e.getY())) {
                     motivationPoints += Motivation.getValue();
                     motivation.setCollectedVelocities();
                 }
@@ -180,6 +187,28 @@ public class Level {
         motivations.add(new Motivation(type, host));
     }
 
+    private void spawnTower(String type, int[] coordinate) {
+        if (type.equals("eraser")) {
+            Eraser tower = new Eraser(coordinate);
+            towers.add(tower);
+        } else if (type.equals("mechanical_pencil")) {
+            MechanicalPencil tower = new MechanicalPencil(coordinate);
+            towers.add(tower);
+        } else if (type.equals("pen")) {
+            Pen tower = new Pen(coordinate);
+            towers.add(tower);
+        } else if (type.equals("pencil")) {
+            Pencil tower = new Pencil(coordinate);
+            towers.add(tower);
+        } else if (type.equals("paper_shredder")) {
+            Shredder tower = new Shredder(coordinate);
+            towers.add(tower);
+        } else if (type.equals("water_bottle")) {
+            WaterBottle tower = new WaterBottle(coordinate);
+            towers.add(tower);
+        }
+    }
+
     private void behaveMotivationSpawnLogic() {
         long currentTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
         if (currentTime - this.lastMotivationSpawnTime >= this.motivationSpawnCoolDown) {
@@ -188,7 +217,62 @@ public class Level {
         }
     }
 
-    public void checkCollisions() {
+    private void awaitClickResponse(MouseEvent e, Card clickedCard) {
+        if (clickedCard.isClicked(e.getX(), e.getY())) {
+            this.toggleAwaitClickResponse = false;
+            this.clickedCard.setSpawnTower(false);
+            this.clickedCard = null;
+        } else {
+            for (int i = 0; i < this.grids.length; i++) {
+                for (int j = 0; j < this.grids[i].length; j++) {
+                    Grid currentGrid = this.grids[i][j];
+                    if (currentGrid.isClicked(e.getX(), e.getY()) && !currentGrid.getIsOccupied()) {
+                        spawnTower(clickedCard.getType(), currentGrid.getCoordinate());
+                        this.toggleAwaitClickResponse = false;
+                        this.clickedCard.setSpawnTower(false);
+                        this.clickedCard = null;
+                    }
+                }
+            }
+        }
+    }
+
+    public void clickCard(MouseEvent e) {
+        if (this.toggleAwaitClickResponse) {
+            awaitClickResponse(e, this.clickedCard);
+        } else {
+            for (int i = 0; i < cards.size(); i++) {
+                Card currentCard = cards.get(i);
+                if (currentCard.isClicked(e.getX(), e.getY())) {
+                    this.toggleAwaitClickResponse = true;
+                    this.clickedCard = currentCard;
+                    this.clickedCard.setSpawnTower(true);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void checkOccupiedGrids() {
+        for (int i = 0; i < grids.length; i++) {
+            for (int j = 0; j < grids[i].length; j++) {
+                for (int k = 0; k < towers.size(); k++) {
+                    Grid currentGrid = grids[i][j];
+                    int[] gridCoordinate = currentGrid.getCoordinate();
+                    Tower currentTower = towers.get(k);
+                    int[] towerCoordinate = currentTower.getCoordinate();
+                    if (gridCoordinate[0] == towerCoordinate[0] && gridCoordinate[1] == towerCoordinate[1]) {
+                        currentGrid.setIsOccupied(true);
+                        break;
+                    } else {
+                        currentGrid.setIsOccupied(false);
+                    }
+                }
+            }
+        }
+    }
+
+    private void checkCollisions() {
         ArrayList<Weapon> projs = Tower.getProjectiles();
         for (int i = 0; i < projs.size(); i++) {
             Weapon proj = projs.get(i);
@@ -384,6 +468,8 @@ public class Level {
         Tower.moveProjectiles();
         behaveMotivationSpawnLogic();
         behaveMotivations();
+        checkOccupiedGrids();
+//        System.out.println(this.toggleAwaitClickResponse);
     }
 
     private void paintTowers(Graphics2D g2d) {
