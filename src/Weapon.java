@@ -17,11 +17,14 @@ public class Weapon {
     private int scaledWidth, scaledHeight;
 
     public Weapon(String type, int x, int y, Tower tower) {
+        scaledWidth = 50;
+        scaledHeight = 50;
         if (type.equals("pencil")) {
             this.x = x + 65;
             this.y = y + 2;
             damage = 30;
             range = Grid.getWidth() * tower.getRange();
+            this.vx = 7;
             starting = this.x;
             imagePath = "res\\projectiles\\pencil_projectile.png"; // pixel range
         } else if (type.equals("mechanical_pencil")) {
@@ -32,6 +35,16 @@ public class Weapon {
             this.vx = 10;
             starting = this.x;
             imagePath = "res\\projectiles\\mechanical_pencil_projectile.png"; // pixel range
+        } else if (type.equals("robotic_pencil")) {
+            this.x = x + 65;
+            this.y = y + 2;
+            damage = 30;
+            range = Grid.getWidth() * tower.getRange();
+            this.vx = 12;
+//            scaledWidth = 100;
+//            scaledHeight = 100;
+            starting = this.x;
+            imagePath = "res\\projectiles\\robotic_pencil_projectile.png"; // pixel range
         } else if (type.equals("pen")) {
             this.x = x + 65;
             this.y = y + 2;
@@ -49,8 +62,7 @@ public class Weapon {
             starting = this.x;
             imagePath = "res\\projectiles\\shredder_projectile.png";
         }
-        scaledWidth = 50;
-        scaledHeight = 50;
+
         try {
             this.image = ImageIO.read(new File(imagePath));
         } catch (IOException e) {
