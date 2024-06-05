@@ -35,7 +35,7 @@ public class RoboticPencil extends Tower {
 
     public void attack() {
         if (lastFired >= 50 * attackDelay) {
-            Weapon weapon = new Weapon("mechanical_pencil", x, y, this);
+            Weapon weapon = new Weapon("robotic_pencil", x, y, this);
             projectiles.add(weapon);
             lastFired = 0;
         } else {
