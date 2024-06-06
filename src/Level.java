@@ -569,7 +569,7 @@ public class Level {
     }
 
     private void paintLevelAndWaveNumber(Graphics2D g2d) {
-        g2d.setFont(new Font("Century Schoolbook", Font.PLAIN, this.levelAndWaveNumberFontSize));
+        g2d.setFont(new Font("Century Schoolbook", Font.BOLD, this.levelAndWaveNumberFontSize));
         g2d.drawString("Level " + this.levelNumber + ", wave " + this.waveCount, StudentVsHomework.getScreenWidth() - 170, StudentVsHomework.getScreenHeight() - 15);
     }
 

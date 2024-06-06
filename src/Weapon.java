@@ -30,7 +30,7 @@ public class Weapon {
         } else if (type.equals("mechanical_pencil")) {
             this.x = x + 65;
             this.y = y + 2;
-            damage = 30;
+            damage = 35;
             range = Grid.getWidth() * tower.getRange();
             this.vx = 10;
             starting = this.x;
@@ -38,7 +38,7 @@ public class Weapon {
         } else if (type.equals("robotic_pencil")) {
             this.x = x + 65;
             this.y = y + 2;
-            damage = 30;
+            damage = 40;
             range = Grid.getWidth() * tower.getRange();
             this.vx = 12;
 //            scaledWidth = 100;
@@ -48,7 +48,7 @@ public class Weapon {
         } else if (type.equals("pen")) {
             this.x = x + 65;
             this.y = y + 2;
-            damage = 1;
+            damage = 2;
             range = Grid.getWidth() * tower.getRange(); // pixel range
             this.vx = 5;
             starting = this.x;

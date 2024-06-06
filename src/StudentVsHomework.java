@@ -6,7 +6,7 @@ public class StudentVsHomework extends JPanel {
 
     private static final int SCREEN_WIDTH = 1020;
     private static final int SCREEN_HEIGHT = 640;
-    private int levelNumber = 1;
+    private int levelNumber = 10;
     private Level level = new Level();
     private static String gameState = "start screen";
 
