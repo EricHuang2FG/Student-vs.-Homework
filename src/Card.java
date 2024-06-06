@@ -5,19 +5,19 @@ import java.io.*;
 
 public class Card {
 
-    private int x, y;
-    private double scale = 0.2;
-    private int scaledWidth, scaledHeight;
-    private String type;
-    private boolean spawnTower = false;
-    private boolean countCoolDown = false;
-    private long coolDownStartTime;
-    private long coolDownTimer;
-    private int coolDownRectangleHeight;
-    private BufferedImage image1 = null, image2 = null;
-    private String cost;
-    private int spawnCoolDown;
-    private final int FONT_SIZE = 13;
+    protected int x, y;
+    protected double scale = 0.2;
+    protected int scaledWidth, scaledHeight;
+    protected String type;
+    protected boolean spawnTower = false;
+    protected boolean countCoolDown = false;
+    protected long coolDownStartTime;
+    protected long coolDownTimer;
+    protected int coolDownRectangleHeight;
+    protected BufferedImage image1 = null, image2 = null;
+    protected String cost;
+    protected int spawnCoolDown;
+    protected final int FONT_SIZE = 13;
 
     public Card(String type, int x, int y) {
         String image1Path = "res\\cards\\" + type + "_card.png";
@@ -55,6 +55,10 @@ public class Card {
             this.spawnCoolDown = RoboticPencil.getSpawnCoolDown();
         }
         this.type = type;
+    }
+
+    public Card(int x, int y) {
+
     }
 
     public boolean getCountCoolDown() {
