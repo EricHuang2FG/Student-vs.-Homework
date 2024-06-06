@@ -35,16 +35,18 @@ public class Level {
     private Polygon cardBlock;
     private int firstCardX = cardBlockX + 10, firstCardY = cardBlockY + (cardBlockHeight / 2) - ((new Card("pencil", 10000, 10000)).getHeight() / 2);
     private int cardSpacing = 10;
-    private boolean toggleAwaitClickResponse = false;
+    private boolean toggleAwaitSpawnTowerClickResponse = false;
+    private boolean toggleAwaitDeleteTowerClickResponse = false;
     private Card clickedCard = null;
     private final Color LIGHT_YELLOW = new Color(255, 250, 40);
     private Map map = new Map();
     private Grid[][] grids = this.map.getGrids();
-    private String[] allCards = {"water_bottle", "pencil", "pen", "eraser", "mechanical_pencil", "paper_shredder", "robotic_pencil"};
+    private String[] allCards = {"water_bottle", "pencil", "pen", "eraser", "mechanical_pencil", "paper_shredder", "robotic_pencil"}; // ADD SUPER ERASER
     private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private static ArrayList<Tower> towers = new ArrayList<Tower>();
     private static ArrayList<Motivation> motivations = new ArrayList<Motivation>();
     private static ArrayList<Card> cards = new ArrayList<Card>();
+    private GarbageBin garbageBin = new GarbageBin(this.cardBlockX + this.cardBlockWidth + 10, this.firstCardY);
 
     public Level() {
 //        int[] what = {2, 1};
@@ -224,9 +226,37 @@ public class Level {
         }
     }
 
-    private void awaitClickResponse(MouseEvent e, Card clickedCard) {
+    private void awaitDeleteTowerClickResponse(MouseEvent e, GarbageBin garbageBin) {
+        if (this.garbageBin.isClicked(e.getX(), e.getY())) {
+            this.toggleAwaitDeleteTowerClickResponse = false;
+            this.garbageBin.setDeleteTower(false);
+        } else {
+            for (int i = 0; i < this.grids.length; i++) {
+                for (int j = 0; j < this.grids[i].length; j++) {
+                    Grid currentGrid = this.grids[i][j];
+                    if (currentGrid.isClicked(e.getX(), e.getY()) && currentGrid.getIsOccupied()) {
+                        int[] gridCoordinate = currentGrid.getCoordinate();
+                        int index = 0;
+                        for (int k = 0; k < towers.size(); k++) {
+                            Tower currentTower = towers.get(k);
+                            int[] towerCoordinate = currentTower.getCoordinate();
+                            if (towerCoordinate[0] == gridCoordinate[0] && towerCoordinate[1] == gridCoordinate[1]) {
+                                index = k;
+                                break;
+                            }
+                        }
+                        towers.remove(index);
+                        this.toggleAwaitDeleteTowerClickResponse = false;
+                        this.garbageBin.setDeleteTower(false);
+                    }
+                }
+            }
+        }
+    }
+
+    private void awaitSpawnTowerClickResponse(MouseEvent e, Card clickedCard) {
         if (clickedCard.isClicked(e.getX(), e.getY())) {
-            this.toggleAwaitClickResponse = false;
+            this.toggleAwaitSpawnTowerClickResponse = false;
             this.clickedCard.setSpawnTower(false);
             this.clickedCard = null;
         } else {
@@ -236,7 +266,7 @@ public class Level {
                     if (currentGrid.isClicked(e.getX(), e.getY()) && !currentGrid.getIsOccupied()) {
                         spawnTower(clickedCard.getType(), currentGrid.getCoordinate());
                         motivationPoints -= clickedCard.getCost();
-                        this.toggleAwaitClickResponse = false;
+                        this.toggleAwaitSpawnTowerClickResponse = false;
                         this.clickedCard.startCoolDown();
                         this.clickedCard.setSpawnTower(false);
                         this.clickedCard = null;
@@ -247,17 +277,23 @@ public class Level {
     }
 
     public void clickCard(MouseEvent e) {
-        if (this.toggleAwaitClickResponse) {
-            awaitClickResponse(e, this.clickedCard);
+        if (this.toggleAwaitSpawnTowerClickResponse) {
+            awaitSpawnTowerClickResponse(e, this.clickedCard);
+        } else if (this.toggleAwaitDeleteTowerClickResponse) {
+            awaitDeleteTowerClickResponse(e, this.garbageBin);
         } else {
             for (int i = 0; i < cards.size(); i++) {
                 Card currentCard = cards.get(i);
                 if (currentCard.isClicked(e.getX(), e.getY()) && !currentCard.getCountCoolDown() && currentCard.canSpawn()) {
-                    this.toggleAwaitClickResponse = true;
+                    this.toggleAwaitSpawnTowerClickResponse = true;
                     this.clickedCard = currentCard;
                     this.clickedCard.setSpawnTower(true);
                     break;
                 }
+            }
+            if (this.garbageBin.isClicked(e.getX(), e.getY())) {
+                this.toggleAwaitDeleteTowerClickResponse = true;
+                this.garbageBin.setDeleteTower(true);
             }
         }
     }
@@ -539,6 +575,7 @@ public class Level {
         paintMotivations(g2d);
         paintMotivationCountBlock(g2d);
         paintCardBlock(g2d);
+        garbageBin.paint(g2d);
     }
 
 }

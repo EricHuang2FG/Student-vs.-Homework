@@ -24,14 +24,16 @@ public class Card {
         String image2Path = "res\\cards\\clicked_card.png";
         this.x = x;
         this.y = y;
-        try {
-            this.image1 = ImageIO.read(new File(image1Path));
-            this.image2 = ImageIO.read(new File(image2Path));
-        } catch (IOException e) {
-            System.out.println("Error loading image: \n" + e);
+        if (!type.equals("garbage_bin")) {
+            try {
+                this.image1 = ImageIO.read(new File(image1Path));
+                this.image2 = ImageIO.read(new File(image2Path));
+            } catch (IOException e) {
+                System.out.println("Error loading image: \n" + e);
+            }
+            this.scaledWidth = (int) (this.image1.getWidth() * this.scale);
+            this.scaledHeight = (int) (this.image1.getHeight() * this.scale);
         }
-        this.scaledWidth = (int) (this.image1.getWidth() * this.scale);
-        this.scaledHeight = (int) (this.image1.getHeight() * this.scale);
         if (type.equals("pencil")) {
             this.cost = Pencil.getCost();
             this.spawnCoolDown = Pencil.getSpawnCoolDown();
@@ -55,10 +57,6 @@ public class Card {
             this.spawnCoolDown = RoboticPencil.getSpawnCoolDown();
         }
         this.type = type;
-    }
-
-    public Card(int x, int y) {
-
     }
 
     public boolean getCountCoolDown() {
