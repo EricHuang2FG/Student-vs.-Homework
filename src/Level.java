@@ -35,6 +35,7 @@ public class Level {
     private Polygon cardBlock;
     private int firstCardX = cardBlockX + 10, firstCardY = cardBlockY + (cardBlockHeight / 2) - ((new Card("pencil", 10000, 10000)).getHeight() / 2);
     private int cardSpacing = 10;
+    private int levelAndWaveNumberFontSize = 15;
     private boolean toggleAwaitSpawnTowerClickResponse = false;
     private boolean toggleAwaitDeleteTowerClickResponse = false;
     private Card clickedCard = null;
@@ -567,8 +568,14 @@ public class Level {
         }
     }
 
+    private void paintLevelAndWaveNumber(Graphics2D g2d) {
+        g2d.setFont(new Font("Century Schoolbook", Font.PLAIN, this.levelAndWaveNumberFontSize));
+        g2d.drawString("Level " + this.levelNumber + ", wave " + this.waveCount, StudentVsHomework.getScreenWidth() - 170, StudentVsHomework.getScreenHeight() - 15);
+    }
+
     public void paint(Graphics2D g2d) {
         map.paint(g2d);
+        paintLevelAndWaveNumber(g2d);
         paintTowers(g2d);
         paintEnemies(g2d);
         paintProjectiles(g2d);
