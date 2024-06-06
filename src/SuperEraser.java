@@ -5,8 +5,6 @@ import java.io.IOException;
 
 public class SuperEraser extends Tower {
 
-    private static int lastPlaced = 10000000;
-    private String imagePath = "res\\towers\\super_eraser.png";
     private String type = "super_eraser";
     private static String cost = "100";
     private static int spawnCoolDown = 15;

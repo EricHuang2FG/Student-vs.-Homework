@@ -42,7 +42,7 @@ public class Level {
     private final Color LIGHT_YELLOW = new Color(255, 250, 40);
     private Map map = new Map();
     private Grid[][] grids = this.map.getGrids();
-    private String[] allCards = {"water_bottle", "pencil", "pen", "eraser", "mechanical_pencil", "paper_shredder", "robotic_pencil"}; // ADD SUPER ERASER
+    private String[] allCards = {"water_bottle", "pencil", "pen", "eraser", "mechanical_pencil", "paper_shredder", "robotic_pencil", "super_eraser"};
     private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private static ArrayList<Tower> towers = new ArrayList<Tower>();
     private static ArrayList<Motivation> motivations = new ArrayList<Motivation>();
@@ -50,82 +50,6 @@ public class Level {
     private GarbageBin garbageBin = new GarbageBin(this.cardBlockX + this.cardBlockWidth + 10, this.firstCardY);
 
     public Level() {
-//        int[] what = {2, 1};
-//        MechanicalPencil p = new MechanicalPencil(what);
-//        towers.add(p);
-//
-//        int[] what2 = {2, 2};
-//        MechanicalPencil p2 = new MechanicalPencil(what2);
-//        towers.add(p2);
-//
-//        int[] what3 = {2, 3};
-//        MechanicalPencil p3 = new MechanicalPencil(what3);
-//        towers.add(p3);
-//
-//        int[] what4 = {2, 4};
-//        MechanicalPencil p4 = new MechanicalPencil(what4);
-//        towers.add(p4);
-//
-//        int[] what5 = {2, 5};
-//        MechanicalPencil p5 = new MechanicalPencil(what5);
-//        towers.add(p5);
-//
-//        int[] what6 = {7, 3};
-//        WaterBottle p6 = new WaterBottle(what6);
-//        towers.add(p6);
-//
-//        int[] what7 = {7, 2};
-//        WaterBottle p7 = new WaterBottle(what7);
-//        towers.add(p7);
-//
-//        int[] what8 = {7, 5};
-//        WaterBottle p8 = new WaterBottle(what8);
-//        towers.add(p8);
-//
-//        int[] what9 = {8, 1};
-//        Eraser p9 = new Eraser(what9);
-//        towers.add(p9);
-//
-//        int[] what10 = {8, 2};
-//        Eraser p10 = new Eraser(what10);
-//        towers.add(p10);
-//
-//        int[] what11 = {8, 3};
-//        Eraser p11 = new Eraser(what11);
-//        towers.add(p11);
-//
-//        int[] what12 = {8, 4};
-//        Eraser p12 = new Eraser(what12);
-//        towers.add(p12);
-//
-//        int[] what13 = {8, 5};
-//        Eraser p13 = new Eraser(what13);
-//        towers.add(p13);
-//
-//        int[] what14 = {6, 3};
-//        Shredder p14 = new Shredder(what14);
-//        towers.add(p14);
-//
-//        int[] what15 = {6, 2};
-//        Shredder p15 = new Shredder(what15);
-//        towers.add(p15);
-//
-//        int[] what16 = {6, 1};
-//        Shredder p16 = new Shredder(what16);
-//        towers.add(p16);
-//
-//        int[] what17 = {6, 4};
-//        Shredder p17 = new Shredder(what17);
-//        towers.add(p17);
-//
-//        int[] what18 = {6, 5};
-//        Shredder p18 = new Shredder(what18);
-//        towers.add(p18);
-//
-//        int[] what19 = {1, 1};
-//        RoboticPencil p19 = new RoboticPencil(what19);
-//        towers.add(p19);
-
         try {
             this.motivationCountBlockImage = ImageIO.read(new File("res\\motivation_count_block.png"));
         } catch (IOException e) {
@@ -215,6 +139,9 @@ public class Level {
             towers.add(tower);
         } else if (type.equals("robotic_pencil")) {
             RoboticPencil tower = new RoboticPencil(coordinate);
+            towers.add(tower);
+        } else if (type.equals("super_eraser")) {
+            SuperEraser tower = new SuperEraser(coordinate);
             towers.add(tower);
         }
     }

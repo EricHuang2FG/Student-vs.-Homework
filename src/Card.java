@@ -55,6 +55,9 @@ public class Card {
         } else if (type.equals("robotic_pencil")) {
             this.cost = RoboticPencil.getCost();
             this.spawnCoolDown = RoboticPencil.getSpawnCoolDown();
+        } else if (type.equals("super_eraser")) {
+            this.cost = SuperEraser.getCost();
+            this.spawnCoolDown = SuperEraser.getSpawnCoolDown();
         }
         this.type = type;
     }
