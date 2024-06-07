@@ -90,6 +90,12 @@ public class Level {
         enemies.clear();
         motivations.clear();
         cards.clear();
+        for (int i = 0; i < towers.size(); i++) {
+            if (towers.get(i).getType().equals("water_bottle")) {
+                WaterBottle currentWaterBottle = (WaterBottle) towers.get(i);
+                currentWaterBottle.setLastMotivationSpawnTime((long) (System.nanoTime() / (Math.pow(10, 9))));
+            }
+        }
         this.totalEnemies = 5 * this.levelNumber + 10;
         int x = this.firstCardX;
         for (int i = 0; i < this.levelNumber + 1; i++) {

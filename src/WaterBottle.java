@@ -15,6 +15,7 @@ public class WaterBottle extends Tower {
         super.hitPoints = 100;
         super.range = 0;
         super.scale = 0.9;
+        super.type = "water_bottle";
         try {
             super.image = ImageIO.read(new File("res\\towers\\water_bottle.png"));
         } catch (IOException e) {
@@ -30,6 +31,10 @@ public class WaterBottle extends Tower {
 
     public static int getSpawnCoolDown() {
         return spawnCoolDown;
+    }
+
+    public void setLastMotivationSpawnTime(long time) {
+        this.lastMotivationSpawnTime = time;
     }
 
     public void attack() {

@@ -15,6 +15,7 @@ public class Pen extends Tower {
         super.hitPoints = 100;
         super.range = 3;
         super.scale = 0.9;
+        super.type = "pen";
         try {
             super.image = ImageIO.read(new File(imagePath));
             super.image2 = ImageIO.read(new File("res\\towers\\pen_unready.png"));

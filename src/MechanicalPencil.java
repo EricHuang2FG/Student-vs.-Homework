@@ -15,8 +15,9 @@ public class MechanicalPencil extends Tower {
         super.hitPoints = 100;
         super.range = 10;
         super.scale = 0.9;
+        super.type = "mechanical_pencil";
         try {
-            super.image = ImageIO.read(new File(imagePath));
+            super.image = ImageIO.read(new File(this.imagePath));
             super.image2 = ImageIO.read(new File("res\\towers\\mechanical_pencil_unready.png"));
         } catch (IOException e) {
             System.out.println("Error loading image: \n" + e);

@@ -16,7 +16,8 @@ public class Eraser extends Tower {
         super.hitPoints = 1500;
         super.scaledWidth = 100;
         super.scaledHeight = 100;
-        String imagePath = "res\\towers\\" + type + ".png";
+        super.type = "eraser";
+        String imagePath = "res\\towers\\" + super.type + ".png";
         try {
             super.image = ImageIO.read(new File(imagePath));
         } catch (IOException e) {

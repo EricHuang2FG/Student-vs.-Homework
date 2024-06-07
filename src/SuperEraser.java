@@ -5,7 +5,6 @@ import java.io.IOException;
 
 public class SuperEraser extends Tower {
 
-    private String type = "super_eraser";
     private static String cost = "100";
     private static int spawnCoolDown = 15;
 
@@ -14,7 +13,8 @@ public class SuperEraser extends Tower {
         super.hitPoints = 3000;
         super.scaledWidth = 100;
         super.scaledHeight = 100;
-        String imagePath = "res\\towers\\" + type + ".png";
+        super.type = "super_eraser";
+        String imagePath = "res\\towers\\" + super.type + ".png";
         try {
             super.image = ImageIO.read(new File(imagePath));
         } catch (IOException e) {

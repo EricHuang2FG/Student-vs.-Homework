@@ -15,6 +15,7 @@ public class RoboticPencil extends Tower {
         super.hitPoints = 100;
         super.range = 10;
         super.scale = 0.9;
+        super.type = "robotic_pencil";
         try {
             super.image = ImageIO.read(new File(imagePath));
             super.image2 = ImageIO.read(new File("res\\towers\\robotic_pencil_unready.png"));

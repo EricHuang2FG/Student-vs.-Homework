@@ -15,6 +15,7 @@ public class Pencil extends Tower {
         super.hitPoints = 100;
         super.range = 10;
         super.scale = 0.9;
+        super.type = "pencil";
         try {
             super.image = ImageIO.read(new File(imagePath));
             super.image2 = ImageIO.read(new File("res\\towers\\pencil_unready.png"));

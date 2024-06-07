@@ -14,6 +14,7 @@ public abstract class Tower {
     protected BufferedImage image2 = null;
     protected int scaledWidth, scaledHeight;
     protected double scale;
+    protected String type;
 
     public Tower(int[] coordinate) {
         this.coordinate = coordinate;
@@ -51,6 +52,10 @@ public abstract class Tower {
 
     public static ArrayList<Weapon> getProjectiles() {
         return projectiles;
+    }
+
+    public String getType() {
+        return this.type;
     }
 
     public int getRange() {

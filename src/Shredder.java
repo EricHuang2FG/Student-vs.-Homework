@@ -14,6 +14,7 @@ public class Shredder extends Tower {
         super.hitPoints = 200;
         super.range = 3;
         super.scale = 0.9;
+        super.type = "shredder";
         try {
             super.image = ImageIO.read(new File(imagePath));
             super.image2 = ImageIO.read(new File("res\\towers\\paper_shredder_unready.png"));
