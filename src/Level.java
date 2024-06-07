@@ -90,6 +90,7 @@ public class Level {
         enemies.clear();
         motivations.clear();
         cards.clear();
+        Tower.clearProjectiles();
         for (int i = 0; i < towers.size(); i++) {
             if (towers.get(i).getType().equals("water_bottle")) {
                 WaterBottle currentWaterBottle = (WaterBottle) towers.get(i);
@@ -106,6 +107,10 @@ public class Level {
             cards.add(nextCard);
             x += nextCard.getWidth() + this.cardSpacing;
         }
+    }
+
+    public static void setTowers(ArrayList<Tower> savedTowersSetUp) {
+        towers = savedTowersSetUp;
     }
 
     public void collectMotivation(MouseEvent e) {

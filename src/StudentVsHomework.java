@@ -4,12 +4,15 @@ import java.awt.event.*;
 import java.awt.image.*;
 import javax.imageio.*;
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class StudentVsHomework extends JPanel {
 
     private static final int SCREEN_WIDTH = 1020;
     private static final int SCREEN_HEIGHT = 640;
-    private int levelNumber = 1;
+    private static final String GAME_PROGRESS_FILE_PATH = "res\\game_progress\\game_progress.txt";
+    private static int levelNumber = 1;
     private static BufferedImage startScreen = null;
     private static BufferedImage instructionsScreen = null;
     private static BufferedImage levelLostScreen = null;
@@ -78,6 +81,7 @@ public class StudentVsHomework extends JPanel {
         } catch (IOException e) {
             System.out.println("Error loading image: \n" + e);
         }
+        readProgress();
     }
 
     public static int getScreenWidth() {
@@ -110,7 +114,7 @@ public class StudentVsHomework extends JPanel {
                 showInstructionsScreenPlayButton = true;
                 if (instructionsScreenPlayButtonIsClicked) {
                     gameState = "game_screen";
-                    window.level.setLevelNumber(window.levelNumber);
+                    window.level.setLevelNumber(levelNumber);
                     showInstructionsScreenPlayButton = false;
                     instructionsScreenPlayButtonIsClicked = false;
                 }
@@ -126,9 +130,10 @@ public class StudentVsHomework extends JPanel {
             }
             if (gameState.equals("level_won_screen")) {
                 showNextLevelButton = true;
+                levelNumber++;
+                saveProgress();
                 if (nextLevelButtonIsClicked) {
-                    window.levelNumber++;
-                    window.level.setLevelNumber(window.levelNumber);
+                    window.level.setLevelNumber(levelNumber);
                     gameState = "game_screen";
                     showNextLevelButton = false;
                     nextLevelButtonIsClicked = false;
@@ -136,8 +141,9 @@ public class StudentVsHomework extends JPanel {
             }
             if (gameState.equals("level_lost_screen")) {
                 showRestartLevelButton = true;
+                readProgress();
                 if (restartLevelButtonIsClicked) {
-                    window.level.setLevelNumber(window.levelNumber);
+                    window.level.setLevelNumber(levelNumber);
                     gameState = "game_screen";
                     showRestartLevelButton = false;
                     restartLevelButtonIsClicked = false;
@@ -169,6 +175,72 @@ public class StudentVsHomework extends JPanel {
     public void clickRestartLevelButton(MouseEvent e) {
         if (restartLevelButton.isClicked(e.getX(), e.getY())) {
             restartLevelButtonIsClicked = true;
+        }
+    }
+
+    public static void readProgress() {
+        ArrayList<Tower> towers = new ArrayList<Tower>();
+        try {
+            FileReader fr = new FileReader(GAME_PROGRESS_FILE_PATH);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            int lineNum = 1;
+            while ((line = br.readLine()) != null) {
+                if (lineNum == 1) {
+                    levelNumber = Integer.parseInt(line);
+                } else {
+                    String[] information = line.split(" ");
+                    String type = information[0];
+                    int[] coordinate = {Integer.parseInt(information[1]), Integer.parseInt(information[2])};
+                    if (type.equals("eraser")) {
+                        Eraser tower = new Eraser(coordinate);
+                        towers.add(tower);
+                    } else if (type.equals("mechanical_pencil")) {
+                        MechanicalPencil tower = new MechanicalPencil(coordinate);
+                        towers.add(tower);
+                    } else if (type.equals("pen")) {
+                        Pen tower = new Pen(coordinate);
+                        towers.add(tower);
+                    } else if (type.equals("pencil")) {
+                        Pencil tower = new Pencil(coordinate);
+                        towers.add(tower);
+                    } else if (type.equals("paper_shredder")) {
+                        Shredder tower = new Shredder(coordinate);
+                        towers.add(tower);
+                    } else if (type.equals("water_bottle")) {
+                        WaterBottle tower = new WaterBottle(coordinate);
+                        towers.add(tower);
+                    } else if (type.equals("robotic_pencil")) {
+                        RoboticPencil tower = new RoboticPencil(coordinate);
+                        towers.add(tower);
+                    } else if (type.equals("super_eraser")) {
+                        SuperEraser tower = new SuperEraser(coordinate);
+                        towers.add(tower);
+                    }
+                }
+                lineNum++;
+            }
+            Level.setTowers(towers);
+            br.close();
+        } catch (IOException e) {
+            System.out.println("Error reading file: \n" + e);
+        }
+    }
+
+    public static void saveProgress() {
+        ArrayList<Tower> towers = Level.getTowers();
+        try {
+            FileWriter fw = new FileWriter(GAME_PROGRESS_FILE_PATH);
+            PrintWriter pw = new PrintWriter(fw);
+            pw.println(levelNumber);
+            for (int i = 0; i < towers.size(); i++) {
+                Tower tower = towers.get(i);
+                int[] coordinate = tower.getCoordinate();
+                String information = tower.getType() + " " + coordinate[0] + " " + coordinate[1];
+            }
+            pw.close();
+        } catch (IOException e) {
+            System.out.println("Error writing to file: \n" + e);
         }
     }
 

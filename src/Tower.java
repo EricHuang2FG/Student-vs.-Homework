@@ -22,6 +22,10 @@ public abstract class Tower {
         this.y = coordinate[1] * Grid.getWidth() - Grid.getWidth() + Map.getMapStartY();
     }
 
+    public static void clearProjectiles() {
+        projectiles.clear();
+    }
+
     public static void moveProjectiles() {
         for (int i = 0; i < projectiles.size(); i++){
             projectiles.get(i).behave();
