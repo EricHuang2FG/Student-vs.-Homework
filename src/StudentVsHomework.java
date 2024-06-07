@@ -13,6 +13,7 @@ public class StudentVsHomework extends JPanel {
     private static final int SCREEN_HEIGHT = 640;
     private static final String GAME_PROGRESS_FILE_PATH = "res\\game_progress\\game_progress.txt";
     private static int levelNumber = 1;
+    private static boolean progressSaved = false;
     private static BufferedImage startScreen = null;
     private static BufferedImage instructionsScreen = null;
     private static BufferedImage levelLostScreen = null;
@@ -30,7 +31,7 @@ public class StudentVsHomework extends JPanel {
     private static Button nextLevelButton = new Button(0, 390, "res\\buttons\\next_level_button.png", true);
     private static Button restartLevelButton = new Button(0, 410, "res\\buttons\\restart_level_button.png", true);
     private Level level = new Level();
-    private static String gameState = "start_screen";
+    private static String gameState = "level_won_screen";
 
     public StudentVsHomework() {
         addMouseListener(new MouseListener() {
@@ -124,14 +125,18 @@ public class StudentVsHomework extends JPanel {
                     gameState = "level_lost_screen";
                 } else if (window.level.levelIsWon()) {
                     gameState = "level_won_screen";
+                    progressSaved = false;
                 } else {
                     window.level.behave();
                 }
             }
             if (gameState.equals("level_won_screen")) {
                 showNextLevelButton = true;
-                levelNumber++;
-                saveProgress();
+                if (!progressSaved) {
+                    levelNumber++;
+                    saveProgress();
+                    progressSaved = true;
+                }
                 if (nextLevelButtonIsClicked) {
                     window.level.setLevelNumber(levelNumber);
                     gameState = "game_screen";
@@ -141,8 +146,8 @@ public class StudentVsHomework extends JPanel {
             }
             if (gameState.equals("level_lost_screen")) {
                 showRestartLevelButton = true;
-                readProgress();
                 if (restartLevelButtonIsClicked) {
+                    readProgress();
                     window.level.setLevelNumber(levelNumber);
                     gameState = "game_screen";
                     showRestartLevelButton = false;
@@ -232,11 +237,13 @@ public class StudentVsHomework extends JPanel {
         try {
             FileWriter fw = new FileWriter(GAME_PROGRESS_FILE_PATH);
             PrintWriter pw = new PrintWriter(fw);
+            System.out.println(levelNumber);
             pw.println(levelNumber);
             for (int i = 0; i < towers.size(); i++) {
                 Tower tower = towers.get(i);
                 int[] coordinate = tower.getCoordinate();
                 String information = tower.getType() + " " + coordinate[0] + " " + coordinate[1];
+                pw.println(information);
             }
             pw.close();
         } catch (IOException e) {
