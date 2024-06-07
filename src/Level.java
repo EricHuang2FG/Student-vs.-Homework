@@ -13,7 +13,7 @@ public class Level {
     private int levelNumber;
     private boolean wave = false;
     private int waveCount = 0;
-    private int totalEnemies = 5 * this.levelNumber + 10;
+    private int totalEnemies = 5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1));
     private int enemiesSpawnedBetweenWaves = 0;
     private int enemiesSpawnedDuringWave = 0;
     private long startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
