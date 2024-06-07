@@ -85,7 +85,7 @@ public class Level {
         this.enemiesSpawnedDuringWave = 0;
         this.wave = false;
         this.startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
-        this.lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
+        this.lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9))); // fix this for the water bottles
         motivationPoints = 50;
         enemies.clear();
         motivations.clear();
@@ -407,7 +407,7 @@ public class Level {
     }
 
     public boolean levelIsWon() {
-        return (this.waveCount == 3 && this.enemiesSpawnedDuringWave == this.totalEnemies * waveFactor() && this.enemies.size() == 0);
+        return (this.waveCount == 3 && this.enemiesSpawnedDuringWave >= (int) (this.totalEnemies * waveFactor()) && this.enemies.isEmpty());
     }
 
     public boolean levelIsLost() {
