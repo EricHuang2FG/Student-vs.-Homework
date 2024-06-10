@@ -31,7 +31,7 @@ public class StudentVsHomework extends JPanel {
     private static Button nextLevelButton = new Button(0, 390, "res\\buttons\\next_level_button.png", true);
     private static Button restartLevelButton = new Button(0, 410, "res\\buttons\\restart_level_button.png", true);
     private Level level = new Level();
-    private static String gameState = "level_won_screen";
+    private static String gameState = "start_screen";
 
     public StudentVsHomework() {
         addMouseListener(new MouseListener() {

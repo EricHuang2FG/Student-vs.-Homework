@@ -443,9 +443,16 @@ public class Level {
     }
 
     private void behaveCards() {
+        PointerInfo pointer = MouseInfo.getPointerInfo();
+        Point location = pointer.getLocation();
+        int x = (int) location.getX();
+        int y = (int) location.getY();
         for (int i = 0; i < cards.size(); i++) {
-            cards.get(i).behave();
+            Card currentCard = cards.get(i);
+            currentCard.behave();
+            currentCard.checkMouseIsHoveredAbove(x, y);
         }
+        garbageBin.checkMouseIsHoveredAbove(x, y);
     }
 
     public void behave() {

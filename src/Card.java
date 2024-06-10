@@ -6,15 +6,19 @@ import java.io.*;
 public class Card {
 
     protected int x, y;
+    protected int infoCardX, infoCardY;
     protected double scale = 0.2;
     protected int scaledWidth, scaledHeight;
+    protected double infoCardScale = 0.4;
+    protected int infoCardScaledWidth, infoCardScaledHeight;
     protected String type;
+    protected boolean showTowerInfo = false;
     protected boolean spawnTower = false;
     protected boolean countCoolDown = false;
     protected long coolDownStartTime;
     protected long coolDownTimer;
     protected int coolDownRectangleHeight;
-    protected BufferedImage image1 = null, image2 = null;
+    protected BufferedImage image1 = null, image2 = null, infoCardImage = null;
     protected String cost;
     protected int spawnCoolDown;
     protected final int FONT_SIZE = 13;
@@ -22,17 +26,23 @@ public class Card {
     public Card(String type, int x, int y) {
         String image1Path = "res\\cards\\" + type + "_card.png";
         String image2Path = "res\\cards\\clicked_card.png";
+        String image3path = "res\\tower_info_cards\\" + type + "_info.png";
         this.x = x;
         this.y = y;
         if (!type.equals("garbage_bin")) {
             try {
                 this.image1 = ImageIO.read(new File(image1Path));
                 this.image2 = ImageIO.read(new File(image2Path));
+                this.infoCardImage = ImageIO.read(new File(image3path));
             } catch (IOException e) {
                 System.out.println("Error loading image: \n" + e);
             }
             this.scaledWidth = (int) (this.image1.getWidth() * this.scale);
             this.scaledHeight = (int) (this.image1.getHeight() * this.scale);
+            this.infoCardScaledWidth = (int) (this.infoCardImage.getWidth() * this.infoCardScale);
+            this.infoCardScaledHeight = (int) (this.infoCardImage.getHeight() *  this.infoCardScale);
+            this.infoCardX = this.x;
+            this.infoCardY = this.y + (this.scaledHeight / 2);
         }
         if (type.equals("pencil")) {
             this.cost = Pencil.getCost();
@@ -94,6 +104,10 @@ public class Card {
         return ((x > this.x && x < this.x + this.scaledWidth) && (y > this.y && y < this.y + this.scaledHeight));
     }
 
+    public void checkMouseIsHoveredAbove(int x, int y) {
+        this.showTowerInfo = ((x > this.x && x < this.x + this.scaledWidth) && (y > this.y && y < this.y + this.scaledHeight));
+    }
+
     public void startCoolDown() {
         this.countCoolDown = true;
         this.coolDownStartTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
@@ -128,6 +142,10 @@ public class Card {
             g2d.setColor(Color.BLACK);
             g2d.setStroke(new BasicStroke(1));
             g2d.drawRect(this.x, this.y, this.scaledWidth, this.coolDownRectangleHeight);
+        }
+        if (this.showTowerInfo) {
+            g2d.drawImage(this.infoCardImage, this.infoCardX, this.infoCardY, this.infoCardScaledWidth, this.infoCardScaledHeight, null);
+//            System.out.println("test");
         }
     }
 
