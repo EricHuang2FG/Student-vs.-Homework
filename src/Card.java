@@ -124,6 +124,12 @@ public class Card {
         }
     }
 
+    public void paintTowerInfo(Graphics2D g2d) {
+        if (this.showTowerInfo) {
+            g2d.drawImage(this.infoCardImage, this.infoCardX, this.infoCardY, this.infoCardScaledWidth, this.infoCardScaledHeight, null);
+        }
+    }
+
     public void paint(Graphics2D g2d) {
         if (!this.spawnTower) {
             g2d.drawImage(this.image1, this.x, this.y, this.scaledWidth, this.scaledHeight, null);
@@ -142,10 +148,6 @@ public class Card {
             g2d.setColor(Color.BLACK);
             g2d.setStroke(new BasicStroke(1));
             g2d.drawRect(this.x, this.y, this.scaledWidth, this.coolDownRectangleHeight);
-        }
-        if (this.showTowerInfo) {
-            g2d.drawImage(this.infoCardImage, this.infoCardX, this.infoCardY, this.infoCardScaledWidth, this.infoCardScaledHeight, null);
-//            System.out.println("test");
         }
     }
 

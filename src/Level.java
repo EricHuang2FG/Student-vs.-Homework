@@ -442,11 +442,12 @@ public class Level {
         }
     }
 
-    private void behaveCards() {
+    private void behaveCards(StudentVsHomework window) {
         PointerInfo pointer = MouseInfo.getPointerInfo();
-        Point location = pointer.getLocation();
-        int x = (int) location.getX();
-        int y = (int) location.getY();
+        Point mouseLocation = pointer.getLocation();
+        Point screenLocation = window.getLocationOnScreen();
+        int x = (int) (mouseLocation.getX() - screenLocation.getX());
+        int y = (int) (mouseLocation.getY() - screenLocation.getY());
         for (int i = 0; i < cards.size(); i++) {
             Card currentCard = cards.get(i);
             currentCard.behave();
@@ -455,7 +456,7 @@ public class Level {
         garbageBin.checkMouseIsHoveredAbove(x, y);
     }
 
-    public void behave() {
+    public void behave(StudentVsHomework window) {
         behaveEnemySpawnLogic();
         behaveEnemies();
         checkCollisions();
@@ -466,7 +467,7 @@ public class Level {
         behaveMotivationSpawnLogic();
         behaveMotivations();
         checkOccupiedGrids();
-        behaveCards();
+        behaveCards(window);
 //        System.out.println(this.toggleAwaitClickResponse);
     }
 
@@ -513,6 +514,13 @@ public class Level {
         }
     }
 
+    private void paintTowerInfoCards(Graphics2D g2d) {
+        for (int i = 0; i < cards.size(); i++) {
+            cards.get(i).paintTowerInfo(g2d);
+        }
+        garbageBin.paintTowerInfo(g2d);
+    }
+
     private void paintLevelAndWaveNumber(Graphics2D g2d) {
         g2d.setFont(new Font("Century Schoolbook", Font.BOLD, this.levelAndWaveNumberFontSize));
         g2d.drawString("Level " + this.levelNumber + ", wave " + this.waveCount, StudentVsHomework.getScreenWidth() - 170, StudentVsHomework.getScreenHeight() - 15);
@@ -528,6 +536,7 @@ public class Level {
         paintMotivationCountBlock(g2d);
         paintCardBlock(g2d);
         garbageBin.paint(g2d);
+        paintTowerInfoCards(g2d);
     }
 
 }

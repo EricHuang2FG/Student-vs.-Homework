@@ -127,7 +127,7 @@ public class StudentVsHomework extends JPanel {
                     gameState = "level_won_screen";
                     progressSaved = false;
                 } else {
-                    window.level.behave();
+                    window.level.behave(window);
                 }
             }
             if (gameState.equals("level_won_screen")) {

@@ -24,7 +24,7 @@ public class GarbageBin extends Card {
         super.scaledHeight = (int) (super.image1.getHeight() * super.scale);
         super.infoCardScaledWidth = (int) (super.infoCardImage.getWidth() * super.infoCardScale);
         super.infoCardScaledHeight = (int) (super.infoCardImage.getHeight() *  super.infoCardScale);
-        super.infoCardX = super.x;
+        super.infoCardX = super.x + super.scaledWidth - super.infoCardScaledWidth - 10;
         super.infoCardY = super.y + (super.scaledHeight / 2);
     }
 
@@ -37,9 +37,6 @@ public class GarbageBin extends Card {
             g2d.drawImage(super.image1, super.x, super.y, super.scaledWidth, super.scaledHeight, null);
         } else {
             g2d.drawImage(super.image2, super.x, super.y, super.scaledWidth, super.scaledHeight, null);
-        }
-        if (super.showTowerInfo) {
-            g2d.drawImage(super.infoCardImage, super.infoCardX, super.infoCardY, super.infoCardScaledWidth, super.infoCardScaledHeight, null);
         }
     }
 
