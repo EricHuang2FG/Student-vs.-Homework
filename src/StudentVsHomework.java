@@ -24,12 +24,20 @@ public class StudentVsHomework extends JPanel {
     private static boolean instructionsScreenPlayButtonIsClicked = false;
     private static boolean showNextLevelButton = false;
     private static boolean nextLevelButtonIsClicked = false;
+    private static boolean showLevelWonScreenEraseProgressButton = false;
+    private static int levelWonScreenEraseProgressButtonClickCounter = 0;
+//    private static boolean levelWonScreenEraseProgressButtonIsClicked = false;
     private static boolean showRestartLevelButton = false;
     private static boolean restartLevelButtonIsClicked = false;
+    private static boolean showLevelLostScreenEraseProgressButton = false;
+    private static int levelLostScreenEraseProgressButtonClickCounter = 0;
+//    private static boolean levelLostScreenEraseProgressButtonIsClicked = false;
     private static Button startScreenPlayButton = new Button(0, 330, "res\\buttons\\play_button.png", true, 0.3);;
     private static Button instructionsScreenPlayButton = new Button(0, StudentVsHomework.getScreenHeight() - 100, "res\\buttons\\play_button.png", true, 0.3);
     private static Button nextLevelButton = new Button(0, 390, "res\\buttons\\next_level_button.png", true, 0.3);
     private static Button restartLevelButton = new Button(0, 410, "res\\buttons\\restart_level_button.png", true, 0.3);
+    private static Button levelWonScreenEraseProgressButton = new Button(0, 500, "res\\buttons\\erase_progress_button.png", true, 0.3);
+    private static Button levelLostScreenEraseProgressbutton = new Button(0, 500, "res\\buttons\\erase_progress_button.png", true, 0.3);
     private Level level = new Level();
     private static String gameState = "start_screen";
 
@@ -55,6 +63,12 @@ public class StudentVsHomework extends JPanel {
                 }
                 if (showRestartLevelButton) {
                     clickRestartLevelButton(e);
+                }
+                if (showLevelWonScreenEraseProgressButton) {
+                    clickLevelWonScreenEraseProgressButton(e);
+                }
+                if (showLevelLostScreenEraseProgressButton) {
+                    clickLevelLostScreenEraseProgressButton(e);
                 }
             }
 
@@ -132,26 +146,41 @@ public class StudentVsHomework extends JPanel {
             }
             if (gameState.equals("level_won_screen")) {
                 showNextLevelButton = true;
+                showLevelWonScreenEraseProgressButton = true;
                 if (!progressSaved) {
                     levelNumber++;
                     saveProgress();
                     progressSaved = true;
                 }
+                if (levelWonScreenEraseProgressButtonClickCounter == 3) {
+                    eraseProgress();
+                    levelWonScreenEraseProgressButtonClickCounter = 0;
+                }
                 if (nextLevelButtonIsClicked) {
+                    readProgress();
                     window.level.setLevelNumber(levelNumber);
                     gameState = "game_screen";
                     showNextLevelButton = false;
                     nextLevelButtonIsClicked = false;
+                    showLevelWonScreenEraseProgressButton = false;
+                    levelWonScreenEraseProgressButtonClickCounter = 0;
                 }
             }
             if (gameState.equals("level_lost_screen")) {
                 showRestartLevelButton = true;
+                showLevelLostScreenEraseProgressButton = true;
+                if (levelLostScreenEraseProgressButtonClickCounter == 3) {
+                    eraseProgress();
+                    levelLostScreenEraseProgressButtonClickCounter = 0;
+                }
                 if (restartLevelButtonIsClicked) {
                     readProgress();
                     window.level.setLevelNumber(levelNumber);
                     gameState = "game_screen";
                     showRestartLevelButton = false;
                     restartLevelButtonIsClicked = false;
+                    showLevelLostScreenEraseProgressButton = false;
+                    levelLostScreenEraseProgressButtonClickCounter = 0;
                 }
             }
             window.repaint();
@@ -180,6 +209,18 @@ public class StudentVsHomework extends JPanel {
     public void clickRestartLevelButton(MouseEvent e) {
         if (restartLevelButton.isClicked(e.getX(), e.getY())) {
             restartLevelButtonIsClicked = true;
+        }
+    }
+
+    public void clickLevelWonScreenEraseProgressButton(MouseEvent e) {
+        if (levelWonScreenEraseProgressButton.isClicked(e.getX(), e.getY())) {
+            levelWonScreenEraseProgressButtonClickCounter++;
+        }
+    }
+
+    public void  clickLevelLostScreenEraseProgressButton(MouseEvent e) {
+        if (levelLostScreenEraseProgressbutton.isClicked(e.getX(), e.getY())) {
+            levelLostScreenEraseProgressButtonClickCounter++;
         }
     }
 
@@ -237,7 +278,6 @@ public class StudentVsHomework extends JPanel {
         try {
             FileWriter fw = new FileWriter(GAME_PROGRESS_FILE_PATH);
             PrintWriter pw = new PrintWriter(fw);
-            System.out.println(levelNumber);
             pw.println(levelNumber);
             for (int i = 0; i < towers.size(); i++) {
                 Tower tower = towers.get(i);
@@ -245,6 +285,17 @@ public class StudentVsHomework extends JPanel {
                 String information = tower.getType() + " " + coordinate[0] + " " + coordinate[1];
                 pw.println(information);
             }
+            pw.close();
+        } catch (IOException e) {
+            System.out.println("Error writing to file: \n" + e);
+        }
+    }
+
+    public static void eraseProgress() {
+        try {
+            FileWriter fw = new FileWriter(GAME_PROGRESS_FILE_PATH);
+            PrintWriter pw = new PrintWriter(fw);
+            pw.println(1);
             pw.close();
         } catch (IOException e) {
             System.out.println("Error writing to file: \n" + e);
@@ -275,11 +326,17 @@ public class StudentVsHomework extends JPanel {
             if (showNextLevelButton) {
                 nextLevelButton.paint(g2d);
             }
+            if (showLevelWonScreenEraseProgressButton) {
+                levelLostScreenEraseProgressbutton.paint(g2d);
+            }
         }
         if (gameState.equals("level_lost_screen")) {
             g2d.drawImage(levelLostScreen, 0, 0, levelLostScreen.getWidth(), levelLostScreen.getHeight(), null);
             if (showRestartLevelButton) {
                 restartLevelButton.paint(g2d);
+            }
+            if (showLevelLostScreenEraseProgressButton) {
+                levelLostScreenEraseProgressbutton.paint(g2d);
             }
         }
     }
