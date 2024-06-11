@@ -6,12 +6,13 @@ import java.io.*;
 public class Button {
 
     private int x, y;
-    private double scale = 0.3;
+    private double scale;
     private int scaledWidth, scaledHeight;
     private BufferedImage image = null;
 
-    public Button(int x, int y, String imagePath, boolean center) {
+    public Button(int x, int y, String imagePath, boolean center, double scale) {
         this.y = y;
+        this.scale = scale;
         try {
             this.image = ImageIO.read(new File(imagePath));
         } catch (IOException e) {

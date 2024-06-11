@@ -26,10 +26,10 @@ public class StudentVsHomework extends JPanel {
     private static boolean nextLevelButtonIsClicked = false;
     private static boolean showRestartLevelButton = false;
     private static boolean restartLevelButtonIsClicked = false;
-    private static Button startScreenPlayButton = new Button(0, 330, "res\\buttons\\play_button.png", true);;
-    private static Button instructionsScreenPlayButton = new Button(0, StudentVsHomework.getScreenHeight() - 100, "res\\buttons\\play_button.png", true);
-    private static Button nextLevelButton = new Button(0, 390, "res\\buttons\\next_level_button.png", true);
-    private static Button restartLevelButton = new Button(0, 410, "res\\buttons\\restart_level_button.png", true);
+    private static Button startScreenPlayButton = new Button(0, 330, "res\\buttons\\play_button.png", true, 0.3);;
+    private static Button instructionsScreenPlayButton = new Button(0, StudentVsHomework.getScreenHeight() - 100, "res\\buttons\\play_button.png", true, 0.3);
+    private static Button nextLevelButton = new Button(0, 390, "res\\buttons\\next_level_button.png", true, 0.3);
+    private static Button restartLevelButton = new Button(0, 410, "res\\buttons\\restart_level_button.png", true, 0.3);
     private Level level = new Level();
     private static String gameState = "start_screen";
 
@@ -194,7 +194,7 @@ public class StudentVsHomework extends JPanel {
                 if (lineNum == 1) {
                     levelNumber = Integer.parseInt(line);
                 } else {
-                    String[] information = line.split(" ");
+                    String[] information = line.trim().split(" ");
                     String type = information[0];
                     int[] coordinate = {Integer.parseInt(information[1]), Integer.parseInt(information[2])};
                     if (type.equals("eraser")) {
