@@ -7,8 +7,8 @@ public class RoboticPencil extends Tower {
 
     private double attackDelay = 0.7;
     private String imagePath = "res\\towers\\robotic_pencil.png";
-    private static String cost = "450";
-    private static int spawnCoolDown = 5;
+    private static String cost = "500";
+    private static int spawnCoolDown = 10;
 
     public RoboticPencil(int[] coordinate) {
         super(coordinate);

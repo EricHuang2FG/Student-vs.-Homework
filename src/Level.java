@@ -18,7 +18,7 @@ public class Level {
     private int enemiesSpawnedDuringWave = 0;
     private long startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private boolean spawn = true;
-    private int betweenWavesSpawnCoolDown = 20;
+    private int betweenWavesSpawnCoolDown = 15;
     private int duringWavesSpawnCoolDown = 3;
     private long lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private long motivationSpawnCoolDown = 20;
@@ -42,7 +42,7 @@ public class Level {
     private final Color LIGHT_YELLOW = new Color(255, 250, 40);
     private Map map = new Map();
     private Grid[][] grids = this.map.getGrids();
-    private String[] allCards = {"water_bottle", "pencil", "pen", "eraser", "mechanical_pencil", "paper_shredder", "robotic_pencil", "super_eraser"};
+    private String[] allCards = {"water_bottle", "pencil", "pen", "eraser", "mechanical_pencil", "paper_shredder", "super_eraser", "robotic_pencil"};
     private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private static ArrayList<Tower> towers = new ArrayList<Tower>();
     private static ArrayList<Motivation> motivations = new ArrayList<Motivation>();
@@ -85,8 +85,12 @@ public class Level {
         this.enemiesSpawnedDuringWave = 0;
         this.wave = false;
         this.startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
-        this.lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9))); // fix this for the water bottles
-        motivationPoints = 50;
+        this.lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
+        if (this.levelNumber == 1) {
+            motivationPoints = 100;
+        } else {
+            motivationPoints = 50;
+        }
         enemies.clear();
         motivations.clear();
         cards.clear();
@@ -401,7 +405,7 @@ public class Level {
                 }
             } else {
                 if (timeElapsed % this.duringWavesSpawnCoolDown == 0 && this.spawn) {
-                    int spawnAmount = (int) ((5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1))) * waveFactor()) / 10;
+                    int spawnAmount = (int) ((5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1))) * waveFactor()) / 2;
 //                    int spawnAmount = 100;
                     for (int i = 0; i < spawnAmount; i++) {
                         spawnEnemy(chooseEnemy(), this.map, null);
