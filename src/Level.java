@@ -359,7 +359,7 @@ public class Level {
     }
 
     private double waveFactor() {
-        if (waveCount == 1){
+        if (waveCount == 1) {
             return 0.17;
         } else if (waveCount == 2) {
             return 0.33;
@@ -401,15 +401,15 @@ public class Level {
                 }
             } else {
                 if (timeElapsed % this.duringWavesSpawnCoolDown == 0 && this.spawn) {
-                    int spawnAmount = (int) ((5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1)))*waveFactor())/10;
+                    int spawnAmount = (int) ((5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1))) * waveFactor()) / 10;
 //                    int spawnAmount = 100;
-                    for (int i = 0; i < spawnAmount;i++){
+                    for (int i = 0; i < spawnAmount; i++) {
                         spawnEnemy(chooseEnemy(), this.map, null);
                     }
 
                     this.spawn = false;
-                    this.enemiesSpawnedDuringWave+=spawnAmount;
-                    this.totalEnemies-= spawnAmount;
+                    this.enemiesSpawnedDuringWave += spawnAmount;
+                    this.totalEnemies -= spawnAmount;
                 } else if ((timeElapsed - 1) % this.duringWavesSpawnCoolDown == 0 && !this.spawn) {
                     this.spawn = true;
                 }
