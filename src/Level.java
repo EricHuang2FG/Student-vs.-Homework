@@ -97,7 +97,7 @@ public class Level {
                 currentWaterBottle.setLastMotivationSpawnTime((long) (System.nanoTime() / (Math.pow(10, 9))));
             }
         }
-        this.totalEnemies = 5 * this.levelNumber + 10;
+        this.totalEnemies = 5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1));
         int x = this.firstCardX;
         for (int i = 0; i < this.levelNumber + 1; i++) {
             if (i == this.allCards.length) {
@@ -401,10 +401,15 @@ public class Level {
                 }
             } else {
                 if (timeElapsed % this.duringWavesSpawnCoolDown == 0 && this.spawn) {
-                    spawnEnemy(chooseEnemy(), this.map, null);
+                    int spawnAmount = (int) ((5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1)))*waveFactor())/10;
+//                    int spawnAmount = 100;
+                    for (int i = 0; i < spawnAmount;i++){
+                        spawnEnemy(chooseEnemy(), this.map, null);
+                    }
+
                     this.spawn = false;
-                    this.enemiesSpawnedDuringWave++;
-                    this.totalEnemies--;
+                    this.enemiesSpawnedDuringWave+=spawnAmount;
+                    this.totalEnemies-= spawnAmount;
                 } else if ((timeElapsed - 1) % this.duringWavesSpawnCoolDown == 0 && !this.spawn) {
                     this.spawn = true;
                 }
