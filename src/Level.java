@@ -19,7 +19,7 @@ public class Level {
     private long startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private boolean spawn = true;
     private int betweenWavesSpawnCoolDown = 15;
-    private int duringWavesSpawnCoolDown = 3;
+    private int duringWavesSpawnCoolDown = 10;
     private long lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private long motivationSpawnCoolDown = 20;
     private static int motivationPoints = 50;
@@ -48,10 +48,16 @@ public class Level {
     private static ArrayList<Motivation> motivations = new ArrayList<Motivation>();
     private static ArrayList<Card> cards = new ArrayList<Card>();
     private GarbageBin garbageBin = new GarbageBin(this.cardBlockX + this.cardBlockWidth + 10, this.firstCardY);
+    private boolean showHelpButton = true;
+    private boolean showInstructionsScreen = false;
+    private BufferedImage instructionsScreen = null;
+    private Button helpButton = new Button(15, StudentVsHomework.getScreenHeight() - 50, "res\\buttons\\help_button.png", false, 0.15);
+    private Button continueButton = new Button(0, StudentVsHomework.getScreenHeight() - 100, "res\\buttons\\continue_button.png", true, 0.3);
 
     public Level() {
         try {
             this.motivationCountBlockImage = ImageIO.read(new File("res\\motivation_count_block.png"));
+            this.instructionsScreen = ImageIO.read(new File("res\\screens\\instructions_screen.png"));
         } catch (IOException e) {
             System.out.println("Error loading image: \n" + e);
         }
@@ -110,6 +116,20 @@ public class Level {
             Card nextCard = new Card(this.allCards[i], x, this.firstCardY);
             cards.add(nextCard);
             x += nextCard.getWidth() + this.cardSpacing;
+        }
+    }
+
+    public void clickHelpButton(MouseEvent e) {
+        if (this.showHelpButton && this.helpButton.isClicked(e.getX(), e.getY())) {
+            this.showInstructionsScreen = true;
+            this.showHelpButton = false;
+        }
+    }
+
+    public void clickContinueButton(MouseEvent e) {
+        if (this.showInstructionsScreen && this.continueButton.isClicked(e.getX(), e.getY())) {
+            this.showInstructionsScreen = false;
+            this.showHelpButton = true;
         }
     }
 
@@ -405,7 +425,9 @@ public class Level {
                 }
             } else {
                 if (timeElapsed % this.duringWavesSpawnCoolDown == 0 && this.spawn) {
-                    int spawnAmount = (int) ((5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1))) * waveFactor()) / 2;
+//                    int spawnAmount = (int) ((5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1))) * waveFactor()) / 2;
+                    int spawnAmount = (int) ((5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1))) * waveFactor());
+
 //                    int spawnAmount = 100;
                     for (int i = 0; i < spawnAmount; i++) {
                         spawnEnemy(chooseEnemy(), this.map, null);
@@ -417,7 +439,7 @@ public class Level {
                 } else if ((timeElapsed - 1) % this.duringWavesSpawnCoolDown == 0 && !this.spawn) {
                     this.spawn = true;
                 }
-                if (this.enemiesSpawnedDuringWave >= (int) (this.totalEnemies * waveFactor())) {
+                if (this.enemiesSpawnedDuringWave >= (int) ((5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1))) * waveFactor())) {
                     this.enemiesSpawnedBetweenWaves = 0;
                     this.wave = false;
                     this.spawn = true;
@@ -466,17 +488,19 @@ public class Level {
     }
 
     public void behave(StudentVsHomework window) {
-        behaveEnemySpawnLogic();
-        behaveEnemies();
-        checkCollisions();
-        garbageCleanup();
-        Tower.deletionCheck();
-        behaveTowers();
-        Tower.moveProjectiles();
-        behaveMotivationSpawnLogic();
-        behaveMotivations();
-        checkOccupiedGrids();
-        behaveCards(window);
+        if (!this.showInstructionsScreen) {
+            behaveEnemySpawnLogic();
+            behaveEnemies();
+            checkCollisions();
+            garbageCleanup();
+            Tower.deletionCheck();
+            behaveTowers();
+            Tower.moveProjectiles();
+            behaveMotivationSpawnLogic();
+            behaveMotivations();
+            checkOccupiedGrids();
+            behaveCards(window);
+        }
 //        System.out.println(this.toggleAwaitClickResponse);
     }
 
@@ -536,16 +560,22 @@ public class Level {
     }
 
     public void paint(Graphics2D g2d) {
-        map.paint(g2d);
-        paintLevelAndWaveNumber(g2d);
-        paintTowers(g2d);
-        paintEnemies(g2d);
-        paintProjectiles(g2d);
-        paintMotivations(g2d);
-        paintMotivationCountBlock(g2d);
-        paintCardBlock(g2d);
-        garbageBin.paint(g2d);
-        paintTowerInfoCards(g2d);
+        if (!this.showInstructionsScreen) {
+            map.paint(g2d);
+            paintLevelAndWaveNumber(g2d);
+            paintTowers(g2d);
+            paintEnemies(g2d);
+            paintProjectiles(g2d);
+            paintMotivations(g2d);
+            paintMotivationCountBlock(g2d);
+            paintCardBlock(g2d);
+            garbageBin.paint(g2d);
+            paintTowerInfoCards(g2d);
+            helpButton.paint(g2d);
+        } else {
+            g2d.drawImage(this.instructionsScreen, 0, 0, StudentVsHomework.getScreenWidth(), StudentVsHomework.getScreenHeight(), null);
+            continueButton.paint(g2d);
+        }
     }
 
 }

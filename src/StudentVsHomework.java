@@ -52,6 +52,8 @@ public class StudentVsHomework extends JPanel {
             public void mousePressed(MouseEvent e) {
                 level.collectMotivation(e);
                 level.clickCard(e);
+                level.clickHelpButton(e);
+                level.clickContinueButton(e);
                 if (showStartScreenPlayButton) {
                     clickStartScreenPlayButton(e);
                 }
