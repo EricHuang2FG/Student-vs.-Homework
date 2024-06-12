@@ -13,13 +13,14 @@ public class Level {
     private int levelNumber;
     private boolean wave = false;
     private int waveCount = 0;
-    private int totalEnemies = 5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1));
+    private int totalEnemies;
+    private int remainingEnemies;
     private int enemiesSpawnedBetweenWaves = 0;
     private int enemiesSpawnedDuringWave = 0;
     private long startTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private boolean spawn = true;
     private int betweenWavesSpawnCoolDown = 15;
-    private int duringWavesSpawnCoolDown = 10;
+    private int duringWavesSpawnCoolDown = 2;
     private long lastMotivationSpawnTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
     private long motivationSpawnCoolDown = 20;
     private static int motivationPoints = 50;
@@ -108,6 +109,7 @@ public class Level {
             }
         }
         this.totalEnemies = 5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1));
+        this.remainingEnemies = this.totalEnemies;
         int x = this.firstCardX;
         for (int i = 0; i < this.levelNumber + 1; i++) {
             if (i == this.allCards.length) {
@@ -351,18 +353,16 @@ public class Level {
     }
 
     private String chooseEnemy() {
-//        return "donald"; // for testing
         int paperValue = (int) 50;
         int notebookValue = (int) 10;
-        int textbookValue = (int) (0.5 * this.levelNumber);
+        int textbookValue = ((int) (0.9 * this.levelNumber))*2;
         int notepadValue = (int) 20;
-        int testValue = (int) (0.4 * this.levelNumber);
+        int testValue = (int) (0.8 * this.levelNumber);
         int donaldValue = (int) (0.5 * this.levelNumber); // 20
-        int examValue = (int) (0.1 * this.levelNumber);
+        int examValue = (int) (0.25 * this.levelNumber);
 
         Random random = new Random();
         int num = random.nextInt(1, paperValue + notebookValue + textbookValue + notepadValue + testValue + donaldValue+examValue);
-//        System.out.println(num);
         if (num >= 1 && num <= paperValue) {
             return "paper";
         } else if (num >= paperValue + 1 && num <= paperValue + notebookValue) {
@@ -405,7 +405,7 @@ public class Level {
     private void behaveEnemySpawnLogic() {
         long currentTime = (long) (System.nanoTime() / (Math.pow(10, 9)));
         long timeElapsed = currentTime - startTime;
-        if (this.totalEnemies > 0) {
+        if (this.remainingEnemies > 0) {
             if (!this.wave) {
                 if (timeElapsed > this.betweenWavesSpawnCoolDown && timeElapsed % this.betweenWavesSpawnCoolDown == 0 && this.spawn) {
                     if (this.enemiesSpawnedBetweenWaves < 2) {
@@ -421,25 +421,25 @@ public class Level {
                     this.spawn = true;
                     this.enemiesSpawnedDuringWave = 0;
                     this.waveCount++;
-                    System.out.println("Wave " + this.waveCount);
                 }
             } else {
                 if (timeElapsed % this.duringWavesSpawnCoolDown == 0 && this.spawn) {
 //                    int spawnAmount = (int) ((5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1))) * waveFactor()) / 2;
-                    int spawnAmount = (int) ((5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1))) * waveFactor());
+//                    int spawnAmount = (int) ((5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1))) * waveFactor());
 
-//                    int spawnAmount = 100;
+                    int spawnAmount = 1;
+
                     for (int i = 0; i < spawnAmount; i++) {
                         spawnEnemy(chooseEnemy(), this.map, null);
                     }
 
                     this.spawn = false;
                     this.enemiesSpawnedDuringWave += spawnAmount;
-                    this.totalEnemies -= spawnAmount;
+                    this.remainingEnemies -= spawnAmount;
                 } else if ((timeElapsed - 1) % this.duringWavesSpawnCoolDown == 0 && !this.spawn) {
                     this.spawn = true;
                 }
-                if (this.enemiesSpawnedDuringWave >= (int) ((5 * this.levelNumber + 10 + ((this.levelNumber - 1) * (this.levelNumber - 1))) * waveFactor())) {
+                if (this.enemiesSpawnedDuringWave >= (int) (this.totalEnemies * waveFactor())) {
                     this.enemiesSpawnedBetweenWaves = 0;
                     this.wave = false;
                     this.spawn = true;

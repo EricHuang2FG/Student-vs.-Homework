@@ -39,7 +39,7 @@ public class Enemy {
             this.defaultVx = this.vx;
             this.scale = 0.16;
         } else if (type.equals("notebook")) {
-            this.hitPoints = 600;
+            this.hitPoints = 500;
             this.damage = 15;
             this.vx = -0.3;
             this.defaultVx = this.vx;
