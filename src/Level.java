@@ -355,11 +355,11 @@ public class Level {
     private String chooseEnemy() {
         int paperValue = (int) 50;
         int notebookValue = (int) 10;
-        int textbookValue = ((int) (0.9 * this.levelNumber))*2;
+        int textbookValue = ((int) (0.9 * this.levelNumber * this.levelNumber)) * 2;
         int notepadValue = (int) 20;
-        int testValue = (int) (0.8 * this.levelNumber);
-        int donaldValue = (int) (0.5 * this.levelNumber); // 20
-        int examValue = (int) (0.25 * this.levelNumber);
+        int testValue = (int) (0.8 * this.levelNumber * this.levelNumber);
+        int donaldValue = (int) (0.5 * this.levelNumber * this.levelNumber); // 20
+        int examValue = (int) (0.25 * this.levelNumber * this.levelNumber) * (this.levelNumber/5);
 
         Random random = new Random();
         int num = random.nextInt(1, paperValue + notebookValue + textbookValue + notepadValue + testValue + donaldValue+examValue);

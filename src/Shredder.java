@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class Shredder extends Tower {
-    private double attackDelay = 20.0;
+    private double attackDelay = 10.0;
     private String imagePath = "res\\towers\\paper_shredder.png";
     private static String cost = "250";
     private static int spawnCoolDown = 20;

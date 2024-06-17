@@ -256,7 +256,7 @@ public class StudentVsHomework extends JPanel {
                     } else if (type.equals("pencil")) {
                         Pencil tower = new Pencil(coordinate);
                         towers.add(tower);
-                    } else if (type.equals("paper_shredder")) {
+                    } else if (type.equals("shredder")) {
                         Shredder tower = new Shredder(coordinate);
                         towers.add(tower);
                     } else if (type.equals("water_bottle")) {
